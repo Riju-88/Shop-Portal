@@ -1,0 +1,6 @@
+installed jetstream
+installed livewire
+installed filament
+created product, categories, cart table
+created cart_items pivot table that stores cart id and product id and quantity
+added razorpay payment gateway.
