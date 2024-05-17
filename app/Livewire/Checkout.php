@@ -18,15 +18,16 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Split;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\View;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\HtmlString;
 use Livewire\Component;
 
@@ -72,22 +73,6 @@ class Checkout extends Component implements HasForms
         return $form
             ->schema([
                 Wizard::make()
-                    // ->submitAction(new HtmlString(Blade::render(<<<BLADE
-                    //         <a
-                    //            href={{ route('razorpay.index') }}
-                    //            class='btn btn-primary'
-                    //         >
-                    //             Submit
-                    //         </a>
-                    //     BLADE)))
-                    ->submitAction(new HtmlString(Blade::render(<<<BLADE
-                            <button
-                                wire:click="create"
-                                class='btn btn-warning'
-                            >
-                                Proceed to Payment
-                            </button>
-                        BLADE)))
                     ->steps([
                         // step 1
                         Step::make('customer_information')
@@ -228,34 +213,6 @@ class Checkout extends Component implements HasForms
                                                     }
                                                     return $fields;
                                                 }),
-                                            // quantity
-                                            // Section::make('Quantity')
-                                            //     ->description('Quantity')
-                                            //     ->icon('heroicon-o-shopping-bag')
-                                            //     ->schema(function () {
-                                            //         $cartItems = Cart::where('user_id', $this->userId)->get();
-                                            //         $fields = [];
-                                            //         foreach ($cartItems as $cartItem) {
-                                            //             $fields[] = Placeholder::make('')
-                                            //                 ->content($cartItem->quantity)
-                                            //                 ->extraAttributes(['class' => 'font-bold']);
-                                            //         }
-                                            //         return $fields;
-                                            //     }),
-                                            // price
-                                            // Section::make('Price')
-                                            //     ->description('Price')
-                                            //     ->icon('heroicon-o-shopping-bag')
-                                            //     ->schema(function () {
-                                            //         $cartItems = Cart::where('user_id', $this->userId)->get();
-                                            //         $fields = [];
-                                            //         foreach ($cartItems as $cartItem) {
-                                            //             $fields[] = Placeholder::make('')
-                                            //                 ->content($cartItem->total_price)
-                                            //                 ->extraAttributes(['class' => 'font-bold']);
-                                            //         }
-                                            //         return $fields;
-                                            //     }),
                                             Section::make()
                                                 ->schema([
                                                     // subtotal
@@ -307,7 +264,15 @@ class Checkout extends Component implements HasForms
                                             ->label('Payment Method')
                                             //    get name
                                             ->options(PaymentMethod::all()->pluck('pay_method_name', 'id'))
-                                            ->inline(),
+                                            ->inline()
+                                            ->afterStateUpdated(function (Set $set, $state) {
+                                                // dynamically change the submit button text based on the payment method
+                                                if ($state == 'online') {
+                                                    $set('submitAction', 'Proceed to Payment');
+                                                } else {
+                                                    $set('submitAction', 'Place Order');
+                                                }
+                                            }),
                                     ]),
                             ]),
                         // step 4
@@ -341,14 +306,14 @@ class Checkout extends Component implements HasForms
                                     ]),
                                 ]),
                             ]),
-                        // Step::make('payment gateway')
-                        //     ->label('')
-                        //     ->schema([
-                        //         // view here
-                        //         // payment gateway
-                        //         View::make('razorpay.index')
-                        //     ]),
                     ])
+                    ->submitAction(new HtmlString(Blade::render(<<<BLADE
+                            <button
+                                wire:click="create"
+                                class='btn btn-warning'
+                            > {{ \$payment_method == '1' ? __('Proceed to Payment') : __('Place Order') }}
+                            </button>
+                        BLADE, ['payment_method' => $this->payment_method])))
                     ->nextAction(fn(Action $action) => $action->label('Next step')->icon('heroicon-m-chevron-right')->color('success')->button()->outlined()),
             ])
             ->model(Shipping::class);
@@ -365,24 +330,69 @@ class Checkout extends Component implements HasForms
 
         // if payment method is cash on delivery
         if ($this->form->getState()['payment_method'] == 2) {
-            // create order
-            // $order = Order::create($this->form->getState());
-            $order = new Order();
-            $order->user_id = Auth::user()->id;
-            $order->total_amount = $this->form->getState()['total_amount'];
-            // use user id , timestamp and order_ prefix for order number
-            $order->order_number = 'order_' . Auth::user()->id . '_' . time();
-            $order->status = 'pending';
-            // $order->payment_method = $this->form->getState()['payment_method'];
-            $order->payment_status = 'pending';
-            $order->save();
+            DB::transaction(function () {
+                // create order
+                // $order = Order::create($this->form->getState());
+                $order = new Order();
+                $order->user_id = Auth::user()->id;
+                $order->total_amount = $this->form->getState()['total_amount'];
+                // use user id , timestamp and order_ prefix for order number
+                $order->order_number = 'order_' . Auth::user()->id . '_' . time();
+                $order->status = 'pending';
+                $order->payment_method = PaymentMethod::find($this->form->getState()['payment_method'])->pay_method_name;
+                $order->payment_status = 'pending';
 
+                // Retrieve the user's cart items
+                $userId = Auth::user()->id;
+                $cartItems = Cart::where('user_id', $userId)->get();
+
+                // Format the cart items for storing in the orders table
+                $items = $cartItems->map(function ($item) {
+                    return [
+                        'product_id' => $item->product_id,
+                        'quantity' => $item->quantity,
+                    ];
+                });
+
+                // Store the cart items as JSON in the order
+                $order->items = $items->toJson();
+
+                // Save the order
+                $order->save();
+                // Clear the user's cart
+                Cart::where('user_id', $userId)->delete();
+
+                // add shipping details
+                $shipping = new Shipping();
+                $shipping->user_id = Auth::user()->id;
+                $shipping->first_name = $this->form->getState()['first_name'];
+                $shipping->last_name = $this->form->getState()['last_name'];
+                $shipping->shipping_method_id = $this->form->getState()['shipping_method_id'];
+                $shipping->address_line_1 = $this->form->getState()['address_line_1'];
+                $shipping->address_line_2 = $this->form->getState()['address_line_2'];
+                $shipping->city = $this->form->getState()['city'];
+                $shipping->state = $this->form->getState()['state'];
+                $shipping->country = $this->form->getState()['country'];
+                $shipping->postal_code = $this->form->getState()['postal_code'];
+                $shipping->phone_number = $this->form->getState()['phone_number'];
+                $shipping->save();
+
+                // Send notification
+                Notification::make()
+                    ->title('Order Placed Successfully')
+                    ->success()
+                    ->send();
+            });
+            $this->form->fill();
+            return redirect(route('home'));
+        }
+
+        if ($this->form->getState()['payment_method'] == 1) {
+            return redirect(route('razorpay.index'));
+            // Shipping::create($this->form->getState());
+            //      $this->form->model(Shipping::class)->saveRelationships();
             $this->form->fill();
         }
-        return redirect(route('razorpay.index'));
-        // Shipping::create($this->form->getState());
-        //      $this->form->model(Shipping::class)->saveRelationships();
-        $this->form->fill();
     }
 
     public function render()
@@ -390,13 +400,3 @@ class Checkout extends Component implements HasForms
         return view('livewire.checkout');
     }
 }
-
-//  Wizard\Step::make('shipping_information')
-// ->label('Shipping Information')
-// ->schema([
-
-//     Select::make('shipping_method_id')
-//     ->label('Shipping Method')
-//     ->options(ShippingMethod::all()->pluck('name', 'id'))
-//     ->required(),
-// ])

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RazorpayController;
 use App\Livewire\Checkout;
+use App\Livewire\Home;
 use App\Livewire\ProductDetail;
 use App\Livewire\ProductList;
 use App\Livewire\RazorpayGateway;
@@ -37,7 +38,9 @@ Route::middleware([
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
-    })->name('home');
+    })->name('dashboard');  // using livewire home instead of this
+
+    Route::get('/home', Home::class)->name('home');
 });
 
 // products
