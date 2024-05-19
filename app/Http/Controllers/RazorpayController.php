@@ -69,6 +69,7 @@ class RazorpayController extends Controller
                     DB::transaction(function () {
                         // create order
                         // $order = Order::create(session('formState'));
+
                         $order = new Order();
                         $order->user_id = Auth::user()->id;
                         $order->total_amount = session('formState')['total_amount'];
@@ -96,6 +97,14 @@ class RazorpayController extends Controller
 
                         // Save the order
                         $order->save();
+
+                        // update product quantity
+                        foreach ($cartItems as $item) {
+                            $product = Product::find($item->product_id);
+                            $product->quantity -= $item->quantity;
+                            $product->save();
+                        }
+
                         // Clear the user's cart
                         Cart::where('user_id', $userId)->delete();
 

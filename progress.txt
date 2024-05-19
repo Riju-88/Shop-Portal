@@ -4,3 +4,9 @@ installed filament
 created product, categories, cart table
 created cart_items pivot table that stores cart id and product id and quantity
 added razorpay payment gateway.
+
+
+
+
+Added auto update product quantity after placing an order. 
+Added the canAccessPanel function in User model to set rules for admin access.

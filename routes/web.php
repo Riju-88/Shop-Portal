@@ -24,6 +24,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::redirect('/adminpanel', '/admin')->name('admin');  // redirect to admin dashboard(not the best way to do it. But it works. Couldn't find a way to make route name in filament admin panel.)
+
 Route::get('/test', function () {
     return view('razorpay.test');
 })->name('razorpay.test');

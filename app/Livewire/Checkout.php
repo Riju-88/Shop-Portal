@@ -75,34 +75,6 @@ class Checkout extends Component implements HasForms
                 Wizard::make()
                     ->steps([
                         // step 1
-                        Step::make('customer_information')
-                            ->icon('heroicon-m-user-circle')
-                            ->label('Customer Information')
-                            ->schema([
-                                // Add your customer information fields here
-                                Section::make('Personal Information')
-                                    ->description('Personal Information')
-                                    ->icon('heroicon-o-user')
-                                    ->schema([TextInput::make('first_name')->required()->columns(), TextInput::make('last_name')->required()])
-                                    ->columns(2),
-                                Section::make('Contact Information')
-                                    ->description('Contact Information')
-                                    ->icon('heroicon-o-phone')
-                                    ->schema([TextInput::make('phone_number')->tel()->required()]),
-                                Section::make('Address')
-                                    ->description('Address')
-                                    ->icon('heroicon-o-map')
-                                    ->schema([TextArea::make('address_line_1')->required(), TextArea::make('address_line_2')]),
-                                Section::make('Location Details')
-                                    ->description('Location Details')
-                                    ->icon('heroicon-m-map-pin')
-                                    ->schema([TextInput::make('city')->required(), TextInput::make('state')->required(), TextInput::make('country')->required(), TextInput::make('postal_code')->required()])
-                                    ->columns(2),
-                                Hidden::make('user_id')
-                                    ->default($this->userId)
-                                    ->disabled(true),
-                            ]),
-                        // step 2
                         Step::make('shipping_information')
                             ->label('Shipping Information')
                             ->icon('heroicon-o-truck')
@@ -249,6 +221,34 @@ class Checkout extends Component implements HasForms
                                 ])->from('md'),
                                 //
                             ]),
+                        // step 2
+                        Step::make('customer_information')
+                            ->icon('heroicon-m-user-circle')
+                            ->label('Customer Information')
+                            ->schema([
+                                // Add your customer information fields here
+                                Section::make('Personal Information')
+                                    ->description('Personal Information')
+                                    ->icon('heroicon-o-user')
+                                    ->schema([TextInput::make('first_name')->required()->columns(), TextInput::make('last_name')->required()])
+                                    ->columns(2),
+                                Section::make('Contact Information')
+                                    ->description('Contact Information')
+                                    ->icon('heroicon-o-phone')
+                                    ->schema([TextInput::make('phone_number')->tel()->required()]),
+                                Section::make('Address')
+                                    ->description('Address')
+                                    ->icon('heroicon-o-map')
+                                    ->schema([TextArea::make('address_line_1')->required(), TextArea::make('address_line_2')]),
+                                Section::make('Location Details')
+                                    ->description('Location Details')
+                                    ->icon('heroicon-m-map-pin')
+                                    ->schema([TextInput::make('city')->required(), TextInput::make('state')->required(), TextInput::make('country')->required(), TextInput::make('postal_code')->required()])
+                                    ->columns(2),
+                                Hidden::make('user_id')
+                                    ->default($this->userId)
+                                    ->disabled(true),
+                            ]),
                         // step 3
                         Step::make('payment_information')
                             ->label('Payment Information')
@@ -301,8 +301,16 @@ class Checkout extends Component implements HasForms
                                             ->columns(2),
                                         Section::make('Order Details')
                                             ->description('Order Details')
-                                            ->schema([Placeholder::make('Shipping Method')->content(fn(Get $get): string => ShippingMethod::find($get('shipping_method_id') ?? '')->shipping_method_name ?? ''), Placeholder::make('Payment Method')->content(fn(Get $get): string => PaymentMethod::find($get('payment_method') ?? '')->pay_method_name ?? '')])
+                                            ->schema([
+                                                Placeholder::make('Shipping Method')->content(fn(Get $get): string => ShippingMethod::find($get('shipping_method_id') ?? '')->shipping_method_name ?? ''),
+                                            ])
                                             ->columns(2),
+                                        Section::make('Payment Details')->description('Payment Details')->schema([
+                                            Placeholder::make('Payment Method')->content(fn(Get $get): string => PaymentMethod::find($get('payment_method') ?? '')->pay_method_name ?? ''),
+                                            Placeholder::make('Total Amount')
+                                                ->content(fn(Get $get): string => $get('total_amount') ?? '')
+                                                ->extraAttributes(['class' => 'font-bold'])
+                                        ])->columns(2),
                                     ]),
                                 ]),
                             ]),
@@ -359,6 +367,13 @@ class Checkout extends Component implements HasForms
 
                 // Save the order
                 $order->save();
+
+                // update product quantity
+                foreach ($cartItems as $item) {
+                    $product = Product::find($item->product_id);
+                    $product->quantity -= $item->quantity;
+                    $product->save();
+                }
                 // Clear the user's cart
                 Cart::where('user_id', $userId)->delete();
 
