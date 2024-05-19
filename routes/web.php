@@ -7,6 +7,7 @@ use App\Livewire\Home;
 use App\Livewire\ProductDetail;
 use App\Livewire\ProductList;
 use App\Livewire\RazorpayGateway;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,8 +28,15 @@ Route::get('/test', function () {
     return view('razorpay.test');
 })->name('razorpay.test');
 // razorpay test
-Route::get('razorpay/payment', function () {
-    return view('razorpay.index');
+
+// make this route available only if session has formState
+
+Route::get('razorpay/payment', function (Request $request) {
+    if ($request->session()->has('formState')) {
+        return view('razorpay.index');
+    } else {
+        return redirect()->back();
+    }
 })->name('razorpay.index');
 
 Route::middleware([
@@ -60,8 +68,10 @@ Route::get('/product/{productId}', ProductDetail::class)->name('product.detail')
 //     });
 
 //     Route::view('checkout', 'razorpay.index')->name('create.payment');
-Route::post('razorpay/payment', [RazorpayController::class, 'store'])->name('razorpay.payment.store');
+
 Route::get('checkout', Checkout::class)->name('checkout');
+
+Route::post('razorpay/payment', [RazorpayController::class, 'store'])->name('razorpay.payment.store');
 
 Route::get('razorpay/gateway', RazorpayGateway::class)->name('razorpay.gateway');
 // Route::post('razorpay-live-payment', [RazorpayGateway::class, 'store'])->name('razorpay.livepayment.store');

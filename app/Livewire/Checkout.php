@@ -377,6 +377,8 @@ class Checkout extends Component implements HasForms
                 $shipping->phone_number = $this->form->getState()['phone_number'];
                 $shipping->save();
 
+                // clear session
+                session()->forget('formState');
                 // Send notification
                 Notification::make()
                     ->title('Order Placed Successfully')

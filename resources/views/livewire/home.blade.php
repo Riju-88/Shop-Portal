@@ -45,7 +45,7 @@
                 <!--  -->
                 <x-welcome />
                 <!--  -->
-            
+                <livewire:notifications />
                 <!--  -->
             </div>
         </div>
