@@ -83,7 +83,7 @@
     </div>
     <!--  -->
     <!-- Cart Modal Structure -->
-    <livewire:ShoppingCart />
+    {{-- <livewire:ShoppingCart /> --}}
     {{-- end Cart Modal Structure --}}
     <livewire:notifications />
 

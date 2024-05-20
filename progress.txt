@@ -10,3 +10,4 @@ added razorpay payment gateway.
 
 Added auto update product quantity after placing an order. 
 Added the canAccessPanel function in User model to set rules for admin access.
+Added a way to access /admin using named admin route.

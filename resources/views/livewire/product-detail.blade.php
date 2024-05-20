@@ -8,7 +8,7 @@
     </div>
     <!-- product-detail.blade.php -->
     <!-- Cart Modal Structure -->
-    <livewire:ShoppingCart />
+    {{-- <livewire:ShoppingCart /> --}}
     <!-- end Cart Modal Structure -->
 
     <div class='container mx-auto' x-data="{ showModal: false, selectedImage: '{{ $product->image[0] }}' }">

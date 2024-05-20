@@ -1,4 +1,4 @@
-<nav class="bg-white shadow-md" x-data="{ sidebarOpen: false }">
+<nav class="bg-white shadow-md fixed w-full z-10 transition-transform duration-300 ease-in-out top-0" x-data="{ sidebarOpen: false }">
     <!-- Mobile Navbar -->
     <div class="flex justify-between md:hidden">
         <!-- Hamburger Menu -->
@@ -65,5 +65,14 @@
             <li><a href="#" class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in">About</a></li>
             <li><a href="#" class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in">Contact</a></li>
         </ul>
+        {{-- livewire search component --}}
+        <livewire:search />
+        {{-- end livewire search component --}}
+
+        <div class="ml-4">
+         <!-- Cart Modal Structure -->
+    <livewire:ShoppingCart />
+    {{-- end Cart Modal Structure --}}
+</div>
     </div>
 </nav>
