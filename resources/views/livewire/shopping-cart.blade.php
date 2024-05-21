@@ -1,6 +1,16 @@
 <div x-data="{ showModal: false }">
-    <button @click="showModal = true" class="bg-blue-500 text-white px-4 py-2 rounded-md">Open Cart</button>
-
+    <div class="indicator">
+        <span class="indicator-item badge badge-secondary">{{ count($carts) }}</span> 
+         <button @click="showModal = true" class=" px-2  rounded-md">
+        <x-filament::icon
+        alias="panels::topbar.global-search.field"
+        icon="heroicon-o-shopping-cart"
+        
+        class="h-8 w-8 text-gray-500 dark:text-gray-400"
+    /></button>
+    </div>
+   
+    {{-- heroicon-o-shopping-bag --}}
     <div x-show="showModal" x-transition:enter="transition ease-in-out duration-500 transform"
         x-transition:enter-start="opacity-0 translate-x-full" x-transition:enter-end="opacity-100 translate-x-0"
         x-transition:leave="transition linear duration-500 transform" x-transition:leave-start="opacity-100 translate-x-0"

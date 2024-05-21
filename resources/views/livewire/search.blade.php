@@ -2,7 +2,7 @@
    
  
 
-    <x-filament::input.wrapper prefix-icon="heroicon-m-magnifying-glass">
+    {{-- <x-filament::input.wrapper prefix-icon="heroicon-m-magnifying-glass">
     <x-filament::input
         type="search"
         wire:model.defer="keyword"
@@ -11,7 +11,13 @@
         
        
     />
-</x-filament::input.wrapper>
+</x-filament::input.wrapper> --}}
+
+
+        <input type="search" placeholder="Search"  wire:model.defer="keyword"
+        wire:input="search"/>
+   
+
     @if(count($results) > 0)
     <ul class="absolute w-full bg-white shadow-md rounded-md mt-2">
         @foreach($results as $result)

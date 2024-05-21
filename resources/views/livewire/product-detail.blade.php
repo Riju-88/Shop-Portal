@@ -10,7 +10,13 @@
     <!-- Cart Modal Structure -->
     {{-- <livewire:ShoppingCart /> --}}
     <!-- end Cart Modal Structure -->
-
+    <div class="text-sm breadcrumbs">
+        <ul>
+          <li><a href="{{ route('home') }}">Home</a></li> 
+          <li><a href="{{ route('productList') }}">Products</a></li> 
+          <li>{{ $product->name }}</li>
+        </ul>
+      </div>
     <div class='container mx-auto' x-data="{ showModal: false, selectedImage: '{{ $product->image[0] }}' }">
         <!-- Main Image -->
 

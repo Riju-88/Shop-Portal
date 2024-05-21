@@ -1,4 +1,7 @@
-<nav class="bg-white shadow-md fixed w-full z-10 transition-transform duration-300 ease-in-out top-0" x-data="{ sidebarOpen: false }">
+<nav x-data="{ isScrolled: false, lastScroll: 0, sidebarOpen: false }" x-init="window.addEventListener('scroll', () => { let currentScroll = window.pageYOffset; isScrolled = currentScroll > lastScroll && currentScroll > 10; lastScroll = currentScroll })">
+    <div :class="{ '-translate-y-20': isScrolled, 'translate-y-0': !isScrolled }" class="bg-white shadow-md fixed top-0 w-full z-50 transition duration-500 ease-in-out">
+      
+{{-- <div class="bg-white shadow-md fixed w-full z-10 transition-transform duration-300 ease-in-out top-0" x-data="{ sidebarOpen: false }"> --}}
     <!-- Mobile Navbar -->
     <div class="flex justify-between md:hidden">
         <!-- Hamburger Menu -->
@@ -32,7 +35,7 @@
     x-transition:leave="transition ease-in-out duration-500 transform"
     x-transition:leave-start="translate-x-0"
     x-transition:leave-end="-translate-x-full">
-        <div class="flex flex-col w-64 bg-white h-full shadow-md">
+        <div class="flex flex-col w-64 bg-white bg-opacity-95 bg-blend-lighten h-screen shadow-md z-40">
             <!-- Close Button -->
             <div class="flex justify-end p-4">
                 <button @click="sidebarOpen = false"
@@ -75,4 +78,5 @@
     {{-- end Cart Modal Structure --}}
 </div>
     </div>
+</div>   
 </nav>
