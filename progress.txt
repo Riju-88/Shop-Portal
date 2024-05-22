@@ -2,9 +2,11 @@ installed jetstream
 installed livewire
 installed filament
 created product, categories, cart table
-created cart_items pivot table that stores cart id and product id and quantity
 added razorpay payment gateway.
 
-
+Implemented the functionality of price range in filters.
+Changed price range slider to Select element.
+Added logic for Clear Filter button.
+Implemented active link logic in navbar.
 
 

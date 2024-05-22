@@ -44,12 +44,15 @@
             <!-- Price Range -->
             <div>
                 <h2 class="font-bold text-lg">Price Range</h2>
-                <input type="range" min="0" max="9999999" class="w-full accent-emerald-400">
+                <select wire:model.defer="selectedPriceRange" class="w-full accent-emerald-400">
+                    <option value="">Select Price Range</option>
+                    @foreach ($priceRangeOptions as $option)
+                        <option value="{{ json_encode($option['range']) }}">{{ $option['label'] }}</option>
+                    @endforeach
+                </select>
             </div>
-            <div class="flex justify-between text-gray-500">
-                <span id="minPrice">Rs. 0</span>
-                <span id="maxPrice">Rs. 9999999</span>
-            </div>
+            
+            
 
             <!-- Separator -->
             <hr />
@@ -69,6 +72,10 @@
 
             <!-- Apply Filters Button -->
             <button wire:click="applyFilters" class="btn bg-emerald-400 text-white mt-4">Apply Filters</button>
+            {{-- if filter is applied then show clear button --}}
+            @if ($selectedCategories || $selectedPriceRange)
+                <button wire:click="clearFilters" class="btn bg-red-400 text-white mt-4">Clear Filters</button>
+            @endif
         </div>
     </div>
 
