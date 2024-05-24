@@ -345,7 +345,7 @@ class Checkout extends Component implements HasForms
                 $order->user_id = Auth::user()->id;
                 $order->total_amount = $this->form->getState()['total_amount'];
                 // use user id , timestamp and order_ prefix for order number
-                $order->order_number = 'order_' . Auth::user()->id . '_' . time();
+                $order->order_number = 'order-' . Auth::user()->id . '-' . time();
                 $order->status = 'pending';
                 $order->payment_method = PaymentMethod::find($this->form->getState()['payment_method'])->pay_method_name;
                 $order->payment_status = 'pending';

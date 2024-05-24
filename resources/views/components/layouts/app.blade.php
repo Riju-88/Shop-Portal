@@ -19,7 +19,7 @@
             /* search */
       
     input[type="search"]{
-        width:250px;
+        width:200px;
         height:30px;
         padding-left:15px;
         border-radius:6px;

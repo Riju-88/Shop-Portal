@@ -4,9 +4,13 @@ installed filament
 created product, categories, cart table
 added razorpay payment gateway.
 
-Implemented the functionality of price range in filters.
-Changed price range slider to Select element.
-Added logic for Clear Filter button.
-Implemented active link logic in navbar.
 
+not pushed
 
+Added back the profile dropdown menu.
+Added Order management logic(view and delete function only).
+Added Order management route in the profile dropdown menu.
+Added wire:navigate attribute in links.
+Added order management livewire view.
+Added Order management filament resource.
+Currently order view table is ready in admin panel.

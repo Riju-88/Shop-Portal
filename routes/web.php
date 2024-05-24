@@ -4,6 +4,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RazorpayController;
 use App\Livewire\Checkout;
 use App\Livewire\Home;
+use App\Livewire\OrderManagement;
 use App\Livewire\ProductDetail;
 use App\Livewire\ProductList;
 use App\Livewire\RazorpayGateway;
@@ -52,6 +53,7 @@ Route::middleware([
     })->name('dashboard');  // using livewire home instead of this
 
     Route::get('/home', Home::class)->name('home');
+    Route::get('/manage-orders', OrderManagement::class)->name('order-management');
 });
 
 // products

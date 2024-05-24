@@ -127,7 +127,7 @@
                                 {{ $product->name }}
                                 <!-- </a> -->
                             </h3>
-                            <p class="mt-1 text-sm text-gray-500"> {!! $product->description !!}</p>
+                            <div class="mt-1 text-sm text-gray-500 line-clamp-3"> {!! $product->description !!}</div>
                             <!--  -->
                             @if ($product->reviews->isNotEmpty())
                                 <p class="text-xl font-extrabold text-gray-900">

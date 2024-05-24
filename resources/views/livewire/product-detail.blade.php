@@ -47,7 +47,7 @@
         @endfor
         <h2 class="text-2xl font-bold mb-4">{{ $product->name }}</h2>
 
-        <p class="mb-4">Description: {{ $product->description }}</p>
+        <p class="mb-4">Description: {!! $product->description !!}</p>
         <p class="mb-4 font-bold text-3xl">Price: ${{ $product->price }}</p>
 
         <!-- Add to cart button -->

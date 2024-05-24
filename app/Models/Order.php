@@ -18,4 +18,18 @@ class Order extends Model
         'payment_method',
         'items'
     ];
+
+    // To display items and quantity of order in filament table
+    public function getTotalItemsAttribute()
+    {
+        $items = json_decode($this->items, true);
+        $productNames = [];
+        foreach ($items as $item) {
+            $product = Product::find($item['product_id']);
+            if ($product) {
+                $productNames[] = $product->name . '(' . $item['quantity'] . ')';
+            }
+        }
+        return implode(', ', $productNames);
+    }
 }

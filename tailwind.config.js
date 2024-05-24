@@ -46,7 +46,7 @@ export default {
 
                     warning: "#fbbf24",
 
-                    error: "#e11d48",
+                    error: "#df2505",
                 },
                 container: {
                     center: true,
