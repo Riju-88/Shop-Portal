@@ -22,7 +22,7 @@ class ListProducts extends ListRecords
             ->columns([
                 TextColumn::make('name'),
                 
-                TextColumn::make('description')
+                TextColumn::make('description')->limit(50)
                 ->formatStateUsing(function($state) {
                 return new HtmlString($state);
                 }),

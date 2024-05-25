@@ -70,4 +70,9 @@ class OrderResource extends Resource
             'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }
+
+    public static function getEditRecord($id)
+    {
+        return Order::with('products')->findOrFail($id);
+    }
 }

@@ -7,10 +7,9 @@ added razorpay payment gateway.
 
 not pushed
 
-Added back the profile dropdown menu.
-Added Order management logic(view and delete function only).
-Added Order management route in the profile dropdown menu.
-Added wire:navigate attribute in links.
-Added order management livewire view.
-Added Order management filament resource.
-Currently order view table is ready in admin panel.
+Added image column in category table.
+Added image deletion and update logic in boot function of category model.
+Updated Category list, create and edit pages in filament admin panel.
+Added update image logic in boot function of product model.
+Added order status update option in edit page of filament orders.
+Added order item details in edit page of filament orders.
