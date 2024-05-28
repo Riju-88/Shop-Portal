@@ -1,4 +1,9 @@
-<div>
+<x-guest-layout>
+  <x-slot name="header">
+      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+          {{ __('Dashboard') }}
+      </h2>
+  </x-slot>
     {{-- Care about people's approval and you will be their prisoner. --}}
     <div class="py-12">
         <div class="container flex items-center gap-2 mx-auto my-2">
@@ -50,4 +55,4 @@
             </div>
         </div>
     </div>
-</div>
+</x-guest-layout>

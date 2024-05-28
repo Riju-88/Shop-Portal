@@ -1,3 +1,4 @@
+
 <nav x-data="{ isScrolled: false, lastScroll: 0, sidebarOpen: false }" x-init="window.addEventListener('scroll', () => { let currentScroll = window.pageYOffset; isScrolled = currentScroll > lastScroll && currentScroll > 10; lastScroll = currentScroll })">
     <div :class="{ '-translate-y-20': isScrolled, 'translate-y-0': !isScrolled }" class="bg-white shadow-md fixed top-0 w-full z-50 transition duration-500 ease-in-out">
       
@@ -59,9 +60,11 @@
 
         <!-- Desktop Navbar -->
         <div class="flex justify-around">
+            
             <div class="hidden md:flex justify-center items-center">
                 <!-- Logo -->
                 <a href="#" class="p-4 text-lg font-semibold text-gray-800">Logo</a>
+                
                 <!-- Navigation Links -->
                 <ul class="flex items-center">
                     <li>
@@ -84,13 +87,15 @@
         
                 <div class="ml-4">
                  <!-- Cart Modal Structure -->
-                <livewire:ShoppingCart />
+                 @if(Auth::check())
+                <div class="relative"> <livewire:ShoppingCart /></div>
                 {{-- end Cart Modal Structure --}}
-        
+               
                 
             </div>
             {{--  --}}
             
+
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <!-- Teams Dropdown -->
                     @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
@@ -143,7 +148,6 @@
                             </x-dropdown>
                         </div>
                     @endif
-            
                     <!-- Settings Dropdown -->
                     <div class="ms-3 relative">
                         <x-dropdown align="right" width="48">
@@ -200,9 +204,20 @@
                         </x-dropdown>
                     </div>
                 </div>
-           
+
+                {{-- else show login button --}}
+                @else
+                <a href="{{ route('register') }}" class="btn btn-primary">Sign up</a>
+                <a href="{{ route('login') }}" class="btn btn-primary">Log in</a>
+
+                @endif
+
+                
+                
                 {{--  --}}
             </div>
+            
         </div>
     </div>   
+    
 </nav>

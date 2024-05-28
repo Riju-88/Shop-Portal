@@ -102,7 +102,7 @@
         <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             @forelse($products as $index => $product)
 
-                <div class="group relative">
+                <div class="group relative" wire:key="{{ $product->id }}">
                     <div
                         class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                         @if (!empty($product->image) && is_array($product->image) && isset($product->image[0]))
@@ -153,9 +153,17 @@
                     <div class="mt-4 flex justify-between">
                         <a href="{{ route('product.detail', ['productId' => $product->id]) }}">
                             <button class="btn-secondary btn">View Details</button></a>
+
+                            @if (Auth::check())
                         <button @click="$dispatch('add-To-Cart', { id: {{ $product->id }} })"
                             class="btn-primary btn">Add to
                             Cart</button>
+
+                            @else
+                            <div class="lg:tooltip" data-tip="Login to add to cart">
+                                <button class="disabled btn">Add to Cart</button>
+                              </div>
+                        @endif
                     </div>
                 </div>
 

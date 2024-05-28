@@ -1,18 +1,20 @@
 <div>
     <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
-
+ @if (Auth::check())
         <form wire:submit="create" x-ref="form">
 
             <div class="fi-form-group my-6">
-
+                {{-- if auth check --}}
+               
                 {{ $this->form }}
+             
             </div>
 
             <button class="btn btn-primary">
                 {{ $editing ? 'Update' : 'Submit' }}
             </button>
         </form>
-
+   @endif
         <x-filament-actions::modals />
         <livewire:notifications />
 
@@ -43,7 +45,8 @@
                     </div>
                 @endforeach
                 <div class="mt-4">
-                    <!-- ... -->
+                    @if (Auth::check())
+                    <!-- edit button for review -->
                     <button wire:click="edit({{ $review->id }})"
                         @click="$refs.form.scrollIntoView({ behavior: 'smooth' })" class="btn btn-primary">Edit</button>
 
@@ -55,6 +58,7 @@
                     {{ ($this->delete)(['review_id' => $review->id]) }}
 
 
+                    @endif
 
 
                     {{--  --}}

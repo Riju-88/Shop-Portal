@@ -21,7 +21,7 @@
     @if(count($results) > 0)
     <ul class="absolute w-full bg-white shadow-md rounded-md mt-2">
         @foreach($results as $result)
-        <li class="py-2 px-4 hover:bg-gray-100"><a href="{{ route('product.detail', $result->id) }}">{{ $result->name }}</a></li>
+        <li class="py-2 px-4 hover:bg-gray-100"><a href="{{ route('product.detail', $result->id) }}" class="w-full flex">{{ $result->name }}</a></li>
         @endforeach
     </ul>
     @elseif($keyword != '')

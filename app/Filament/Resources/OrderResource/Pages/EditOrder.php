@@ -7,6 +7,7 @@ use App\Models\Product;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Split;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\EditRecord;
@@ -17,6 +18,12 @@ use Illuminate\Support\HtmlString;
 class EditOrder extends EditRecord
 {
     protected static string $resource = OrderResource::class;
+
+    // change title
+    protected static ?string $title = 'Update Order Status';
+
+    // change breadcrumb
+    protected static ?string $breadcrumb = 'Manage';
 
     public function form(Form $form): Form
     {
@@ -32,6 +39,21 @@ class EditOrder extends EditRecord
                 ->default('pending')
                 ->native(false)
                 ->required(),
+            //    display payment method and payment status
+            Section::make('Payment')
+                ->schema([
+                    Placeholder::make('payment_method')
+                        ->label('Payment Method')
+                        ->content(function ($record) {
+                            return $record->payment_method;
+                        }),
+                    Placeholder::make('payment_status')
+                        ->label('Payment Status')
+                        ->content(function ($record) {
+                            return $record->payment_status;
+                        })
+                ])
+                ->columns(2),
             // display order item details
             Section::make('Order Items')
                 ->schema(function ($record) {
@@ -84,6 +106,7 @@ class EditOrder extends EditRecord
                         return ['No items found.'];  // Return an array with the message
                     }
                 })
+                ->collapsible(),
         ]);
     }
 

@@ -33,16 +33,6 @@ Route::get('/test', function () {
 })->name('razorpay.test');
 // razorpay test
 
-// make this route available only if session has formState
-
-Route::get('razorpay/payment', function (Request $request) {
-    if ($request->session()->has('formState')) {
-        return view('razorpay.index');
-    } else {
-        return redirect()->back();
-    }
-})->name('razorpay.index');
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -52,10 +42,26 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');  // using livewire home instead of this
 
-    Route::get('/home', Home::class)->name('home');
     Route::get('/manage-orders', OrderManagement::class)->name('order-management');
+
+    // checkout
+    Route::get('checkout', Checkout::class)->name('checkout');
+
+    // make this route available only if session has formState
+    // razorpay
+    Route::get('razorpay/payment', function (Request $request) {
+        if ($request->session()->has('formState')) {
+            return view('razorpay.index');
+        } else {
+            return redirect()->back();
+        }
+    })->name('razorpay.index');
+
+    Route::post('razorpay/payment', [RazorpayController::class, 'store'])->name('razorpay.payment.store');
 });
 
+// home
+Route::get('/home', Home::class)->name('home');
 // products
 // Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
@@ -74,9 +80,5 @@ Route::get('/product/{productId}', ProductDetail::class)->name('product.detail')
 
 //     Route::view('checkout', 'razorpay.index')->name('create.payment');
 
-Route::get('checkout', Checkout::class)->name('checkout');
-
-Route::post('razorpay/payment', [RazorpayController::class, 'store'])->name('razorpay.payment.store');
-
-Route::get('razorpay/gateway', RazorpayGateway::class)->name('razorpay.gateway');
+// Route::get('razorpay/gateway', RazorpayGateway::class)->name('razorpay.gateway');
 // Route::post('razorpay-live-payment', [RazorpayGateway::class, 'store'])->name('razorpay.livepayment.store');

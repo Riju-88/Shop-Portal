@@ -1,4 +1,5 @@
-<div x-data="{ showModal: false }">
+<div x-data="{ showModal: false }"  @toggle-cart.window="showModal = !showModal" class="relative z-50 ">
+    {{-- cart item indicator --}}
     <div class="indicator">
         <span class="indicator-item badge badge-secondary">{{ count($carts) }}</span> 
          <button @click="showModal = true" class=" px-2  rounded-md">
@@ -15,13 +16,13 @@
         x-transition:enter-start="opacity-0 translate-x-full" x-transition:enter-end="opacity-100 translate-x-0"
         x-transition:leave="transition linear duration-500 transform" x-transition:leave-start="opacity-100 translate-x-0"
         x-transition:leave-end="opacity-0 translate-x-full"
-        class="fixed z-50 overflow-scroll flex justify-end  inset-0 w-full h-full">
-        <div class="">
+        class="fixed z-50 overflow-y-scroll flex justify-end  inset-0 w-full h-full bg-opacity-30 bg-black">
+        <div class="fixed top-0 right-0  h-screen overflow-y-scroll bg-opacity-30 bg-black before:content-['*'] before:h-screen before:w-screen before:bg-black before:absolute before:inset-0 before:z-[-1]">
             <!-- Stop the click event propagation to prevent it from closing the modal -->
             {{--  --}}
 
             {{-- test --}}
-            <div class="container overflow-hidden flex">
+            <div class="container overflow-hidden flex ">
                 <div class="flex flex-col justify-between md:w-full w-3/4 mx-auto   p-4 bg-white  shadow-md"
                     @click.away="showModal = false">
                     <h2 class="text-2xl font-extrabold tracking-tight mb-4">Cart Items</h2>

@@ -8,6 +8,7 @@
     </div>
     <!-- product-detail.blade.php -->
     <!-- Cart Modal Structure -->
+
     {{-- <livewire:ShoppingCart /> --}}
     <!-- end Cart Modal Structure -->
     <div class="text-sm breadcrumbs">
@@ -17,9 +18,12 @@
           <li>{{ $product->name }}</li>
         </ul>
       </div>
+      @if ($product->image)
     <div class='container mx-auto' x-data="{ showModal: false, selectedImage: '{{ $product->image[0] }}' }">
         <!-- Main Image -->
-
+        @else
+    <div class='container mx-auto' x-data="{ showModal: false, selectedImage: '{{ asset('storage/' . 'defaultImage.jpg') }}' }">
+        @endif
         <div class=" w-4/5 mx-auto overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
 
             <img x-bind:src="selectedImage.includes('://') ? selectedImage : '{{ asset('storage/') }}/' + selectedImage"
@@ -28,6 +32,7 @@
 
         <!-- Gallery Thumbnails -->
         <div class="grid grid-flow-col gap-4 mt-4 justify-center w-3/5 mx-auto">
+            @if ($product->image && count($product->image) > 0)
             @foreach ($product->image as $image)
                 @if (filter_var($image, FILTER_VALIDATE_URL))
                     <div x-on:click="selectedImage = '{{ $image }}'" class="cursor-pointer">
@@ -40,6 +45,7 @@
                     </div>
                 @endif
             @endforeach
+            @endif
         </div>
         <p class="mb-4">Rating: {{ $rating }}</p>
         @for ($i = 0; $i < $rating; $i++)
@@ -50,13 +56,21 @@
         <p class="mb-4">Description: {!! $product->description !!}</p>
         <p class="mb-4 font-bold text-3xl">Price: ${{ $product->price }}</p>
 
+        @if (Auth::check())
         <!-- Add to cart button -->
         <button @click="$dispatch('add-To-Cart', { id: {{ $product->id }} })" class="btn-primary btn">Add to
             Cart</button>
+
+            @else
+            <div class="lg:tooltip" data-tip="Login to add to cart">
+                <button class="disabled btn">Add to Cart</button>
+              </div>
+        @endif
     </div>
 
 
     <!-- :product="$product" -->
-    <livewire:Review :productId="$product->id" :userId="Auth::user()->id" />
-
+ 
+    <livewire:Review :productId="$product->id" />
+   
 </div>

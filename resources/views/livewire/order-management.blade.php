@@ -4,7 +4,7 @@
     @if (count($orders) > 0)
         @foreach ($orders as $order)
             {{-- order cards --}}
-            <div class="bg-white shadow-md rounded-lg p-6 mb-4">
+            <div class="bg-white shadow-md rounded-lg p-6 mb-4" wire:key="{{ $order->id }}">
                 <div class="flex justify-between items-center mb-4">
                     {{-- order number --}}
                     <div>
