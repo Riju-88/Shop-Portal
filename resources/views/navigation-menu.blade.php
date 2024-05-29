@@ -78,6 +78,7 @@
                     <li><a href="{{ route('productList') }}" wire:navigate class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in {{ request()->routeIs('productList') ? 'bg-amber-400 text-white' : '' }}">
                         {{ __('Products') }}
                     </a></li>
+                    <li><livewire:CategoriesDropdown /></li>
                     <li><a href="#" class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in">About</a></li>
                     <li><a href="#" class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in">Contact</a></li>
                 </ul>
