@@ -127,12 +127,12 @@
                                 {{ $product->name }}
                                 <!-- </a> -->
                             </h3>
-                            <div class="mt-1 text-sm text-gray-500 line-clamp-3"> {!! $product->description !!}</div>
+                            <div class="mt-1 text-sm text-gray-500 line-clamp-3 overflow-clip"> {!! $product->description !!}</div>
                             <!--  -->
                             @if ($product->reviews->isNotEmpty())
-                                <p class="text-xl font-extrabold text-gray-900">
+                                {{-- <p class="text-xl font-extrabold text-gray-900">
                                     {{ $product->reviews->avg('rating') }}
-                                </p>
+                                </p> --}}
 
 
                                 @for ($i = 0; $i < $product->reviews->avg('rating'); $i++)
