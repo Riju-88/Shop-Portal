@@ -17,7 +17,8 @@
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.0",
         "mokhosh/filament-rating": "^1.1",
-        "razorpay/razorpay": "^2.9"
+        "razorpay/razorpay": "^2.9",
+        "safemood/discountify": "^1.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

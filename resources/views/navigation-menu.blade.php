@@ -66,7 +66,7 @@
                 <a href="#" class="p-4 text-lg font-semibold text-gray-800">Logo</a>
                 
                 <!-- Navigation Links -->
-                <ul class="flex items-center">
+                <ul class="flex items-center mx-2">
                     <li>
                         <a href="{{ route('home') }}" wire:navigate class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in {{ request()->routeIs('home') ? 'bg-amber-400 text-white' : '' }}">
                             {{ __('Home') }}
@@ -81,6 +81,12 @@
                     <li><livewire:CategoriesDropdown /></li>
                     <li><a href="#" class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in">About</a></li>
                     <li><a href="#" class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in">Contact</a></li>
+                     @auth
+                     
+                     @if(Auth::user()->canAccessPanel(new Filament\Panel))
+                            <li><a href="{{ route('admin') }}" class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in" target="_blank">Admin</a></li>
+                        @endif
+                    @endauth
                 </ul>
                 {{-- livewire search component --}}
                 <livewire:search />

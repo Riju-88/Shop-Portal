@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "08a376ceb011be2fe9d9f8e765423680",
+    "content-hash": "d8aaf3e38821a5227ef6fe7a7a661a98",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -5607,6 +5607,84 @@
                 }
             ],
             "time": "2023-02-14T16:54:54+00:00"
+        },
+        {
+            "name": "safemood/discountify",
+            "version": "1.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Safemood/discountify.git",
+                "reference": "a5f1dca069899454fb4d05039c06e638f59d0706"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Safemood/discountify/zipball/a5f1dca069899454fb4d05039c06e638f59d0706",
+                "reference": "a5f1dca069899454fb4d05039c06e638f59d0706",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "^10|^11.1",
+                "php": "^8.1|^8.2",
+                "spatie/laravel-package-tools": "^1.14.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.7.0",
+                "laravel/pint": "^1.13.7",
+                "nunomaduro/collision": "^7.0|^8.9",
+                "orchestra/testbench": "^8.21.1|^9.0.0",
+                "pestphp/pest": "^2.30",
+                "pestphp/pest-plugin-arch": "^2.5",
+                "pestphp/pest-plugin-laravel": "^2.2",
+                "pestphp/pest-plugin-type-coverage": "^2.8",
+                "phpstan/extension-installer": "^1.3.1",
+                "phpstan/phpstan-deprecation-rules": "^1.1.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Safemood\\Discountify\\DiscountifyServiceProvider"
+                    ],
+                    "aliases": {
+                        "Discountify": "Safemood\\Discountify\\Facades\\Discountify"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Safemood\\Discountify\\": "src/",
+                    "Safemood\\Discountify\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Khalil Bouzidi",
+                    "email": "kbouziditn@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel package for dynamic discounts with custom conditions.",
+            "homepage": "https://github.com/safemood/discountify",
+            "keywords": [
+                "Safemood",
+                "discountify",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/Safemood/discountify/issues",
+                "source": "https://github.com/Safemood/discountify/tree/1.5.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Safemood",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-04-07T09:44:32+00:00"
         },
         {
             "name": "spatie/color",

@@ -32,6 +32,7 @@ class CreateCategory extends CreateRecord
                         ->live(onBlur: true)
                         ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
                     RichEditor::make('description'),
+                    TextInput::make('discount')->numeric()->label('Discount in %'),
                 ]),
             Section::make('Category Image')
                 ->description('Category image')

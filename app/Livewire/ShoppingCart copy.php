@@ -7,26 +7,17 @@ use App\Models\Product;
 use Filament\Notifications\Notification;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Safemood\Discountify\Facades\Discountify;
 
 class ShoppingCart extends Component
 {
     public $carts;
     public $cart_open = false;
 
-    public $totals = [
-        'subtotal' => 0,
-        'totalDiscount' => 0,
-        'totalPrice' => 0,
-    ];
-
     public function mount()
     {
         if (auth()->check()) {
             $user = auth()->user();
-            $this->carts = $user->cart()->with('product.categories')->get()->toArray();
-
-            $this->calculateDiscount();
+            $this->carts = $user->cart()->with('product')->get()->toArray();
         } else {
             $this->carts = [];  // Set $carts to an empty array if the user is not authenticated
         }
@@ -66,6 +57,9 @@ class ShoppingCart extends Component
             $cartItem->total_price = $cartItem->quantity * $product->price;
             $cartItem->save();  // Save the cart item instance to the database
 
+            // Notify the user that the product has been added to the cart
+            // $this->dispatchBrowserEvent('notify', 'Product added to cart successfully!');
+
             Notification::make()
                 ->title('Product added to cart successfully!')
                 ->success()
@@ -79,6 +73,7 @@ class ShoppingCart extends Component
 
     public function updateQuantity($index)
     {
+        // Logic to update quantity of an item in the cart
         $cartItem = $this->carts[$index];
         $user = auth()->user();  // Assuming user is authenticated
         $cart = Cart::where('user_id', $user->id)
@@ -102,7 +97,6 @@ class ShoppingCart extends Component
             $cartItem['quantity']++;
             $this->carts[$index] = $cartItem;
             $this->updateQuantity($index);
-            $this->calculateDiscount();  // Recalculate discounts
         }
     }
 
@@ -111,12 +105,12 @@ class ShoppingCart extends Component
         if ($this->carts[$index]['quantity'] > 1) {
             $this->carts[$index]['quantity']--;
             $this->updateQuantity($index);
-            $this->calculateDiscount();  // Recalculate discounts
         }
     }
 
     public function removeItem($index)
     {
+        // Logic to remove an item from the cart
         $cartItem = $this->carts[$index];
         $user = auth()->user();
         $cart = Cart::where('user_id', $user->id)
@@ -128,37 +122,45 @@ class ShoppingCart extends Component
         }
 
         $this->mount();
-        $this->calculateDiscount();  // Recalculate discounts
     }
 
-    public function calculateDiscount()
+    public function checkout()
     {
-        $subtotal = 0;
-        $totalDiscount = 0;
-
-        foreach ($this->carts as $cartItem) {
-            $price = $cartItem['product']['price'];
-            $quantity = $cartItem['quantity'];
-            $itemTotalPrice = $price * $quantity;
-            $subtotal += $itemTotalPrice;
-
-            // Calculate the discount for this item
-            $itemDiscount = 0;
-            foreach ($cartItem['product']['categories'] as $category) {
-                $itemDiscount += ($itemTotalPrice * ($category['discount'] / 100));
-            }
-
-            // Add the item's discount to the total discount
-            $totalDiscount += $itemDiscount;
+        // Ensure the user is authenticated
+        if (!auth()->check()) {
+            // Redirect to login or display an error message
+            return;
         }
 
-        $totalPrice = $subtotal - $totalDiscount;
+        // Validate the cart contents
+        if (empty($this->cart['items'])) {
+            // Handle empty cart scenario
+            return;
+        }
 
-        $this->totals = [
-            'subtotal' => $subtotal,
-            'totalDiscount' => $totalDiscount,
-            'totalPrice' => $totalPrice,
-        ];
+        // Calculate the total amount to be charged
+        // Calculate the total amount based on cart items
+        $totalAmount = 0;
+
+        // Create a Razorpay order
+        $order = $this->createRazorpayOrder($totalAmount);
+
+        // Redirect the user to the Razorpay checkout page
+        return redirect()->to($order->checkoutUrl());
+    }
+
+    private function createRazorpayOrder($amount)
+    {
+        $api = new Api(env('RAZORPAY_API_KEY'), env('RAZORPAY_API_SECRET'));
+
+        // Create an order
+        $order = $api->order->create([
+            'amount' => $amount * 100,  // Amount in paisa
+            'currency' => 'INR',  // Change currency as needed
+            // Add more options as required
+        ]);
+
+        return $order;
     }
 
     public function render()
@@ -167,9 +169,6 @@ class ShoppingCart extends Component
             return '';  // Return an empty string if the user is not authenticated
         }
 
-        return view('livewire.shopping-cart', [
-            'carts' => $this->carts,
-            'totals' => $this->totals,
-        ]);
+        return view('livewire.shopping-cart');
     }
 }

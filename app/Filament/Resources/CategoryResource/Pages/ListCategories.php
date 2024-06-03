@@ -27,6 +27,7 @@ class ListCategories extends ListRecords
                     ->formatStateUsing(function ($state) {
                         return new HtmlString($state);
                     }),
+                TextColumn::make('discount'),
                 TextColumn::make('parent_id'),
             ]);
     }

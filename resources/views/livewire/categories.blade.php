@@ -82,5 +82,7 @@
 
         @endforelse
     </div>
-   
+    <!--  -->
+    <livewire:notifications />
+    <!--  -->
 </div>
