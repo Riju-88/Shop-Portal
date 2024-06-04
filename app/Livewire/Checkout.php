@@ -57,6 +57,7 @@ class Checkout extends Component implements HasForms
     public ?float $shipping_cost = null;
     public ?float $subtotal = null;
     public ?float $total_amount = null;
+    public ?float $total_discount = null;
     public ?string $payment_method = null;
 
     public function mount()
@@ -100,11 +101,50 @@ class Checkout extends Component implements HasForms
                                                 $set('shipping_cost', $shippingMethod->cost);  // Populate the cost field
 
                                                 // set the updated total amount in the $set and round it
-                                                $set('total_amount', round(Cart::where('user_id', $this->userId)->sum('total_price') + $shippingMethod->cost, 2));
+                                                // $set('total_amount', round(Cart::where('user_id', $this->userId)->sum('total_price') + $shippingMethod->cost, 2));
 
-                                                // set subtotal in the $set and round it
+                                                // Total amount after applying discounts
+                                                $set('total_amount', function () use ($shippingMethod) {
+                                                    $subtotal = Cart::where('user_id', $this->userId)->sum('total_price');
+                                                    $totalDiscounts = 0;
+                                                    $shipping_cost = $shippingMethod->cost;
+                                                    foreach (Cart::where('user_id', $this->userId)->get() as $cartItem) {
+                                                        $itemTotalPrice = $cartItem->quantity * $cartItem->product->price;
+                                                        $itemDiscount = 0;
+
+                                                        foreach ($cartItem->product->categories as $category) {
+                                                            $itemDiscount += ($itemTotalPrice * ($category->discount / 100));
+                                                        }
+
+                                                        $totalDiscounts += $itemDiscount;
+                                                    }
+
+                                                    $totalAmountAfterDiscounts = $subtotal - $totalDiscounts;
+                                                    \Log::info('Checking shipping cost: ' . $shipping_cost);
+                                                    return round(($totalAmountAfterDiscounts + $shipping_cost), 2);
+                                                });
+
+                                                // subtotal
 
                                                 $set('subtotal', round(Cart::where('user_id', $this->userId)->sum('total_price'), 2));
+
+                                                // total discount
+                                                $set('total_discount', function () {
+                                                    $totalDiscounts = 0;
+
+                                                    foreach (Cart::where('user_id', $this->userId)->get() as $cartItem) {
+                                                        $itemTotalPrice = $cartItem->quantity * $cartItem->product->price;
+                                                        $itemDiscount = 0;
+
+                                                        foreach ($cartItem->product->categories as $category) {
+                                                            $itemDiscount += ($itemTotalPrice * ($category->discount / 100));
+                                                        }
+
+                                                        $totalDiscounts += $itemDiscount;
+                                                    }
+                                                    \Log::info('Total discounts in the $set: ' . round($totalDiscounts, 2));
+                                                    return round($totalDiscounts, 2);
+                                                });
                                             }),
                                     ]),
                                 //
@@ -192,6 +232,13 @@ class Checkout extends Component implements HasForms
                                                         ->content('Subtotal')
                                                         ->extraAttributes(['class' => 'font-bold']),
                                                     TextInput::make('subtotal')
+                                                        ->label('')
+                                                        ->extraAttributes(['class' => 'font-bold']),
+                                                    // total discount
+                                                    Placeholder::make('')
+                                                        ->content('Total Discount')
+                                                        ->extraAttributes(['class' => 'font-bold']),
+                                                    TextInput::make('total_discount')
                                                         ->label('')
                                                         ->extraAttributes(['class' => 'font-bold']),
                                                     // shipping cost
