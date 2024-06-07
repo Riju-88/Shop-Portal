@@ -5,6 +5,7 @@ use App\Http\Controllers\RazorpayController;
 use App\Livewire\Categories;
 use App\Livewire\Checkout;
 use App\Livewire\Home;
+use App\Livewire\UserWishlist;
 use App\Livewire\OrderManagement;
 use App\Livewire\ProductDetail;
 use App\Livewire\ProductList;
@@ -44,6 +45,9 @@ Route::middleware([
     })->name('dashboard');  // using livewire home instead of this
 
     Route::get('/manage-orders', OrderManagement::class)->name('order-management');
+
+    // wishlist
+    Route::get('/wishlist', UserWishlist::class)->name('wishlist');
 
     // checkout
     Route::get('checkout', Checkout::class)->name('checkout');

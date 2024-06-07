@@ -50,10 +50,29 @@
                 </div>
                 <!-- Sidebar Links -->
                 <ul class="py-4" @click.away.stop>
+                    {{-- profile test --}}
+                    @if(Auth::check())
+                    <li>
+                        
+                    </li>
+                    @else
+                        <li><a href="{{ route('login') }}" wire:navigate class="block p-4 hover:bg-gray-100">Login</a></li>
+                    @endif
+                    {{-- profile test/ --}}
                     <li><a href="{{ route('home') }}" wire:navigate class="block p-4 hover:bg-gray-100">Home</a></li>
-                    <li><a href="#" class="block p-4 hover:bg-gray-100">About</a></li>
-                    <li><a href="{{ route('productList') }}" wire:navigate class="block p-4 hover:bg-gray-100">Products</a></li>
+                    <li><a href="{{ route('productList') }}" wire:navigate class="block p-4 hover:bg-gray-100">
+                        {{ __('Products') }}
+                    </a></li>
+                    <li><livewire:CategoriesDropdown device='mobile'/></li>
+                    
                     <li><a href="#" class="block p-4 hover:bg-gray-100">Contact</a></li>
+                    <li><a href="#" class="block p-4 hover:bg-gray-100">About</a></li>
+                    @auth
+                     
+                    @if(Auth::user()->canAccessPanel(new Filament\Panel))
+                           <li><a href="{{ route('admin') }}" class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in" target="_blank">Admin</a></li>
+                       @endif
+                   @endauth
                 </ul>
             </div>
         </div>
@@ -78,11 +97,12 @@
                     <li><a href="{{ route('productList') }}" wire:navigate class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in {{ request()->routeIs('productList') ? 'bg-amber-400 text-white' : '' }}">
                         {{ __('Products') }}
                     </a></li>
-                    <li><livewire:CategoriesDropdown /></li>
+                    <li><livewire:CategoriesDropdown device='desktop'/></li>
                     <li><a href="#" class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in">About</a></li>
                     <li><a href="#" class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in">Contact</a></li>
+                    
                      @auth
-                     
+                     <li> <livewire:UserWishlist device="desktop" /></li>
                      @if(Auth::user()->canAccessPanel(new Filament\Panel))
                             <li><a href="{{ route('admin') }}" class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in" target="_blank">Admin</a></li>
                         @endif
@@ -105,7 +125,7 @@
 
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <!-- Teams Dropdown -->
-                    @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
+                    {{-- @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                         <div class="ms-3 relative">
                             <x-dropdown align="right" width="60">
                                 <x-slot name="trigger">
@@ -154,7 +174,7 @@
                                 </x-slot>
                             </x-dropdown>
                         </div>
-                    @endif
+                    @endif --}}
                     <!-- Settings Dropdown -->
                     <div class="ms-3 relative">
                         <x-dropdown align="right" width="48">
@@ -198,6 +218,7 @@
                                 <x-dropdown-link href="{{ route('order-management') }}" wire:navigate>
                                     {{ __('Orders') }}
                                 </x-dropdown-link>
+                                
                                 <!-- Authentication -->
                                 <form method="POST" action="{{ route('logout') }}" x-data>
                                     @csrf

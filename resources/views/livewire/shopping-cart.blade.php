@@ -1,6 +1,6 @@
 
 
-<div x-data="{ showModal: false }"  @toggle-cart.window="showModal = !showModal" class="relative z-50 ">
+<div x-data="{ showModal: false }"  @toggle-cart.window="showModal = !showModal" class="relative  ">
     {{-- cart item indicator --}}
     <div class="indicator">
         <span class="indicator-item badge badge-secondary">{{ count($carts) }}</span> 
@@ -19,7 +19,7 @@
         x-transition:leave="transition linear duration-500 transform" x-transition:leave-start="opacity-100 translate-x-0"
         x-transition:leave-end="opacity-0 translate-x-full"
         class="fixed z-50 overflow-y-scroll flex justify-end  inset-0 w-full h-full bg-opacity-30 bg-black">
-        <div class="fixed top-0 right-0  h-screen overflow-y-scroll bg-opacity-30 bg-black before:content-['*'] before:h-screen before:w-screen before:bg-black before:absolute before:inset-0 before:z-[-1]">
+        <div class="fixed top-0 right-0  h-screen overflow-y-scroll bg-opacity-30 bg-white before:content-['*'] before:h-screen before:w-screen before:bg-white before:absolute before:inset-0 before:z-[-1]">
             <!-- Stop the click event propagation to prevent it from closing the modal -->
             {{--  --}}
 

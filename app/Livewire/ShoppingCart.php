@@ -7,7 +7,8 @@ use App\Models\Product;
 use Filament\Notifications\Notification;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Safemood\Discountify\Facades\Discountify;
+
+// use Safemood\Discountify\Facades\Discountify;
 
 class ShoppingCart extends Component
 {

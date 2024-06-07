@@ -14,6 +14,8 @@
         </ul>
       </div>
 
+        <livewire:notifications />
+
   {{-- new layout goes here --}}
   <section class="text-gray-600 body-font">
       <div class="container px-5 py-10 mx-auto">
@@ -119,22 +121,25 @@
                             <button class="disabled btn">Add to Cart</button>
                         </div>
                         @endif
+                        @auth
                         {{-- Wishlist --}}
-                        {{-- <button
-                            class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
+                        <button
+                            class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4" @click="$dispatch('add-to-wishlist', { product_id: {{ $product->id }} })">
                             <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 class="w-5 h-5" viewBox="0 0 24 24">
                                 <path
                                     d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z">
                                 </path>
                             </svg>
-                        </button> --}}
+                        </button>
+                        @endauth
                     </div>
                 </div>
             </div>
         </div>
         {{-- fit reviews here --}}
         <livewire:Review :productId="$product->id" />
+        
       </div>
   
   </section>

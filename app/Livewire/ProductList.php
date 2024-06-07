@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Wishlist;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 
@@ -13,6 +15,7 @@ class ProductList extends Component
     public $selectedCategories = [];
     public $priceRangeOptions = [];
     public $selectedPriceRange = null;
+    public $wishlist;
 
     public function mount()
     {
@@ -84,6 +87,10 @@ class ProductList extends Component
 
     public function render()
     {
+        if (Auth::user()) {
+            $this->wishlist = Wishlist::where('user_id', Auth::user()->id)->get();
+        }
+
         $products = $this->products();
         $categories = $this->categories();
         return view('livewire.product-list', compact('products', 'categories'));

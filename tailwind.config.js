@@ -34,7 +34,7 @@ export default {
 
                     secondary: "#7c3aed",
 
-                    accent: "#007f34",
+                    accent: "#ff9a03",
 
                     neutral: "#090409",
 
@@ -44,7 +44,7 @@ export default {
 
                     success: "#4ade80",
 
-                    warning: "#fbbf24",
+                    warning: "#fab803",
 
                     error: "#df2505",
                 },

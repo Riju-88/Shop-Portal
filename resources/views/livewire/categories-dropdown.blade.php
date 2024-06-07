@@ -9,8 +9,8 @@
 
   <!-- Open the modal using ID.showModal() method -->
   <div>
-    <button  onclick="categories.showModal()"><a class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in cursor-pointer">Categories</a></button>
-<dialog id="categories" class="modal">
+    <button  onclick="{{ $device . '_categories' }}.showModal()"><a class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in cursor-pointer">Categories</a></button>
+<dialog id="{{ $device . '_categories' }}" class="modal">
   <div class="modal-box max-w-7xl w-full h-3/4 flex justify-around items-center bg-white/90">
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
