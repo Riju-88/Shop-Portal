@@ -16,7 +16,8 @@ class ProductList extends Component
     public $priceRangeOptions = [];
     public $selectedPriceRange = null;
     public $wishlist;
-
+    protected $listeners = ['productAddedToWishlist' => 'render', 'RemovedFromWishlist' => 'render'];
+    
     public function mount()
     {
         $this->fetchPriceRangeOptions();

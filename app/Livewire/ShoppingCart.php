@@ -70,6 +70,8 @@ class ShoppingCart extends Component
             Notification::make()
                 ->title('Product added to cart successfully!')
                 ->success()
+            //     ->icon('heroicon-m-check-circle')
+            // ->iconColor('success')
                 ->send();
         }
 

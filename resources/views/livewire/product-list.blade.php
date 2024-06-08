@@ -82,12 +82,7 @@
 
     <!--  -->
 
-    <div class="container flex items-center gap-2 mx-auto my-2">
-        <h2 class="font-bold text-blue-500 text-2xl"><a href="{{ route('productList') }}" class="link">Products</a>
-        </h2>
-        <h2 class="font-bold text-emerald-500 text-2xl"><a href="/admin" class="link">Admin Panel</a>
-        </h2>
-    </div>
+  
     <!--  -->
     <!-- Cart Modal Structure -->
     {{-- <livewire:ShoppingCart /> --}}

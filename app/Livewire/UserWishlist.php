@@ -14,6 +14,7 @@ class UserWishlist extends Component
 {
     public $wishlist;
     public $device;
+    protected $listeners = ['RemovedFromWishlist' => 'render'];
 
     public function mount($device)
     {
@@ -23,7 +24,7 @@ class UserWishlist extends Component
     #[On('add-to-wishlist')]
     public function addToWishlist($product_id)
     {
-        // if product is not in cart
+        // if product is not in wishlist or cart
         if (!Wishlist::where('user_id', Auth::user()->id)->where('product_id', $product_id)->exists() && !Cart::where('user_id', Auth::user()->id)->where('product_id', $product_id)->exists()) {
             $wishlist = new Wishlist();
             $wishlist->user_id = Auth::user()->id;
@@ -32,13 +33,28 @@ class UserWishlist extends Component
             Notification::make()
                 ->title('Item added to wishlist')
                 ->success()
+                //     ->icon('heroicon-m-check-circle')
+                // ->iconColor('success')
                 ->send();
+            // Dispatch the event
+            $this->dispatch('productAddedToWishlist', $product_id);
         } else {
-            \Log::info("Item $product_id already in wishlist");
-            Notification::make()
-                ->title('Item already exists in wishlist')
-                ->warning()
-                ->send();
+            // if product is in cart
+            if (Cart::where('user_id', Auth::user()->id)->where('product_id', $product_id)->exists()) {
+                // code...
+                Notification::make()
+                    ->title('Item already exists in cart')
+                    ->warning()
+                    ->send();
+            } else {
+                // code...
+                // \Log::info("Item $product_id already in wishlist");
+                // Notification::make()
+                //     ->title('Item already exists in wishlist')
+                //     ->warning()
+                //     ->send();
+                $this->removeFromWishlist($product_id);
+            }
         }
     }
 
@@ -50,8 +66,14 @@ class UserWishlist extends Component
             $wishlist->delete();
         }
 
-
-        $this->render();
+        Notification::make()
+            ->title('Item removed from wishlist')
+            ->color('danger')
+            ->icon('heroicon-o-check-circle')
+            ->iconColor('success')
+            ->send();
+        // Dispatch the event
+        $this->dispatch('RemovedFromWishlist', $product_id);
     }
 
     public function render()
