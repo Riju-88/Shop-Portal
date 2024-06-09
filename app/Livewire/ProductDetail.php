@@ -16,7 +16,8 @@ class ProductDetail extends Component
 
     public function mount($productId)
     {
-        $this->product = Product::findOrFail($productId);
+        $this->product = Product::with('attributes')->find($productId);
+
         $this->rating = $this->product->reviews()->avg('rating');
     }
 
@@ -25,6 +26,7 @@ class ProductDetail extends Component
         if (Auth::user()) {
             $this->wishlist = Wishlist::where('user_id', Auth::user()->id)->get();
         }
+
         return view('livewire.product-detail');
     }
 }

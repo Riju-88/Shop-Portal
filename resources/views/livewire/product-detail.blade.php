@@ -135,7 +135,21 @@
                             </svg>
                         </button>
                         @endauth
+
+                        
                     </div>
+                    {{-- product attributes --}}
+                    @if($product->attributes->isNotEmpty())
+                    <h3 class="title-font font-medium text-lg text-gray-900">Product Details</h3>
+                    <ul>
+                        @foreach($product->attributes as $attribute)
+                            <li>{{ $attribute->name }}: {{ $attribute->value }}</li>
+                        @endforeach
+                    </ul>
+                @else
+                    <p>No additional details available for this product.</p>
+                @endif
+                    {{--  --}}
                 </div>
             </div>
         </div>

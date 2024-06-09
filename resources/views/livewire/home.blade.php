@@ -28,6 +28,9 @@
   @endif
  </div>
                  <!-- Featured Products -->
+                 <div class="flex justify-between">
+                    <div class="text-2xl font-bold bg-accent px-4 py-2 tracking-tight text-gray-600 rounded-e-full">Featured Products</div>
+                </div>
 <div x-data="{
   currentIndex: 0,
   itemsToShow: 3,
@@ -55,7 +58,7 @@
           this.currentIndex = 0;
       }
   }
-}" class="relative">
+}" class="relative mb-6">
   <button @click="prev" class="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-gray-700 text-white p-2 rounded-full">
     <x-filament::icon
     
@@ -66,10 +69,10 @@
   </button>
   <div class="overflow-hidden relative">
       <div class="flex transition-transform duration-300" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
-          @foreach($products->chunk(4) as $productChunk)
-              <div class="w-full flex flex-shrink-0">
+          @foreach($products->chunk(3) as $productChunk)
+              <div class="w-full flex flex-shrink-0 gap-x-6 my-4">
                   @foreach($productChunk as $product)
-                      <div class="group relative w-full sm:w-1/2 md:w-1/3 p-2 box-border" wire:key="{{ $product->id }}">
+                      <div class="group relative w-full sm:w-1/2 md:w-1/3 p-2 box-border shadow-xl rounded-xl" wire:key="{{ $product->id }}">
                           <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                               @if (!empty($product->image) && is_array($product->image) && isset($product->image[0]))
                                   @if (filter_var($product->image[0], FILTER_VALIDATE_URL))
@@ -96,7 +99,7 @@
                                   @endif
                               </div>
                               <div class="flex flex-col">
-                                  <p class="text-xl font-extrabold text-gray-900">${{ $product->price }}</p>
+                                  <p class="text-lg font-bold text-gray-600">{{ $product->price }}</p>
 
                                   {{-- Wishlist --}}
                                   @auth

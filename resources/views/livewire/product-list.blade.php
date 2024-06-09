@@ -90,24 +90,25 @@
     <livewire:notifications />
 
     <!-- product-list -->
-    <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <h2 class="text-2xl font-bold tracking-tight text-gray-900">Products</h2>
-
-
-        <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+    <div class="flex justify-between">
+        <div class="text-2xl font-bold bg-accent px-4 py-2 tracking-tight text-gray-600 rounded-e-full">Products</div>
+    </div>
+    <div class="mx-auto max-w-2xl px-4 mb-6 sm:px-6 sm:py-4 py-2 lg:max-w-7xl lg:px-8">
+       
+        <div class=" grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             @forelse($products as $index => $product)
 
-                <div class="group relative" wire:key="{{ $product->id }}">
+                <div class="group relative rounded-xl shadow-xl p-2" wire:key="{{ $product->id }}">
                     <div
                         class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                         @if (!empty($product->image) && is_array($product->image) && isset($product->image[0]))
                             @if (filter_var($product->image[0], FILTER_VALIDATE_URL))
-                                <a href="{{ route('product.detail', ['productId' => $product->id]) }}">
+                                <a href="{{ route('product.detail', ['productId' => $product->id]) }}" wire:navigate>
                                     <img src="{{ $product->image[0] }}" alt="{{ $product->name }}"
                                         class="h-full w-full object-cover object-center lg:h-full lg:w-full">
                                 </a>
                             @else
-                                <a href="{{ route('product.detail', ['productId' => $product->id]) }}">
+                                <a href="{{ route('product.detail', ['productId' => $product->id]) }}" wire:navigate>
                                     <img src="{{ asset('storage/' . $product->image[0]) }}" alt="{{ $product->name }}"
                                         class="h-full w-full object-cover object-center lg:h-full lg:w-full">
                                 </a>
@@ -140,7 +141,7 @@
                             <!--  -->
                         </div>
                         <div class="flex flex-col">
-                        <p class="text-xl font-extrabold text-gray-900"> ${{ $product->price }}</p>
+                        <p class="text-lg font-bold text-gray-600">{{ $product->price }}</p>
                        
                             @auth
                         {{-- Wishlist --}}
