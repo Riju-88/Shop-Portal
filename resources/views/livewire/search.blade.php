@@ -14,8 +14,14 @@
 </x-filament::input.wrapper> --}}
 
 
-        <input type="search" placeholder="Search"  wire:model.defer="keyword"
-        wire:input="search"/>
+<div x-data="{ disabled: true }">
+    <div class="relative">
+        <input type="search" placeholder="Search" wire:model.defer="keyword"
+              wire:input="search" :disabled="disabled" x-ref="inputField" />
+        <div class="absolute inset-0" x-show="disabled" x-on:click="disabled = false; setTimeout(() => $refs.inputField.focus(), 10)"></div>
+    </div>
+</div>
+
    
 
     @if(count($results) > 0)

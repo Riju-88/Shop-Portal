@@ -11,7 +11,7 @@
                 {{ session('status') }}
             </div>
         @endif
-
+        <div class="flex justify-end"><a href="{{ route('register') }}" target="_blank" class="link  ">Create New Account</a></div>
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
@@ -40,10 +40,11 @@
                 @endif
 
                 <!-- <x-button class="ms-4"> -->
-                    <button type="submit" class="btn btn-primary">{{ __('Log in') }}</button>
+                    <button class="btn btn-accent">{{ __('Log in') }}</button>
                    
                 <!-- </x-button> -->
             </div>
+            
         </form>
     </x-authentication-card>
 </x-guest-layout>

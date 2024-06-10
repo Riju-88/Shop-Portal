@@ -15,7 +15,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      *
      * @param  array<string, mixed>  $input
      */
-    public function update(User $user, array $input): void
+    public function update(User $user, array $input)
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
@@ -28,13 +28,15 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         }
 
         if ($input['email'] !== $user->email &&
-            $user instanceof MustVerifyEmail) {
+                $user instanceof MustVerifyEmail) {
             $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill([
                 'name' => $input['name'],
                 'email' => $input['email'],
             ])->save();
+            // redirect
+            return redirect()->route('home');
         }
     }
 
@@ -53,4 +55,6 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 
         $user->sendEmailVerificationNotification();
     }
+
+   
 }

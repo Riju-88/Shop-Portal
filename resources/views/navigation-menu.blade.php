@@ -53,24 +53,65 @@
                     {{-- profile test --}}
                     @if(Auth::check())
                     <li>
-                        
+                        <div class="mx-2">
+                            <div class="flex justify-center items-center">
+                                 <div class="avatar">
+                                <div class="w-12 rounded-full">
+                                  <img src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                                </div>
+                              </div>
+                            </div>
+                           
+                              {{-- profile dropdown --}}
+                              <div x-data="{ checked: false }" class="collapse collapse-arrow">
+                                <input type="radio" name="my-accordion-2" x-bind:checked="checked" @click="checked = !checked" /> 
+                                <div class="collapse-title text-xl font-medium" @click="checked = !checked">
+                                    <p class="text-sm text-gray-600 font-medium">{{ Auth::user()->name }}</p>
+                                    <p class="text-xs text-gray-400">{{ Auth::user()->email }}</p>
+                                </div>
+                                <div class="collapse-content"> 
+                                    <a href="{{ route('profile.show') }}" wire:navigate>
+                                        {{ __('Profile') }}
+                                    </a>
+                                    <div class="divider"></div> 
+                                    {{-- orders --}}
+                                <a href="{{ route('order-management') }}" wire:navigate>
+                                    {{ __('Orders') }}
+                                </a>
+                                <div class="divider"></div> 
+                                <livewire:UserWishlist device="mobile" />
+                                <div class="divider"></div> 
+                                <!-- Authentication -->
+                                <form method="POST" action="{{ route('logout') }}" x-data>
+                                    @csrf
+            
+                                    <a href="{{ route('logout') }}"
+                                             @click.prevent="$root.submit();">
+                                        {{ __('Log Out') }}
+                                    </a>
+                                </div>
+                            </div>
+                            
+                              {{--  --}}
+                            
+                        </div>
                     </li>
                     @else
-                        <li><a href="{{ route('login') }}" wire:navigate class="block p-4 hover:bg-gray-100">Login</a></li>
+                        <li><a href="{{ route('login') }}" wire:navigate class="block p-4 hover:bg-gray-100 text-black">Login</a></li>
                     @endif
                     {{-- profile test/ --}}
-                    <li><a href="{{ route('home') }}" wire:navigate class="block p-4 hover:bg-gray-100">Home</a></li>
-                    <li><a href="{{ route('productList') }}" wire:navigate class="block p-4 hover:bg-gray-100">
+                    <li><a href="{{ route('home') }}" wire:navigate class="block p-4 hover:bg-gray-100 text-black">Home</a></li>
+                    <li><a href="{{ route('productList') }}" wire:navigate class="block p-4 hover:bg-gray-100 text-black">
                         {{ __('Products') }}
                     </a></li>
                     <li><livewire:CategoriesDropdown device='mobile'/></li>
                     
-                    <li><a href="#" class="block p-4 hover:bg-gray-100">Contact</a></li>
-                    <li><a href="#" class="block p-4 hover:bg-gray-100">About</a></li>
+                    <li><a href="#" class="block p-4 hover:bg-gray-100 text-black">Contact</a></li>
+                    <li><a href="#" class="block p-4 hover:bg-gray-100 text-black">About</a></li>
                     @auth
                      
                     @if(Auth::user()->canAccessPanel(new Filament\Panel))
-                           <li><a href="{{ route('admin') }}" class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in" target="_blank">Admin</a></li>
+                           <li><a href="{{ route('admin') }}" class="p-4 text-black hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in" target="_blank">Admin</a></li>
                        @endif
                    @endauth
                 </ul>
@@ -87,31 +128,31 @@
                 <!-- Navigation Links -->
                 <ul class="flex items-center mx-2">
                     <li>
-                        <a href="{{ route('home') }}" wire:navigate class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in {{ request()->routeIs('home') ? 'bg-amber-400 text-white' : '' }}">
+                        <a href="{{ route('home') }}" wire:navigate class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in {{ request()->routeIs('home') ? 'bg-accent text-white' : '' }}">
                             {{ __('Home') }}
                         </a>
         
                         
                         
                     </li>
-                    <li><a href="{{ route('productList') }}" wire:navigate class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in {{ request()->routeIs('productList') ? 'bg-amber-400 text-white' : '' }}">
+                    <li><a href="{{ route('productList') }}" wire:navigate class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in {{ request()->routeIs('productList') ? 'bg-accent text-white' : '' }}">
                         {{ __('Products') }}
                     </a></li>
                     <li><livewire:CategoriesDropdown device='desktop'/></li>
-                    <li><a href="#" class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in">About</a></li>
-                    <li><a href="#" class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in">Contact</a></li>
+                    <li><a href="#" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in">About</a></li>
+                    <li><a href="#" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in">Contact</a></li>
                     
                      @auth
                      <li> <livewire:UserWishlist device="desktop" /></li>
                      @if(Auth::user()->canAccessPanel(new Filament\Panel))
-                            <li><a href="{{ route('admin') }}" class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in" target="_blank">Admin</a></li>
+                            <li><a href="{{ route('admin') }}" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in" target="_blank">Admin</a></li>
                         @endif
                     @endauth
                 </ul>
                 {{-- livewire search component --}}
                 <livewire:search />
                 {{-- end livewire search component --}}
-        
+                
                 <div class="ml-4">
                  <!-- Cart Modal Structure -->
                  @if(Auth::check())
@@ -202,7 +243,7 @@
                                     {{ __('Manage Account') }}
                                 </div>
             
-                                <x-dropdown-link href="{{ route('profile.show') }}">
+                                <x-dropdown-link href="{{ route('profile.show') }}" wire:navigate>
                                     {{ __('Profile') }}
                                 </x-dropdown-link>
             

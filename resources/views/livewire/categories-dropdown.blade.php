@@ -9,7 +9,7 @@
 
   <!-- Open the modal using ID.showModal() method -->
   <div>
-    <button  onclick="{{ $device . '_categories' }}.showModal()"><a class="p-4 text-amber-600 hover:text-white hover:bg-amber-400 transition duration-150 ease-out hover:ease-in cursor-pointer">Categories</a></button>
+    <button  onclick="{{ $device . '_categories' }}.showModal()"><a class="p-4 @if($device == 'mobile') text-black @else text-accent @endif hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in cursor-pointer">Categories</a></button>
 <dialog id="{{ $device . '_categories' }}" class="modal">
   <div class="modal-box max-w-7xl w-full h-3/4 flex justify-around items-center bg-white/90">
 

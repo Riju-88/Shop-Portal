@@ -5,5 +5,13 @@ created product, categories, cart table
 added razorpay payment gateway.
 
 
-not pushed
+-- not pushed --
 
+
+
+
+-- to do --
+create contact page
+create an overview of cart product and total amount in the razorpay checkout page.
+add google login.
+fix featured products on mobile screens.

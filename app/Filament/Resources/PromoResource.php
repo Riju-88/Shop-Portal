@@ -41,6 +41,7 @@ class PromoResource extends Resource
                 FileUpload::make('image')
                     ->image()
                     ->multiple()
+                    ->directory('promo-images')
                     ->required(),
             ]);
     }

@@ -42,11 +42,11 @@
                     {{ __('Select A New Photo') }}
                 </x-secondary-button>
 
-                @if ($this->user->profile_photo_path)
+                {{-- @if ($this->user->profile_photo_path)
                     <x-secondary-button type="button" class="mt-2" wire:click="deleteProfilePhoto">
                         {{ __('Remove Photo') }}
                     </x-secondary-button>
-                @endif
+                @endif --}}
 
                 <x-input-error for="photo" class="mt-2" />
             </div>
@@ -88,8 +88,8 @@
             {{ __('Saved.') }}
         </x-action-message>
 
-        <x-button wire:loading.attr="disabled" wire:target="photo">
+        <button  wire:target="photo" class="btn btn-primary">
             {{ __('Save') }}
-        </x-button>
+        </button>
     </x-slot>
 </x-form-section>

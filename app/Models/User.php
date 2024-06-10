@@ -71,4 +71,69 @@ class User extends Authenticatable implements FilamentUser
         // can set rules for admin users here
         return str_ends_with($this->email, '@example.net') && $this->hasVerifiedEmail();
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($user) {
+            \Log::debug('Deleting event triggered for user ID: ' . $user->id);
+
+            if ($user->profile_photo_path) {
+                $filePath = str_replace('\/', '/', $user->profile_photo_path);
+                $fullPath = storage_path('app/public/profile-photos/' . $filePath);
+
+                if (file_exists($fullPath)) {
+                    if (is_dir($fullPath)) {
+                        \Log::warning('Cannot delete directory: ' . $fullPath);
+                    } else {
+                        \Log::debug('Attempting to delete file: ' . $fullPath);
+                        $deleted = unlink($fullPath);
+
+                        if ($deleted) {
+                            \Log::info('File deleted successfully: ' . $fullPath);
+                        } else {
+                            \Log::error('Failed to delete file: ' . $fullPath);
+                        }
+                    }
+                } else {
+                    \Log::warning('File does not exist: ' . $fullPath);
+                }
+            } else {
+                \Log::warning('No profile photo path set for user ID: ' . $user->id);
+            }
+        });
+
+        static::updating(function ($user) {
+            \Log::debug('Updating event triggered for user ID: ' . $user->id);
+
+            $originalPhotoPath = $user->getOriginal('profile_photo_path');
+
+            if ($user->isDirty('profile_photo_path')) {
+                \Log::debug('Profile photo updated for user ID: ' . $user->id . '. Old photo path: ' . $originalPhotoPath);
+
+                if ($originalPhotoPath) {
+                    $filePath = str_replace('\/', '/', $originalPhotoPath);
+                    $fullPath = storage_path('app/public/profile-photos/' . $filePath);
+
+                    if (file_exists($fullPath)) {
+                        if (is_dir($fullPath)) {
+                            \Log::warning('Cannot delete directory: ' . $fullPath);
+                        } else {
+                            \Log::debug('Attempting to delete old file: ' . $fullPath);
+                            $deleted = unlink($fullPath);
+
+                            if ($deleted) {
+                                \Log::info('Old file deleted successfully: ' . $fullPath);
+                            } else {
+                                \Log::error('Failed to delete old file: ' . $fullPath);
+                            }
+                        }
+                    } else {
+                        \Log::warning('Old file does not exist: ' . $fullPath);
+                    }
+                }
+            }
+        });
+    }
 }

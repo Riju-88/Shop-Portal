@@ -4,7 +4,7 @@
    
    
        
-         <button @click="showModal = true" class=" px-2 text-accent rounded-md">
+         <button @click="showModal = true" class="p-4 @if($device == 'mobile') text-black @else text-accent @endif hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in">
        Wishlist</button>
  
    
