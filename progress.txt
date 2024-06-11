@@ -13,5 +13,8 @@ added razorpay payment gateway.
 -- to do --
 create contact page
 create an overview of cart product and total amount in the razorpay checkout page.
+add footer.
+add at least 8 products on the home page.
+add a browse more products button on the home page.
 add google login.
-fix featured products on mobile screens.
+fix the remaining layout issues in admin panel.
