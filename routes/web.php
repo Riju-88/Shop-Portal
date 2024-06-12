@@ -1,15 +1,16 @@
 <?php
 
+use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RazorpayController;
 use App\Livewire\Categories;
 use App\Livewire\Checkout;
 use App\Livewire\Home;
-use App\Livewire\UserWishlist;
 use App\Livewire\OrderManagement;
 use App\Livewire\ProductDetail;
 use App\Livewire\ProductList;
 use App\Livewire\RazorpayGateway;
+use App\Livewire\UserWishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -64,6 +65,10 @@ Route::middleware([
 
     Route::post('razorpay/payment', [RazorpayController::class, 'store'])->name('razorpay.payment.store');
 });
+
+// GoogleLoginController redirect and callback urls
+Route::get('auth/google', [GoogleLoginController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/login/google/callback', [GoogleLoginController::class, 'handleGoogleCallback']);
 
 // home
 Route::get('/', Home::class)->name('home');
