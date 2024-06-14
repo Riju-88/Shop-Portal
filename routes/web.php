@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RazorpayController;
 use App\Livewire\Categories;
 use App\Livewire\Checkout;
+use App\Livewire\ContactForm;
 use App\Livewire\Home;
 use App\Livewire\OrderManagement;
 use App\Livewire\ProductDetail;
@@ -94,3 +95,6 @@ Route::get('/categories/{slug}', Categories::class)->name('categories');
 
 // Route::get('razorpay/gateway', RazorpayGateway::class)->name('razorpay.gateway');
 // Route::post('razorpay-live-payment', [RazorpayGateway::class, 'store'])->name('razorpay.livepayment.store');
+
+// contact form
+Route::get('/contact', ContactForm::class)->name('contact');

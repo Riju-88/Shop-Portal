@@ -106,7 +106,7 @@
                     </a></li>
                     <li><livewire:CategoriesDropdown device='mobile'/></li>
                     
-                    <li><a href="#" class="block p-4 hover:bg-gray-100 text-black">Contact</a></li>
+                    <li><a href="{{ route('contact') }}" class="block p-4 hover:bg-gray-100 text-black" wire:navigate>Contact</a></li>
                     <li><a href="#" class="block p-4 hover:bg-gray-100 text-black">About</a></li>
                     @auth
                      
@@ -140,7 +140,7 @@
                     </a></li>
                     <li><livewire:CategoriesDropdown device='desktop'/></li>
                     <li><a href="#" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in">About</a></li>
-                    <li><a href="#" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in">Contact</a></li>
+                    <li><a href="{{ route('contact') }}" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in" wire:navigate>Contact</a></li>
                     
                      @auth
                      <li> <livewire:UserWishlist device="desktop" /></li>
@@ -288,5 +288,5 @@
             
         </div>
     </div>   
-    
+    <livewire:notifications />
 </nav>
