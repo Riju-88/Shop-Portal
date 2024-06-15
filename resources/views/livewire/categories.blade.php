@@ -59,9 +59,21 @@
                         <button class="btn-secondary btn">View Details</button></a>
 
                         @if (Auth::check())
-                    <button @click="$dispatch('add-To-Cart', { id: {{ $product->id }} })"
-                        class="btn-primary btn">Add to
-                        Cart</button>
+                        <div x-data="{ isLargeScreen: window.innerWidth > 600 }" x-on:resize.window="isLargeScreen = window.innerWidth > 600">
+                            <div x-show="isLargeScreen">
+                                <button @click="$dispatch('add-To-Cart', { id: {{ $product->id }} })"
+                                    class="btn-primary btn">Add to
+                                    Cart</button>
+                            </div>
+          
+                            <div x-show="!isLargeScreen">
+                              {{--  --}}
+                              <button @click="$dispatch('add-To-Cart-Mobile', { id: {{ $product->id }} })"
+                                class="btn-accent btn">Add to
+                                Cart</button>
+                              {{--  --}}
+                            </div>
+                          </div>
 
                         @else
                         <div class="lg:tooltip" data-tip="Login to add to cart">

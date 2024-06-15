@@ -35,7 +35,7 @@
                 @foreach($products->chunk(3) as $productChunk)
                     <div class="w-full flex flex-shrink-0 gap-x-6 my-4">
                         @foreach($productChunk as $product)
-                            <div class="group relative w-full sm:w-1/2 md:w-1/3 p-2 box-border shadow-xl rounded-2xl" wire:key="{{ $product->id }}">
+                            <div class="group relative w-full sm:w-1/2 md:w-1/3 p-2 box-border shadow-lg rounded-2xl" wire:key="desktop-{{ $product->id }}">
                                 <div class=" w-full overflow-hidden rounded-2xl bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                                     @if (!empty($product->image) && is_array($product->image) && isset($product->image[0]))
                                         @if (filter_var($product->image[0], FILTER_VALIDATE_URL))
@@ -67,7 +67,7 @@
                                         <p class="text-lg font-bold text-gray-600">{{ $product->price }}</p>
                                         {{-- Wishlist --}}
                                         @auth
-                                            <button class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center ml-auto text-gray-500 hover:bg-green-200 hover:text-green-500 @if($this->wishlist->contains('product_id', $product->id)) bg-green-200 text-green-500 hover:bg-red-200 hover:text-red-500 @else bg-gray-200 text-gray-500 hover:bg-green-200 hover:text-green-500 @endif" @click="$dispatch('add-to-wishlist', { product_id: {{ $product->id }} })">
+                                            <button class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center ml-auto text-gray-500 hover:bg-green-200 hover:text-green-500 @if($this->wishlist->contains('product_id', $product->id)) bg-green-200 text-green-500 hover:bg-red-200 hover:text-red-500 @else bg-gray-200 text-gray-500 hover:bg-green-200 hover:text-green-500 @endif" @click="$dispatch('wishlist-add-desktop', { product_id: {{ $product->id }} })">
                                                 <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
                                                     <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
                                                 </svg>
@@ -80,7 +80,7 @@
                                         <button class="btn-secondary btn">View Details</button>
                                     </a>
                                     @if (Auth::check())
-                                        <button @click="$dispatch('add-To-Cart', { id: {{ $product->id }} })" class="btn-primary btn">Add to Cart</button>
+                                        <button @click="$dispatch('add-To-Cart', { id: {{ $product->id }} })" class="btn-accent btn">Add to Cart</button>
                                     @else
                                         <div class="lg:tooltip" data-tip="Login to add to cart">
                                             <button class="disabled btn">Add to Cart</button>

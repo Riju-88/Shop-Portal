@@ -19,11 +19,5 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot()
-    {
-        // Define a placeholder discount condition that always applies
-        Condition::define('category_discount', function (array $items) {
-            return true;
-        }, 0);  // Placeholder discount value
-    }
+    public function boot() {}
 }

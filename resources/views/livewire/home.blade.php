@@ -3,7 +3,7 @@
          
          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             
-             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+             <div class=" overflow-hidden  sm:rounded-lg">
                  <!-- Carousel -->
                  <div x-data="{ activeSlide: 0, slides: {{ count($promo->image) }}, nextSlide() { this.activeSlide = (this.activeSlide + 1) % this.slides }, prevSlide() { this.activeSlide = (this.activeSlide - 1 + this.slides) % this.slides }, startAutoSlide() { setInterval(() => { this.nextSlide() }, 5000) } }" x-init="startAutoSlide" class="carousel w-full my-6">
                   @forelse($promo->image as $index => $image)
@@ -14,7 +14,7 @@
                   x-transition:leave-end="opacity-0 translate-x-full"
                   >
                       <img src="{{ asset('storage/' . $image) }}" class="absolute top-0 left-0 w-full h-full object-cover" />
-                      <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                      <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2 opacity-65">
                           <button @click="prevSlide" class="btn btn-circle">❮</button>
                           <button @click="nextSlide" class="btn btn-circle">❯</button>
                       </div>

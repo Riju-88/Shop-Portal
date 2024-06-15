@@ -23,6 +23,9 @@ class GoogleLoginController extends Controller
         $existingUser = User::where('google_id', $user->id)->first();
 
         if ($existingUser) {
+            $existingUser->profile_photo_path = $user->avatar;
+            $existingUser->name = $user->name;
+            $existingUser->save();
             // Log in the existing user.
             auth()->login($existingUser, true);
         } else {
@@ -31,6 +34,7 @@ class GoogleLoginController extends Controller
             $newUser->name = $user->name;
             $newUser->email = $user->email;
             $newUser->google_id = $user->id;
+            $newUser->profile_photo_path = $user->avatar;
             $newUser->password = bcrypt(request(Str::random()));  // Set some random password
             $newUser->save();
 

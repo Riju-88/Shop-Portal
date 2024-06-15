@@ -17,11 +17,7 @@
         <!-- Logo -->
         <div class="flex items-center">
             <a href="#" class="p-4 text-lg font-semibold text-gray-800">Logo</a>
-            @auth
-            <div class="relative m-3"> <livewire:ShoppingCartMobile /></div>
-            @endauth
         </div>
-        
     </div>
 
     <!-- Sidebar -->

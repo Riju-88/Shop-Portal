@@ -8,6 +8,7 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -71,6 +72,28 @@ class User extends Authenticatable implements FilamentUser
     {
         // can set rules for admin users here
         return str_ends_with($this->email, '@example.net') && $this->hasVerifiedEmail();
+    }
+
+    /**
+     * Get the URL to the user's profile photo.
+     *
+     * @return string
+     */
+    public function getProfilePhotoUrlAttribute()
+    {
+        $defaultUrl = 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email))) . '?d=identicon';
+
+        if ($this->profile_photo_path) {
+            // Check if the profile photo path is an external URL
+            if (filter_var($this->profile_photo_path, FILTER_VALIDATE_URL)) {
+                return $this->profile_photo_path;
+            }
+
+            // Otherwise, return the local storage path
+            return Storage::url($this->profile_photo_path);
+        }
+
+        return $defaultUrl;
     }
 
     public static function boot()
