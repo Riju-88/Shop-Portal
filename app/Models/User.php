@@ -68,6 +68,11 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Cart::class);
     }
 
+    // user wishlist
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
     public function canAccessPanel(Panel $panel): bool
     {
         // can set rules for admin users here

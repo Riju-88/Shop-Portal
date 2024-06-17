@@ -79,9 +79,13 @@
         @endif
 
         <!-- Page Content -->
-        <main class="mt-12">
+        {{-- COMPONENT NOT IN USE --}}
+        {{-- it uses views/components/***.blade.php --}}
+        <main class="mt-12 inuse">
             {{ $slot }}
         </main>
+
+        @livewire('footer')
     </div>
 
     @stack('modals')

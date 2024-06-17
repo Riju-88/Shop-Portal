@@ -62,9 +62,26 @@
         </style>
     </head>
     <body>
-        @livewire('navigation-menu')
-        <div class="font-sans text-gray-900 antialiased">
-            {{ $slot }}
+        <div class="min-h-screen bg-gray-100">
+    
+    
+            <!-- Page Heading -->
+            @if (isset($header))
+                <header class="bg-white shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
+                </header>
+            @endif
+    
+            <!-- Page Content -->
+            {{-- COMPONENT NOT IN USE --}}
+        {{-- it uses views/components/***.blade.php --}}
+            <main class="mt-12 inuse">
+                {{ $slot }}
+            </main>
+    
+            @livewire('footer')
         </div>
 
         @livewireScripts

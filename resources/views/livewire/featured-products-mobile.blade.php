@@ -51,7 +51,7 @@
                                     <button class="btn-secondary btn">View Details</button>
                                 </a>
                                 @if (Auth::check())
-                                    <button @click="$dispatch('add-To-Cart-Mobile', { id: {{ $product->id }} })" class="btn-accent btn">Add to Cart</button>
+                                    <button @click="$dispatch('add-To-Cart', { id: {{ $product->id }} })" class="btn-accent btn">Add to Cart</button>
                                 @else
                                     <div class="lg:tooltip" data-tip="Login to add to cart">
                                         <button class="disabled btn">Add to Cart</button>

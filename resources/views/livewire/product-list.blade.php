@@ -80,18 +80,11 @@
     </div>
 
 
-    <!--  -->
-
-  
-    <!--  -->
-    <!-- Cart Modal Structure -->
-    {{-- <livewire:ShoppingCart /> --}}
-    {{-- end Cart Modal Structure --}}
     <livewire:notifications />
 
     <!-- product-list -->
     <div class="flex justify-between">
-        <div class="text-2xl font-bold bg-accent px-4 py-2 tracking-tight text-gray-600 rounded-e-full">Products</div>
+        <div class="text-2xl font-bold bg-accent px-4 py-2 tracking-tight text-gray-200 rounded-e-full">Products</div>
     </div>
     <div class="mx-auto max-w-2xl px-4 mb-6 sm:px-6 sm:py-4 py-2 lg:max-w-7xl lg:px-8">
        
@@ -168,24 +161,11 @@
                             <button class="btn-secondary btn">View Details</button></a>
 
                             @if (Auth::check())
-                            <div x-data="{ isLargeScreen: window.innerWidth > 600 }" x-on:resize.window="isLargeScreen = window.innerWidth > 600">
-                                <div x-show="isLargeScreen">
+                            
                                     <button @click="$dispatch('add-To-Cart', { id: {{ $product->id }} })"
                                         class="btn-primary btn">Add to
                                         Cart</button>
-                                </div>
-              
-                                <div x-show="!isLargeScreen">
-                                  {{--  --}}
-                                  <button @click="$dispatch('add-To-Cart-Mobile', { id: {{ $product->id }} })"
-                                    class="btn-accent btn">Add to
-                                    Cart</button>
-                                  {{--  --}}
-                                </div>
-                              </div>
-
-                       
-
+                            
                             @else
                             <div class="lg:tooltip" data-tip="Login to add to cart">
                                 <button class="disabled btn">Add to Cart</button>
@@ -209,9 +189,9 @@
             <div x-intersect.full="$wire.loadMore()" class="p-4">
                 <div wire:loading wire:target="loadMore"
                     class="bg-white dark:bg-gray-900 rounded w-full flex items-center justify-center">
-                    <div class="text-gray-600 dark:text-gray-400">
-                        Loading more products...
-                    </div>
+                   
+                    <span class="loading loading-dots loading-lg"></span>
+                    
                 </div>
             </div>
         @endif

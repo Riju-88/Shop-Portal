@@ -1,11 +1,7 @@
 <div>
   
-     
       <!-- product-detail.blade.php -->
-      <!-- Cart Modal Structure -->
-
-      {{-- <livewire:ShoppingCart /> --}}
-      <!-- end Cart Modal Structure -->
+     
       <div class="text-sm breadcrumbs mx-6">
         <ul>
           <li><a href="{{ route('home') }}">Home</a></li> 
@@ -114,21 +110,11 @@
                         <span class="title-font font-medium text-2xl text-gray-900">Rs. {{ $product->price }}</span>
                         @if (Auth::check())
                         <!-- Add to cart button -->
-                        <div x-data="{ isLargeScreen: window.innerWidth > 600 }" x-on:resize.window="isLargeScreen = window.innerWidth > 600">
-                            <div x-show="isLargeScreen">
+                        
                                 <button @click="$dispatch('add-To-Cart', { id: {{ $product->id }} })"
                                     class="btn-primary btn">Add to
                                     Cart</button>
-                            </div>
-          
-                            <div x-show="!isLargeScreen">
-                              {{--  --}}
-                              <button @click="$dispatch('add-To-Cart-Mobile', { id: {{ $product->id }} })"
-                                class="btn-accent btn">Add to
-                                Cart</button>
-                              {{--  --}}
-                            </div>
-                          </div>
+                          
                         @else
                         <div class="lg:tooltip" data-tip="Login to add to cart">
                             <button class="disabled btn">Add to Cart</button>

@@ -33,28 +33,131 @@
                   @endif
               </div>
               
-                
+              {{-- device test --}}
+        
                  <!-- Featured Products -->
                  <div class="flex justify-between my-4">
                   <div class="text-2xl font-bold bg-accent px-4 py-2 tracking-tight text-gray-200 rounded-e-full">Featured Products</div>
               </div>
 
               {{-- render featured products component based on screen size --}}
-                <div x-data="{ isLargeScreen: window.innerWidth > 600 }" x-on:resize.window="isLargeScreen = window.innerWidth > 600">
-                  <div x-show="isLargeScreen">
-                    <livewire:featured-products device="desktop" />
-                  </div>
-
-                  <div x-show="!isLargeScreen">
+              @desktop
+                 <livewire:featured-products device="desktop" />
+          @enddesktop
+                 
+                
                     {{--  --}}
-                    <livewire:featured-products-mobile device="mobile" />
+                    @mobile
+                    
+                  <livewire:featured-products-mobile device="mobile" />
+                @endmobile
+                   
                     {{--  --}}
-                  </div>
+                
                 </div>
 
              
               <!-- end of featured products -->
 
+              <!-- product showcase -->
+              <div class=" grid grid-cols-1 gap-x-2 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 sm:gap-x-8 mx-8 md:mx-2">
+              @forelse($productShowcase as $index => $product)
+
+              <div class="group relative rounded-xl shadow-xl p-2" wire:key="showcase-{{ $product->id }}">
+                <div
+                    class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-base-100 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                    @if (!empty($product->image) && is_array($product->image) && isset($product->image[0]))
+                        @if (filter_var($product->image[0], FILTER_VALIDATE_URL))
+                            <a href="{{ route('product.detail', ['productId' => $product->id]) }}" wire:navigate>
+                                <img src="{{ $product->image[0] }}" alt="{{ $product->name }}"
+                                    class="h-full w-full object-contain object-center lg:h-full lg:w-full">
+                            </a>
+                        @else
+                            <a href="{{ route('product.detail', ['productId' => $product->id]) }}" wire:navigate>
+                                <img src="{{ asset('storage/' . $product->image[0]) }}" alt="{{ $product->name }}"
+                                    class="h-full w-full object-contain object-center lg:h-full lg:w-full">
+                            </a>
+                        @endif
+                    @endif
+                </div>
+                <div class="mt-4 flex justify-between">
+                    <div>
+                        <h3 class="text-sm text-gray-700">
+                            <!-- <a href="#"> -->
+                            <!-- <span aria-hidden="true" class="absolute inset-0"></span> -->
+                            {{ $product->name }}
+                            <!-- </a> -->
+                        </h3>
+                        <div class="mt-1 text-sm text-gray-500 line-clamp-1 overflow-clip"> {!! $product->description !!}</div>
+                        <!--  -->
+                        
+                        @if ($product->reviews->isNotEmpty())
+                           
+                            @for ($i = 0; $i < $product->reviews->avg('rating'); $i++)
+                                ⭐️
+                            @endfor
+                        @else
+                            <p>No ratings yet.</p>
+                        @endif
+                        <!--  -->
+                    </div>
+                    <div class="flex flex-col">
+                    <p class="text-lg font-bold text-gray-600">{{ $product->price }}</p>
+                   
+                        @auth
+                    {{-- Wishlist --}}
+                    <button
+                        class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center ml-auto text-gray-500 hover:bg-green-200 hover:text-green-500 
+                        @if($this->wishlist->contains('product_id', $product->id)) bg-green-200 text-green-500 hover:bg-red-200 hover:text-red-500 @else bg-gray-200 text-gray-500 hover:bg-green-200 hover:text-green-500 
+                        @endif" @mobile @click="$dispatch('wishlist-add-showcase', { product_id: {{ $product->id }} })" @endmobile @desktop @click="$dispatch('wishlist-add-showcase', { product_id: {{ $product->id }} })" @enddesktop>
+                        <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            class="w-5 h-5" viewBox="0 0 24 24">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z">
+                            </path>
+                        </svg>
+                    </button>
+                    @endauth
+                    </div>
+                    <!-- ProductList view -->
+                </div>
+
+
+                <!-- Link to product detail page -->
+                <div class="mt-4 flex justify-between">
+                    <a href="{{ route('product.detail', ['productId' => $product->id]) }}">
+                        <button class="btn-secondary btn">View Details</button></a>
+
+                        @if (Auth::check())
+                      
+                                <button @click="$dispatch('add-To-Cart', { id: {{ $product->id }} })"
+                                    class="btn-accent btn">Add to
+                                    Cart</button>
+                          
+                        @else
+                        <div class="lg:tooltip" data-tip="Login to add to cart">
+                            <button class="disabled btn">Add to Cart</button>
+                          </div>
+                    @endif
+                </div>
+            </div>
+
+            <!-- More products... -->
+
+        @empty
+
+
+            <div class="group relative">
+                <h2 class="text-2xl font-bold tracking-tight text-gray-900">No Products Found</h2>
+            </div>
+            @endforelse
+          </div>
+
+          {{-- Browse More Products --}}
+          <div class="w-full flex justify-center items-center my-4">
+              <a class="font-bold  btn btn-accent btn-wide btn-outline" href="{{ route('productList') }}" wire:navigate>Browse More Products </a>
+             
+          </div>
                  <!--  -->
                  <livewire:notifications />
                  <!--  -->

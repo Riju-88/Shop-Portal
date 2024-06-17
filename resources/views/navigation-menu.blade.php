@@ -18,7 +18,9 @@
         <div class="flex items-center">
             <a href="#" class="p-4 text-lg font-semibold text-gray-800">Logo</a>
             @auth
-            <div class="relative m-3"> <livewire:ShoppingCartMobile /></div>
+            @mobile
+            <div class="relative m-3"> <livewire:ShoppingCart /></div>
+            @endmobile
             @endauth
         </div>
         
@@ -83,7 +85,13 @@
                                     {{ __('Orders') }}
                                 </a>
                                 <div class="divider"></div> 
-                                <livewire:UserWishlist device="mobile" />
+                                {{-- wishlist --}}
+                                @mobile
+                                <div>
+                                   <livewire:UserWishlist device="mobile" />  
+                                </div>
+                                @endmobile
+                               
                                 <div class="divider"></div> 
                                 <!-- Authentication -->
                                 <form method="POST" action="{{ route('logout') }}" x-data>
@@ -147,7 +155,11 @@
                     <li><a href="{{ route('contact') }}" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in" wire:navigate>Contact</a></li>
                     
                      @auth
-                     <li> <livewire:UserWishlist device="desktop" /></li>
+                    @desktop 
+                    <li> 
+                        <livewire:UserWishlist device="desktop" />
+                    </li>
+                    @enddesktop
                      @if(Auth::user()->canAccessPanel(new Filament\Panel))
                             <li><a href="{{ route('admin') }}" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in" target="_blank">Admin</a></li>
                         @endif
@@ -160,7 +172,9 @@
                 <div class="ml-4">
                  <!-- Cart Modal Structure -->
                  @if(Auth::check())
+                 @desktop
                 <div class="relative"> <livewire:ShoppingCart /></div>
+                @enddesktop
                 {{-- end Cart Modal Structure --}}
                
                 

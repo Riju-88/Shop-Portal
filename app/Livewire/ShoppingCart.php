@@ -48,7 +48,18 @@ class ShoppingCart extends Component
             \Log::error('Product not found with ID: ' . $id);
             return;
         }
+        // if product exists in wishlist
+        if ($user->wishlist()->where('product_id', $id)->exists()) {
+            $user->wishlist()->where('product_id', $id)->delete();
+            Notification::make()
+                ->title('Product removed from wishlist!')
+                ->success()
+                //     ->icon('heroicon-m-check-circle')
+                // ->iconColor('success')
+                ->send();
+        }
 
+        // Check if the product already exists in the cart
         $cart = $user->cart ?? new Cart();  // Retrieve the user's cart or create a new one if it doesn't exist
 
         // Check if the product already exists in the cart
@@ -70,8 +81,8 @@ class ShoppingCart extends Component
             Notification::make()
                 ->title('Product added to cart successfully!')
                 ->success()
-            //     ->icon('heroicon-m-check-circle')
-            // ->iconColor('success')
+                //     ->icon('heroicon-m-check-circle')
+                // ->iconColor('success')
                 ->send();
         }
 
