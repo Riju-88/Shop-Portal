@@ -3,6 +3,7 @@
 use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RazorpayController;
+use App\Livewire\About;
 use App\Livewire\Categories;
 use App\Livewire\Checkout;
 use App\Livewire\ContactForm;
@@ -98,3 +99,6 @@ Route::get('/categories/{slug}', Categories::class)->name('categories');
 
 // contact form
 Route::get('/contact', ContactForm::class)->name('contact');
+
+// about page
+Route::get('/about', About::class)->name('about');

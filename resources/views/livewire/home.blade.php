@@ -7,17 +7,34 @@
                  <!-- Carousel -->
                  <div x-data="{ activeSlide: 0, slides: {{ count($promo->image) }}, nextSlide() { this.activeSlide = (this.activeSlide + 1) % this.slides }, prevSlide() { this.activeSlide = (this.activeSlide - 1 + this.slides) % this.slides }, startAutoSlide() { setInterval(() => { this.nextSlide() }, 5000) } }" x-init="startAutoSlide" class="carousel w-full my-6">
                   @forelse($promo->image as $index => $image)
-                  <div x-show="activeSlide === {{ $index }}" class="carousel-item relative w-full" style="height: 0; padding-bottom: 56.25%;"  
+                  <div x-show="activeSlide === {{ $index }}" class="carousel-item  w-full  relative bg-gradient-to-r  text-white overflow-hidden" style="height: 0; padding-bottom: 56.25%;"  
                   x-transition:enter="transition ease-in-out duration-500 transform"
                   x-transition:enter-start="opacity-0 translate-x-full" x-transition:enter-end="opacity-100 translate-x-0"
                   x-transition:leave="transition linear duration-500 transform" x-transition:leave-start="opacity-100 translate-x-0"
                   x-transition:leave-end="opacity-0 translate-x-full"
                   >
-                      <img src="{{ asset('storage/' . $image) }}" class="absolute top-0 left-0 w-full h-full object-cover" />
-                      <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2 opacity-65">
+                      <img src="{{ asset('storage/' . $image) }}" class="absolute top-0 left-0 w-full h-full object-cover    opacity-80" />
+                      <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2 opacity-65 z-10">
                           <button @click="prevSlide" class="btn btn-circle">❮</button>
                           <button @click="nextSlide" class="btn btn-circle">❯</button>
                       </div>
+                      {{-- test text --}}
+                      <div class="absolute  w-full h-full flex-col lg:flex-row-reverse items-center justify-center">
+                        
+                        <div class="hero h-full">
+                            <div class="hero-content flex-col lg:flex-row-reverse w-full">
+                            
+                              <div class=" rounded-lg w-full bg-opacity-50  p-4 md:p-6 backdrop-blur-sm bg-gray-200  text-zinc-700 ">
+                                <a class="text-2xl md:text-6xl font-extrabold md:font-bold" href="{{ route('productList')}}" wire:navigate>{{ $promo->title }}</a>
+                                <p class="py-2 md:py-4 text-pretty font-semibold">{{ $promo->description }}</p>
+                                @desktop
+                                <a class="btn btn-accent rounded-full text-lg text-white justify-center" href="{{ route('productList')}}" wire:navigate>Shop Now</a>
+                                @enddesktop
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                      {{-- test text --}}
                   </div>
                   @empty
                   <div x-show="activeSlide === 1" class="carousel-item relative w-full" style="height: 0; padding-bottom: 56.25%;"  x-transition:enter="transition ease-in-out duration-500 transform"

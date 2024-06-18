@@ -31,7 +31,7 @@ class Home extends Component
         $this->promo = Promo::where('active', true)->orderBy('updated_at', 'desc')->first();
 
         // get latest 8 products in random order
-        $this->productShowcase = Product::latest()->inRandomOrder()->take(8)->get();
+        $this->productShowcase = Product::latest()->take(8)->get();
 
         return view('livewire.home');
     }

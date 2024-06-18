@@ -119,7 +119,7 @@
                     <li><livewire:CategoriesDropdown device='mobile'/></li>
                     
                     <li><a href="{{ route('contact') }}" class="block p-4 hover:bg-gray-100 text-black" wire:navigate>Contact</a></li>
-                    <li><a href="#" class="block p-4 hover:bg-gray-100 text-black">About</a></li>
+                    <li><a href="{{ route('about') }}" class="block p-4 hover:bg-gray-100 text-black" wire:navigate>About</a></li>
                     @auth
                      
                     @if(Auth::user()->canAccessPanel(new Filament\Panel))
@@ -151,7 +151,7 @@
                         {{ __('Products') }}
                     </a></li>
                     <li><livewire:CategoriesDropdown device='desktop'/></li>
-                    <li><a href="#" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in">About</a></li>
+                    <li><a href="{{ route('about') }}" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in" wire:navigate>About</a></li>
                     <li><a href="{{ route('contact') }}" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in" wire:navigate>Contact</a></li>
                     
                      @auth

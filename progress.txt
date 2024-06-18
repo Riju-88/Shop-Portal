@@ -10,7 +10,7 @@ added razorpay payment gateway.
 
 
 -- to do --
-create an overview of cart product and total amount in the razorpay checkout page.
 
-
+add the knockoff products.
+add the shipping method resource in filament admin panel.
 fix the remaining layout issues in admin panel.
