@@ -57,14 +57,12 @@ Route::middleware([
 
     // make this route available only if session has formState
     // razorpay
-    Route::get('razorpay/payment', function (Request $request) {
-        if ($request->session()->has('formState')) {
-            return view('razorpay.index');
-        } else {
-            return redirect()->back();
-        }
-    })->name('razorpay.index');
+    Route::get('razorpay/payment', RazorpayGateway::class)->name('razorpay.index');
+    // Route::get('razorpay/payment', function (Request $request) {
+    //     return view('razorpay.index');
+    // })->name('razorpay.index');
 
+    // Route::get('razorpay/gateway', RazorpayGateway::class)->name('razorpay.gateway');
     Route::post('razorpay/payment', [RazorpayController::class, 'store'])->name('razorpay.payment.store');
 });
 

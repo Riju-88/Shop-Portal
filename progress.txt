@@ -12,5 +12,5 @@ added razorpay payment gateway.
 -- to do --
 
 add the knockoff products.
-add the shipping method resource in filament admin panel.
-fix the remaining layout issues in admin panel.
+
+fix the remaining issues in admin panel.

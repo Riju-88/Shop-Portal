@@ -377,7 +377,18 @@ class Checkout extends Component implements HasForms
 
     public function create()
     {
-        session(['formState' => $this->form->getState()]);
+        $user_id = Auth::user()->id;
+        $cart_items = Cart::where('user_id', $user_id)->get();
+
+        // Convert cart items to an array
+        $cartItemsArray = $cart_items->toArray();
+
+        // Get the current form state
+        $formState = $this->form->getState();
+
+        // Add cart items to the form state
+        $formState['cart_items'] = $cartItemsArray;
+        session(['formState' => $formState]);
 
         // Retrieve the form state from the session and dump it
         // dd(session('formState'));

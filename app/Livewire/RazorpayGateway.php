@@ -2,45 +2,47 @@
 
 namespace App\Livewire;
 
-use App\Models\Payment;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
-use Razorpay\Api\Api;
-use Exception;
 
 class RazorpayGateway extends Component
 {
-    public function store(Request $request)
-    {
-        $input = $request->all();
-        $api = new Api(env('RAZORPAY_API_KEY'), env('RAZORPAY_API_SECRET'));
-        dd($input);
-        $payment = $api->payment->fetch($input['razorpay_payment_id']);
-        if (count($input) && !empty($input['razorpay_payment_id'])) {
-            try {
-                $response = $api->payment->fetch($input['razorpay_payment_id'])->capture(array('amount' => $payment['amount']));
-                $payment = Payment::create([
-                    'r_payment_id' => $response['id'],
-                    'method' => $response['method'],
-                    'currency' => $response['currency'],
-                    'user_email' => $response['email'],
-                    'amount' => $response['amount'] / 100,
-                    'json_response' => json_encode((array) $response)
-                ]);
-            } catch (Exceptio $e) {
-                \Log::error('Razorpay API Error: ' . $e->getMessage());
-                Session::put('error', 'An error occurred while processing the payment. Please try again later.');
-                return redirect()->back();
-            }
-        }
-        Session::put('success', ('Payment Successful'));
-        return redirect()->back();
-    }
+    public $formState;
 
     public function render()
     {
-        return view('livewire.razorpay-gateway');
+        if (session()->has('formState')) {
+            $this->formState = session('formState');
+
+            // Add product names and apply category discounts to cart items
+            foreach ($this->formState['cart_items'] as &$item) {
+                // Fetch product details including categories
+                $product = Product::with('categories')->find($item['product_id']);
+
+                // Calculate total price including discounts from categories
+                $itemTotalPrice = $item['total_price'];
+                $itemDiscount = 0;
+
+                if ($product) {
+                    foreach ($product->categories as $category) {
+                        $itemDiscount += ($itemTotalPrice * ($category->discount / 100));
+                    }
+                }
+
+                // Apply discount to total price
+                $item['total_price'] = round($item['total_price'] - $itemDiscount, 2);
+
+                // Set product name
+                $item['product_name'] = $product ? $product->name : 'Unknown Product';
+            }
+            // unset reference to avoid unintended side effects
+            unset($item);
+            return view('livewire.razorpay-gateway', ['formState' => $this->formState]);
+        } else {
+            return redirect()->back();
+        }
     }
 }

@@ -85,7 +85,7 @@
         <h3 class="text-xl font-bold text-gray-700 mb-4">Find Us on the Map</h3>
         <div class="w-full h-64 bg-gray-200 rounded-md">
             <!-- Embed Google Map here -->
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d0!2d0!3d0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0!5e0!3m2!1sen!2s!4v1616539289291!5m2!1sen!2s" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            <iframe src="https://www.google.com/maps/embed?!1m18!1m12!1m3!1d0!2d0!3d0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0!5e0!3m2!1sen!2s!4v1616539289291!5m2!1sen!2s" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
         </div>
     </div>
 </div>
