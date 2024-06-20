@@ -14,7 +14,7 @@
 
   {{-- new layout goes here --}}
   <section class="text-gray-600 body-font">
-      <div class="container px-5 py-10 mx-auto">
+      <div class="container px-5 py-4 mx-auto">
         <div class="lg:w-4/5 mx-auto flex flex-wrap">
             <div class="lg:w-1/2 w-full lg:h-auto ">
                 @if ($product->image)
@@ -25,7 +25,7 @@
                         {{-- Main Image --}}
                         <div class="">
                             <img x-bind:src="selectedImage.includes('://') ? selectedImage : '{{ asset('storage/') }}/' + selectedImage"
-                                alt="{{ $product->name }}" class="rounded-lg mx-auto object-fill h-96">
+                                alt="{{ $product->name }}" class="rounded-lg mx-auto object-contain h-52 md:h-96">
                         </div>
                         <!-- Gallery Thumbnails -->
                         <div class="flex justify-center items-center w-full h-32 my-4">

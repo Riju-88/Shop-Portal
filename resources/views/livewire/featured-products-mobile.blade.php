@@ -48,7 +48,7 @@
                             </div>
                             <div class="mt-4 flex justify-between">
                                 <a href="{{ route('product.detail', ['productId' => $product->id]) }}">
-                                    <button class="btn-secondary btn">View Details</button>
+                                    <button class="btn-accent btn btn-outline">View Details</button>
                                 </a>
                                 @if (Auth::check())
                                     <button @click="$dispatch('add-To-Cart', { id: {{ $product->id }} })" class="btn-accent btn">Add to Cart</button>

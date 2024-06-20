@@ -143,7 +143,7 @@
                 <!-- Link to product detail page -->
                 <div class="mt-4 flex justify-between">
                     <a href="{{ route('product.detail', ['productId' => $product->id]) }}">
-                        <button class="btn-secondary btn">View Details</button></a>
+                        <button class="btn-accent btn btn-outline">View Details</button></a>
 
                         @if (Auth::check())
                       

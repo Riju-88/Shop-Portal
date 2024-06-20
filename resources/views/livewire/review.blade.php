@@ -36,7 +36,7 @@
                     <p class="mt-2">{!! $review->review !!}</p>
                     <div class="grid grid-cols-3 gap-4 mt-2">
                         @foreach ($review->image as $filePath)
-                            <img src="{{ asset('storage/' . $filePath) }}" class="max-w-xs" alt="" wire:key="image-file-{{ $review->id }}">
+                            <img src="{{ asset('storage/' . $filePath) }}" class="rounded-lg object-contain w-full" alt="" wire:key="image-file-{{ $review->id }}">
                         @endforeach
                     </div>
                     <div class="mt-4">

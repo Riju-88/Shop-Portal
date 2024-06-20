@@ -30,11 +30,11 @@ export default {
         themes: [
             {
                 mytheme: {
-                    primary: "#1e40af",
+                    primary: "#0059ff",
 
-                    secondary: "#7c3aed",
+                    secondary: "#00f8bb",
 
-                    accent: "#22c55e",
+                    accent: "#b100ff",
 
                     neutral: "#090409",
 

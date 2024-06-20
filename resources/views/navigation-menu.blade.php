@@ -1,5 +1,5 @@
 
-<nav x-data="{ isScrolled: false, lastScroll: 0, sidebarOpen: false }" x-init="window.addEventListener('scroll', () => { let currentScroll = window.pageYOffset; isScrolled = currentScroll > lastScroll && currentScroll > 10; lastScroll = currentScroll })">
+<nav x-data="{ isScrolled: false, lastScroll: 0, sidebarOpen: false, openSearch: false }" x-init="window.addEventListener('scroll', () => { let currentScroll = window.pageYOffset; isScrolled = currentScroll > lastScroll && currentScroll > 10; lastScroll = currentScroll })">
     <div :class="{ '-translate-y-20': isScrolled, 'translate-y-0': !isScrolled }" class="bg-white shadow-md fixed top-0 w-full z-50 transition duration-500 ease-in-out">
       
 {{-- <div class="bg-white shadow-md fixed w-full z-10 transition-transform duration-300 ease-in-out top-0" x-data="{ sidebarOpen: false }"> --}}
@@ -16,12 +16,49 @@
         </button>
         <!-- Logo -->
         <div class="flex items-center">
-            <a href="#" class="p-4 text-lg font-semibold text-gray-800">Logo</a>
-            @auth
+            <a href="{{ route('home') }}">
+           
+                <div class="w-20 rounded-lg mx-3">
+                 <x-image />
+                </div>
+             
+            </a>
             @mobile
+            <div class="flex items-center">
+                <!-- Search button -->
+                <button @click="openSearch = !openSearch" class="text-gray-900 inline-flex items-center justify-center p-2 rounded-md focus:outline-none">
+                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14z"></path>
+                    </svg>
+                </button>
+            </div>
+
+             <!-- Search box -->
+             <div x-show="openSearch" class="absolute inset-x-0 top-full bg-purple-100 p-4" x-transition>
+                {{-- <div class="max-w-7xl mx-auto">
+                    <div class="flex justify-center">
+                        <input type="text" class="form-input mt-1 block w-full sm:max-w-xs rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Search...">
+                    </div>
+                </div> --}}
+                <livewire:search />
+            </div>
+            @endmobile
+            @if(auth()->check())
+              @mobile
             <div class="relative m-3"> <livewire:ShoppingCart /></div>
             @endmobile
-            @endauth
+            @else
+            <div class="m-3"> 
+                <a href="{{ route('login') }}">
+                <x-filament::icon
+               
+                icon="heroicon-c-user-circle"
+                
+                class="h-8 w-8 text-accent dark:text-gray-400"
+            />
+            </a>
+            </div>
+            @endif
         </div>
         
     </div>
@@ -135,7 +172,13 @@
             
             <div class="hidden md:flex justify-center items-center">
                 <!-- Logo -->
-                <a href="#" class="p-4 text-lg font-semibold text-gray-800">Logo</a>
+                <a href="{{ route('home') }}">
+           
+                    <div class="w-20 rounded-lg">
+                     <x-image />
+                    </div>
+                 
+                </a>
                 
                 <!-- Navigation Links -->
                 <ul class="flex items-center mx-2">
@@ -294,8 +337,8 @@
 
                 {{-- else show login button --}}
                 @else
-                <a href="{{ route('register') }}" class="btn btn-primary">Sign up</a>
-                <a href="{{ route('login') }}" class="btn btn-primary">Log in</a>
+                
+                <a href="{{ route('login') }}" class="btn compact btn-primary">Log in</a>
 
                 @endif
 
@@ -303,7 +346,7 @@
                 
                 {{--  --}}
             </div>
-            
+           
         </div>
     </div>   
     <livewire:notifications />

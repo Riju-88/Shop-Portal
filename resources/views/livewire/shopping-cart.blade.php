@@ -3,7 +3,7 @@
 <div x-data="{ showModal: false }"  @toggle-cart.window="showModal = !showModal" class="relative  ">
     {{-- cart item indicator --}}
     <div class="indicator">
-        <span class="indicator-item badge badge-secondary">{{ count($carts) }}</span> 
+        <span class="indicator-item badge badge-error">{{ count($carts) }}</span> 
          <button @click="showModal = true" class=" px-2  rounded-md">
         <x-filament::icon
         alias="panels::topbar.global-search.field"

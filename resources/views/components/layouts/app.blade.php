@@ -21,7 +21,7 @@
             /* search */
       
     input[type="search"]{
-        width:200px;
+        /* width:200px; */
         height:30px;
         padding-left:15px;
         border-radius:6px;

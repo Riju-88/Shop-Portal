@@ -1,4 +1,4 @@
-<div class="shadow-sm relative rounded-md">
+<div class="shadow-sm relative rounded-md my-4">
    
  
 
@@ -17,7 +17,7 @@
 <div x-data="{ disabled: true }">
     <div class="relative">
         <input type="search" placeholder="Search" wire:model.defer="keyword"
-              wire:input="search" :disabled="disabled" x-ref="inputField" />
+              wire:input="search" :disabled="disabled" x-ref="inputField" class="w-full md:min-w-52" />
         <div class="absolute inset-0" x-show="disabled" x-on:click="disabled = false; setTimeout(() => $refs.inputField.focus(), 10)"></div>
     </div>
 </div>
