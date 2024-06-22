@@ -42,6 +42,10 @@ class OrderResource extends Resource
                 TextColumn::make('payment_status'),
                 TextColumn::make('payment_method'),
                 TextColumn::make('Total Items', 'total_items'),
+                TextColumn::make('user.name')
+                    ->label('Customer Name'),
+                TextColumn::make('user.id')
+                    ->label('Customer ID'),
             ])
             ->filters([
                 //

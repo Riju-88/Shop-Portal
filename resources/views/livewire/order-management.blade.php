@@ -28,7 +28,11 @@
                 {{-- Order items --}}
                 <div class="my-4">
                     @foreach (json_decode($order->items) as $item)
-                        @php
+                    @php
+                    $product = $products->find($item->product_id);
+                @endphp
+                @if ($product)
+                    @php
                             $product = $products->find($item->product_id);
                             $imageArray = is_array($product->image) ? $product->image : json_decode($product->image, true);
                             $imagePath = $imageArray[0] ?? 'https://via.placeholder.com/64';
@@ -44,6 +48,7 @@
                             </div>
                         </div>
                         <div class="border-t border-gray-200"></div>
+                    @endif
                     @endforeach
                 </div>
                 {{-- Payment status, method, and cancel button --}}

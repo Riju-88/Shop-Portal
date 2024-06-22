@@ -424,7 +424,7 @@ class Checkout extends Component implements HasForms
                 $order->items = $items->toJson();
 
                 // Save the order
-                $order->save();
+                // $order->save();
 
                 // update product quantity
                 foreach ($cartItems as $item) {
@@ -449,6 +449,12 @@ class Checkout extends Component implements HasForms
                 $shipping->postal_code = $this->form->getState()['postal_code'];
                 $shipping->phone_number = $this->form->getState()['phone_number'];
                 $shipping->save();
+
+                // assign shipping_id to the order
+                $order->shipping_id = $shipping->id;
+
+                // Save the order
+                $order->save();
 
                 // clear session
                 session()->forget('formState');

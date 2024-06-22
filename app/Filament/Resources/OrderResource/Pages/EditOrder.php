@@ -6,6 +6,7 @@ use App\Filament\Resources\OrderResource;
 use App\Models\Product;
 use App\Models\Shipping;
 use App\Models\ShippingMethod;
+use App\Models\User;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -32,6 +33,7 @@ class EditOrder extends EditRecord
                 ->label('Status')
                 ->options([
                     'pending' => 'Pending',
+                    'processing' => 'Processing',
                     'delivered' => 'Delivered',
                     'cancelled' => 'Cancelled',
                 ])
@@ -161,10 +163,14 @@ class EditOrder extends EditRecord
                                         ->label('User ID')
                                         ->content($shipping->user_id)
                                         ->columnStart(1),
+                                    Placeholder::make('')
+                                        ->label('Email')
+                                        ->content(User::find($shipping->user_id)->email)
+                                        ->columnStart(2),
                                     Placeholder::make('phone_number')
                                         ->label('Phone Number')
                                         ->content($shipping->phone_number)
-                                        ->columnStart(2),
+                                        ->columnStart(3),
                                     Placeholder::make('first_name')
                                         ->label('First Name')
                                         ->content($shipping->first_name)

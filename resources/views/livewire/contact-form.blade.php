@@ -38,7 +38,7 @@
             </div>
 
             <div class="flex items-center justify-end">
-                <button type="submit" class="btn btn-wide btn-accent">Send</button>
+                <button type="submit" class="btn btn-wide btn-accent btn-outline">Send</button>
             </div>
         </form>
     </div>

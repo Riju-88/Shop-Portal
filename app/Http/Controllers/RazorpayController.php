@@ -96,7 +96,7 @@ class RazorpayController extends Controller
                         $order->items = $items->toJson();
 
                         // Save the order
-                        $order->save();
+                        // $order->save();
 
                         // update product quantity
                         foreach ($cartItems as $item) {
@@ -125,6 +125,12 @@ class RazorpayController extends Controller
                         $shipping->phone_number = session('formState')['phone_number'];
                         $shipping->save();
 
+                        // assign shipping_id to the order
+                        $order->shipping_id = $shipping->id;
+
+                        // Save the order
+                        $order->save();
+
                         // clear session
                         session()->forget('formState');
                         // Send notification
@@ -134,7 +140,7 @@ class RazorpayController extends Controller
                             ->send();
                     });
                 }
-            } catch (Exceptio $e) {
+            } catch (Exception $e) {
                 \Log::error('Razorpay API Error: ' . $e->getMessage());
                 Session::put('error', 'An error occurred while processing the payment. Please try again later.');
                 return redirect(route('home'));

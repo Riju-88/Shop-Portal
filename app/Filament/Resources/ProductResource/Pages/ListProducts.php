@@ -3,14 +3,17 @@
 namespace App\Filament\Resources\ProductResource\Pages;
 
 use App\Filament\Resources\ProductResource;
-use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-
-use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\Column;
-use Filament\Tables\Table;
-use Illuminate\Support\HtmlString;
 use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Filament\Actions;
+use Filament\Tables;
+use Illuminate\Support\HtmlString;
 
 class ListProducts extends ListRecords
 {
@@ -20,20 +23,34 @@ class ListProducts extends ListRecords
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
-                
-                TextColumn::make('description')->limit(50)
-                ->formatStateUsing(function($state) {
-                return new HtmlString($state);
-                }),
-                TextColumn::make('price'),
+                TextColumn::make('name')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('description')
+                    ->limit(50)
+                    ->formatStateUsing(function ($state) {
+                        return new HtmlString($state);
+                    }),
+                TextColumn::make('price')
+                    ->sortable(),
                 ImageColumn::make('image')->defaultImageUrl(url('/images/placeholder.png')),
-                TextColumn::make('brand'),
-                TextColumn::make('quantity'),
-                TextColumn::make('is_featured'),
-
+                TextColumn::make('brand')
+                    ->sortable(),
+                TextColumn::make('quantity')
+                    ->sortable(),
+                TextColumn::make('is_featured')
+                    ->sortable(),
+            ])
+            ->actions([
+                Tables\Actions\EditAction::make(),
+            ])
+            ->bulkActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
             ]);
     }
+
     protected function getHeaderActions(): array
     {
         return [

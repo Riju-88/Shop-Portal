@@ -16,8 +16,14 @@ class Order extends Model
         'status',
         'payment_status',
         'payment_method',
-        'items'
+        'items',
+        'shipping_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     // To display items and quantity of order in filament table
     public function getTotalItemsAttribute()
