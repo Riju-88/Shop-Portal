@@ -25,6 +25,7 @@ class FeaturedProductsMobile extends Component
         $this->device = $device;
     }
 
+    // Add to wishlist on mobile
     #[On('wishlist-add-mobile')]
     public function addToWishlist($product_id)
     {
@@ -57,11 +58,13 @@ class FeaturedProductsMobile extends Component
                 //     ->title('Item already exists in wishlist')
                 //     ->warning()
                 //     ->send();
+                // call remove from wishlist
                 $this->removeFromWishlist($product_id);
             }
         }
     }
 
+    // Remove from wishlist
     public function removeFromWishlist($product_id)
     {
         $wishlist = Wishlist::where('user_id', Auth::user()->id)->where('product_id', $product_id)->first();
@@ -69,6 +72,7 @@ class FeaturedProductsMobile extends Component
             $wishlist->delete();
         }
 
+        // notification
         Notification::make()
             ->title('Item removed from wishlist')
             ->color('danger')
@@ -79,13 +83,18 @@ class FeaturedProductsMobile extends Component
         $this->dispatch('reload-component-mobile', $product_id);
     }
 
+    // Render
     public function render()
     {
+        // if user is logged in
         if (Auth::user()) {
+            // get wishlist
             $this->wishlist = Wishlist::where('user_id', Auth::user()->id)->get();
         }
 
+        // get featured products
         $this->products = Product::where('is_featured', 1)->get();
+        // get categories
         $this->categories = Category::all();
 
         return view('livewire.featured-products-mobile');

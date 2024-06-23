@@ -15,6 +15,7 @@ class ShoppingCart extends Component
     public $carts;
     public $cart_open = false;
 
+    // totals for subtotal, total discount, and total price
     public $totals = [
         'subtotal' => 0,
         'totalDiscount' => 0,
@@ -23,32 +24,38 @@ class ShoppingCart extends Component
 
     public function mount()
     {
+        // Get the user's cart items if the user is authenticated
         if (auth()->check()) {
             $user = auth()->user();
             $this->carts = $user->cart()->with('product.categories')->get()->toArray();
 
+            // Recalculate discounts
             $this->calculateDiscount();
         } else {
             $this->carts = [];  // Set $carts to an empty array if the user is not authenticated
         }
     }
 
+    // Add product to cart
     #[On('add-To-Cart')]
     public function addToCart($id)
     {
+        // if user is not authenticated return
         if (!auth()->check()) {
-            \Log::info('Auth failed');
+            // \Log::info('Auth failed');
             return;  // Return if the user is not authenticated
         }
 
+        // get user and product
         $user = auth()->user();
-        $product = Product::find($id);  // Assuming Product is the model for your products
+        $product = Product::find($id);  // Find the product with the given ID
 
+        // if product not found
         if (!$product) {
-            \Log::error('Product not found with ID: ' . $id);
+            // \Log::error('Product not found with ID: ' . $id);
             return;
         }
-        // if product exists in wishlist
+        // if product exists in wishlist remove it
         if ($user->wishlist()->where('product_id', $id)->exists()) {
             $user->wishlist()->where('product_id', $id)->delete();
             Notification::make()
@@ -59,12 +66,13 @@ class ShoppingCart extends Component
                 ->send();
         }
 
-        // Check if the product already exists in the cart
+      
         $cart = $user->cart ?? new Cart();  // Retrieve the user's cart or create a new one if it doesn't exist
 
         // Check if the product already exists in the cart
         $existingCartItem = $cart->where('product_id', $id)->first();
 
+        // If the product exists in the cart, increment its quantity
         if ($existingCartItem) {
             $existingCartItem->increment('quantity');  // Increment quantity if the product already exists in the cart
             $existingCartItem->update(['total_price' => $existingCartItem->quantity * $product->price]);  // Update total price
@@ -78,6 +86,7 @@ class ShoppingCart extends Component
             $cartItem->total_price = $cartItem->quantity * $product->price;
             $cartItem->save();  // Save the cart item instance to the database
 
+            // Send notification
             Notification::make()
                 ->title('Product added to cart successfully!')
                 ->success()
@@ -86,19 +95,22 @@ class ShoppingCart extends Component
                 ->send();
         }
 
-        \Log::info('Add to Cart button clicked. Product ID: ' . $id);
+        // \Log::info('Add to Cart button clicked. Product ID: ' . $id);
         // Refresh the cart data after adding the product
         $this->mount();
     }
 
+    // Update cart item quantity
     public function updateQuantity($index)
     {
+        // Get the cart item at the specified index
         $cartItem = $this->carts[$index];
         $user = auth()->user();  // Assuming user is authenticated
         $cart = Cart::where('user_id', $user->id)
             ->where('product_id', $cartItem['product']['id'])
             ->first();
 
+        // Update the cart item quantity
         if ($cart) {
             $cart->quantity = $cartItem['quantity'];
             $cart->total_price = $cartItem['quantity'] * $cartItem['product']['price'];
@@ -107,11 +119,13 @@ class ShoppingCart extends Component
         }
     }
 
+    // Increment cart item quantity
     public function incrementQuantity($index)
     {
         $cartItem = $this->carts[$index];
         $product = Product::find($cartItem['product']['id']);
 
+        // Check if the product quantity is less than the available quantity
         if ($product && $cartItem['quantity'] < $product->quantity) {
             $cartItem['quantity']++;
             $this->carts[$index] = $cartItem;
@@ -120,8 +134,10 @@ class ShoppingCart extends Component
         }
     }
 
+    // Decrement cart item quantity
     public function decrementQuantity($index)
     {
+        // Decrement the quantity if the quantity is greater than 1
         if ($this->carts[$index]['quantity'] > 1) {
             $this->carts[$index]['quantity']--;
             $this->updateQuantity($index);
@@ -129,14 +145,17 @@ class ShoppingCart extends Component
         }
     }
 
+    // Remove item from cart
     public function removeItem($index)
     {
+        // Remove the item from the cart
         $cartItem = $this->carts[$index];
         $user = auth()->user();
         $cart = Cart::where('user_id', $user->id)
             ->where('product_id', $cartItem['product']['id'])
             ->first();
 
+        // Delete the cart item if it exists
         if ($cart) {
             $cart->delete();
         }
@@ -145,11 +164,13 @@ class ShoppingCart extends Component
         $this->calculateDiscount();  // Recalculate discounts
     }
 
+    //  calculate discount
     public function calculateDiscount()
     {
         $subtotal = 0;
         $totalDiscount = 0;
 
+        // Loop through the cart items
         foreach ($this->carts as $cartItem) {
             $price = $cartItem['product']['price'];
             $quantity = $cartItem['quantity'];
@@ -168,6 +189,7 @@ class ShoppingCart extends Component
 
         $totalPrice = $subtotal - $totalDiscount;
 
+        // Update the totals
         $this->totals = [
             'subtotal' => $subtotal,
             'totalDiscount' => $totalDiscount,

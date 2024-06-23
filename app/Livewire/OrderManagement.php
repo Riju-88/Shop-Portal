@@ -15,12 +15,14 @@ class OrderManagement extends Component
 
     public function mount()
     {
+        // get all orders
         $this->orders = Order::where('user_id', Auth::user()->id)
-            ->orderByRaw("FIELD(status, 'pending', 'delivered', 'cancelled')")
+            // ->orderByRaw("FIELD(status, 'pending', 'delivered', 'cancelled')")
             ->orderBy('created_at', 'desc')
             ->get();
     }
 
+    // delete order
     public function deleteOrder($orderId)
     {
         // update product stock before deleting
@@ -45,9 +47,12 @@ class OrderManagement extends Component
         }
     }
 
+    // render
     public function render()
     {
+        // get all orders
         $this->orders = Order::where('user_id', Auth::user()->id)->get();
+        // get all products
         $this->products = Product::all();
         return view('livewire.order-management');
     }

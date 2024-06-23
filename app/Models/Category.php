@@ -31,13 +31,14 @@ class Category extends Model
         return $this->belongsToMany(Product::class, 'category_product');
     }
 
+    // boot function to delete image when category is deleted
     public static function boot()
     {
         parent::boot();
 
         static::deleting(function ($category) {
             // Log to debug
-            \Log::debug('Deleting event triggered for category ID: ' . $category->id);
+            // \Log::debug('Deleting event triggered for category ID: ' . $category->id);
 
             // Check if the image field is not null
             if ($category->image !== null) {
@@ -70,6 +71,7 @@ class Category extends Model
             }
         });
 
+        // static updating to update image when category is updated
         static::updating(function ($category) {
             // Log to debug
             \Log::debug('Updating event triggered for category ID: ' . $category->id);

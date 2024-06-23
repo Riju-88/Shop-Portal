@@ -16,20 +16,27 @@ class ProductList extends Component
     public $priceRangeOptions = [];
     public $selectedPriceRange = null;
     public $wishlist;
+
+    // Listeners
     protected $listeners = ['productAddedToWishlist' => 'render', 'RemovedFromWishlist' => 'render'];
-    
+
     public function mount()
     {
+        // Call method to Fetch price range options
         $this->fetchPriceRangeOptions();
     }
-
+    // Fetch price range options
     public function fetchPriceRangeOptions()
     {
+        // get min and max price
         $minPrice = Product::min('price');
         $maxPrice = Product::max('price');
 
+        // calculate price range increment
         $rangeIncrement = 5000;
         $currentRange = 0;
+        
+        // add price range options
         while ($currentRange < $maxPrice) {
             $nextRange = $currentRange + $rangeIncrement;
             if ($nextRange > $maxPrice) {
@@ -41,8 +48,10 @@ class ProductList extends Component
         }
     }
 
+    // Fetch products
     public function products(): Collection
     {
+        // Fetch products
         $query = Product::query();
 
         // Filter by selected categories
@@ -60,15 +69,18 @@ class ProductList extends Component
             }
         }
 
+        // Fetch products based on selected filters
         return $query->with('reviews')->latest()->take($this->on_page)->get();
     }
 
+    // Apply filters
     public function applyFilters(): void
     {
         // Fetch products based on selected filters
         $this->products();
     }
 
+    // Clear filters
     public function clearFilters(): void
     {
         $this->selectedCategories = [];
@@ -76,23 +88,29 @@ class ProductList extends Component
         $this->products();
     }
 
+    // Fetch categories
     public function categories(): Collection
     {
         return Category::all();
     }
 
+    // Load more products
     public function loadMore(): void
     {
         $this->on_page += 5;
     }
 
+    // Render
     public function render()
     {
+        // Check if user is logged in and fetch wishlist
         if (Auth::user()) {
             $this->wishlist = Wishlist::where('user_id', Auth::user()->id)->get();
         }
 
+        // Fetch products
         $products = $this->products();
+        // Fetch categories
         $categories = $this->categories();
         return view('livewire.product-list', compact('products', 'categories'));
     }

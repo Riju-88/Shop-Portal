@@ -100,27 +100,28 @@ class Checkout extends Component implements HasForms
                                                 $set('expected_delivery_time', $shippingMethod->expected_delivery_time);  // Populate the expected delivery time field
                                                 $set('shipping_cost', $shippingMethod->cost);  // Populate the cost field
 
-                                                // set the updated total amount in the $set and round it
-                                                // $set('total_amount', round(Cart::where('user_id', $this->userId)->sum('total_price') + $shippingMethod->cost, 2));
-
                                                 // Total amount after applying discounts
                                                 $set('total_amount', function () use ($shippingMethod) {
                                                     $subtotal = Cart::where('user_id', $this->userId)->sum('total_price');
                                                     $totalDiscounts = 0;
                                                     $shipping_cost = $shippingMethod->cost;
+
+                                                    // Calculate total discounts
                                                     foreach (Cart::where('user_id', $this->userId)->get() as $cartItem) {
                                                         $itemTotalPrice = $cartItem->quantity * $cartItem->product->price;
                                                         $itemDiscount = 0;
 
+                                                        // Calculate discount for each category
                                                         foreach ($cartItem->product->categories as $category) {
                                                             $itemDiscount += ($itemTotalPrice * ($category->discount / 100));
                                                         }
-
+                                                        // add item discount to total discounts
                                                         $totalDiscounts += $itemDiscount;
                                                     }
 
+                                                    // Calculate total amount after discounts
                                                     $totalAmountAfterDiscounts = $subtotal - $totalDiscounts;
-                                                    \Log::info('Checking shipping cost: ' . $shipping_cost);
+                                                    // \Log::info('Checking shipping cost: ' . $shipping_cost);
                                                     return round(($totalAmountAfterDiscounts + $shipping_cost), 2);
                                                 });
 
@@ -132,17 +133,19 @@ class Checkout extends Component implements HasForms
                                                 $set('total_discount', function () {
                                                     $totalDiscounts = 0;
 
+                                                    // Calculate total discounts
                                                     foreach (Cart::where('user_id', $this->userId)->get() as $cartItem) {
                                                         $itemTotalPrice = $cartItem->quantity * $cartItem->product->price;
                                                         $itemDiscount = 0;
 
+                                                        // Calculate discount for each category
                                                         foreach ($cartItem->product->categories as $category) {
                                                             $itemDiscount += ($itemTotalPrice * ($category->discount / 100));
                                                         }
-
+                                                        // add item discount to total discounts
                                                         $totalDiscounts += $itemDiscount;
                                                     }
-                                                    \Log::info('Total discounts in the $set: ' . round($totalDiscounts, 2));
+                                                    // \Log::info('Total discounts in the $set: ' . round($totalDiscounts, 2));
                                                     return round($totalDiscounts, 2);
                                                 });
                                             }),
@@ -204,6 +207,7 @@ class Checkout extends Component implements HasForms
                                                     'xl' => 3,
                                                     '2xl' => 3,
                                                 ])
+                                                // cart items
                                                 ->schema(function () {
                                                     $cartItems = Cart::where('user_id', $this->userId)->get();
                                                     $fields = [];
@@ -468,6 +472,7 @@ class Checkout extends Component implements HasForms
             return redirect(route('home'));
         }
 
+        // if payment method is online
         if ($this->form->getState()['payment_method'] == 1) {
             return redirect(route('razorpay.index'));
             // Shipping::create($this->form->getState());

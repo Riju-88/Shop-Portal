@@ -42,12 +42,17 @@ class Review extends Component implements HasForms, HasActions
     // public ?string $review = null;
     // public ?string $title = null;
     // public ?array $image = null;
+
+    // mount function will be called when the component is loaded.
     public function mount($productId): void
     {
+        // set the product id
         $this->productId = $productId;
+        // set the user id if the user is authenticated
         if (Auth()->check()) {
             $this->userId = Auth()->user()->id;
         } else {
+            // if the user is not authenticated set the user id to null
             $this->userId = null;
         }
         $this->form->fill();
@@ -78,56 +83,47 @@ class Review extends Component implements HasForms, HasActions
             ->model(ProductReview::class)
             ->statePath('data');
     }
-    // #[On('create')]
-    // public function create(): void
-    // {
-    //     $productreview = ProductReview::create($this->form->getState());
-    //     \Log::info($this->form->getState());
-    //     // dd($this->form->getState());
-    //     // Save the relationships from the form to the post after it is created.
-    //     $this->form->model($productreview)->saveRelationships();
-    //     $this->form->fill();
-    // }
 
+    // create function will be called when the create button is clicked
     public function create()
     {
+        // if the editing property is not null, it means we are editing an existing review
         if ($this->editing) {
+            // update the review
             $this->editing->update($this->form->getState());
+            // reset the editing property
             $this->editing = null;
             $this->form->fill();
         } else {
+            // create a new review
             ProductReview::create($this->form->getState());
             $this->form->model(ProductReview::class)->saveRelationships();
             $this->form->fill();
         }
     }
 
+    // edit function will be called when the edit button is clicked
     public function edit(ProductReview $review)
     {
+        // set the editing property to the review that we want to edit
         $this->editing = $review;
+        // fill the form with the review data
         $this->form->fill($review->toArray());
     }
 
+    // openEditModal function will be called when the edit button is clicked
     public function openEditModal(ProductReview $review)
     {
+        // set the editing property to the review that we want to edit
         $this->productreview = $review;
         $this->form->fill();
         $this->emit('openModal', 'edit-review-modal');
     }
 
-    //    not in use
-    // public function xxxdelete(ProductReview $review)
-    // {
-    //     $review->delete();
-    //     $this->form->fill();
-    //     Notification::make()
-    //         ->title('Review Deleted')
-    //         ->success()
-    //         ->send();
-    // }
-
+    // delete function will be called when the delete button is clicked
     public function delete(): Action
     {
+        // return a delete action
         return Action::make('delete')
             ->modalHeading('Delete Review')
             ->action(function (array $arguments) {
@@ -154,6 +150,7 @@ class Review extends Component implements HasForms, HasActions
 
     public function render()
     {
+        // get all reviews
         $reviews = ProductReview::all();
         return view('livewire.review', compact('reviews'));
     }

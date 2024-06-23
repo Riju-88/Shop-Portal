@@ -14,6 +14,8 @@ class UserWishlist extends Component
 {
     public $wishlist;
     public $device;
+
+    // Listeners
     protected $listeners = ['RemovedFromWishlist' => 'render'];
 
     public function mount($device)
@@ -21,6 +23,7 @@ class UserWishlist extends Component
         $this->device = $device;
     }
 
+    // add to wishlist
     #[On('add-to-wishlist')]
     public function addToWishlist($product_id)
     {
@@ -58,6 +61,7 @@ class UserWishlist extends Component
         }
     }
 
+    // remove from wishlist
     #[On('remove-from-wishlist')]
     public function removeFromWishlist($product_id)
     {
@@ -66,6 +70,7 @@ class UserWishlist extends Component
             $wishlist->delete();
         }
 
+        // Notification
         Notification::make()
             ->title('Item removed from wishlist')
             ->color('danger')
@@ -76,10 +81,12 @@ class UserWishlist extends Component
         $this->dispatch('RemovedFromWishlist', $product_id);
     }
 
+    // render
     public function render()
     {
+        // Check if user is logged in and fetch wishlist
         $this->wishlist = Wishlist::where('user_id', Auth::user()->id)->get();
-        \Log::info($this->wishlist);
+        // \Log::info($this->wishlist);
         return view('livewire.user-wishlist');
     }
 }

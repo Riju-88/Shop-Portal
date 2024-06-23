@@ -20,6 +20,7 @@ class Product extends Model
     // {
     //     return $this->belongsToMany(Category::class);
     // }
+
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_product');
@@ -40,6 +41,7 @@ class Product extends Model
         return $this->hasMany(ProductReview::class);
     }
 
+    // Delete product image from storage when deleting the product
     public static function boot()
     {
         parent::boot();
@@ -88,6 +90,7 @@ class Product extends Model
             }
         });
 
+        // Update product image when updating the product
         static::updating(function ($product) {
             // Log to debug
             \Log::debug('Updating event triggered for product ID: ' . $product->id);

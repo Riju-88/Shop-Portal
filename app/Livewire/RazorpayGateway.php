@@ -14,6 +14,7 @@ class RazorpayGateway extends Component
 
     public function render()
     {
+        // Check if form state exists in session
         if (session()->has('formState')) {
             $this->formState = session('formState');
 
@@ -26,6 +27,7 @@ class RazorpayGateway extends Component
                 $itemTotalPrice = $item['total_price'];
                 $itemDiscount = 0;
 
+                // Apply category discounts
                 if ($product) {
                     foreach ($product->categories as $category) {
                         $itemDiscount += ($itemTotalPrice * ($category->discount / 100));

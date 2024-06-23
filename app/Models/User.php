@@ -73,6 +73,8 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(Wishlist::class);
     }
+
+    // can access panel for admin users only
     public function canAccessPanel(Panel $panel): bool
     {
         // can set rules for admin users here
@@ -101,6 +103,7 @@ class User extends Authenticatable implements FilamentUser
         return $defaultUrl;
     }
 
+    // delete user profile photo when user is deleted
     public static function boot()
     {
         parent::boot();
@@ -133,6 +136,7 @@ class User extends Authenticatable implements FilamentUser
             }
         });
 
+        // Update profile photo path when user is updated
         static::updating(function ($user) {
             \Log::debug('Updating event triggered for user ID: ' . $user->id);
 

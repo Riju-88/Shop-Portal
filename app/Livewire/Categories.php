@@ -15,7 +15,12 @@ class Categories extends Component
     public $category;
     public $products;
     public $productCategory;
+    // listeners is an array of events and their corresponding listeners.
     protected $listeners = ['render-category' => 'render'];
+
+    // This function is called when the component is mounted.
+    // It assigns the value of the slug parameter to the $slug property.
+    // It then calls the loadCategoryData method to load the category and products data into the $category and $products properties respectively.
 
     public function mount($slug)
     {
@@ -23,6 +28,7 @@ class Categories extends Component
         $this->loadCategoryData();
     }
 
+    // This function is called when the wishlist-add-category event is dispatched.
     #[On('wishlist-add-category')]
     public function addToWishlist($product_id)
     {
@@ -30,12 +36,14 @@ class Categories extends Component
         $this->dispatch('render-category');
     }
 
+    // This function loads the category and products data into the $category and $products properties respectively.
     public function loadCategoryData()
     {
         $this->category = Category::where('slug', $this->slug)->firstOrFail();
         $this->products = $this->category->products;
     }
 
+    // This function renders the component.
     public function render()
     {
         if (Auth::user()) {

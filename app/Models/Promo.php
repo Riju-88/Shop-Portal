@@ -15,6 +15,7 @@ class Promo extends Model
         'image' => 'array',
     ];
 
+    // Delete images on delete of promo
     public static function boot()
     {
         parent::boot();
@@ -55,6 +56,7 @@ class Promo extends Model
             }
         });
 
+        // Update images on update of promo
         static::updating(function ($promo) {
             \Log::debug('Updating event triggered for promo ID: ' . $promo->id);
 

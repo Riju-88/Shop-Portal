@@ -15,6 +15,7 @@ class ContactForm extends Component
     public $subject;
     public $message;
 
+    // Validation rules
     protected $rules = [
         'name' => 'required|string|max:255',
         'email' => 'required|email|max:255',
@@ -22,10 +23,13 @@ class ContactForm extends Component
         'message' => 'required|string',
     ];
 
+    // Submit form
     public function submit()
     {
+        // Validate form
         $this->validate();
 
+        // Create contact message and save to database
         $contact = Contact::create([
             'name' => $this->name,
             'email' => $this->email,
@@ -33,6 +37,7 @@ class ContactForm extends Component
             'message' => $this->message,
         ]);
 
+        // details array containing name, email, subject and message for email
         $details = [
             'name' => $this->name,
             'email' => $this->email,
@@ -40,8 +45,10 @@ class ContactForm extends Component
             'message' => $this->message,
         ];
 
+        // get admin email from .env
         $adminEmail = env('MAIL_FROM_ADDRESS');
 
+        // Send email to admin with details array
         $mailSent = Mail::to($adminEmail)->send(new ContactMail($details));
 
         // Check if there are any failures
@@ -54,6 +61,7 @@ class ContactForm extends Component
             return;
         }
 
+        // Email sent successfully
         Notification::make()
             ->title('Email sent successfully.')
             ->success()
