@@ -46,15 +46,15 @@
                                     @endauth
                                 </div>
                             </div>
-                            <div class="mt-4 flex justify-between">
+                            <div class="mt-4 flex mx-2 justify-center flex-wrap gap-2">
                                 <a href="{{ route('product.detail', ['productId' => $product->id]) }}">
-                                    <button class="btn-accent btn btn-outline">View Details</button>
+                                    <button class="btn-accent btn btn-outline @mobile btn-wide @endmobile  ">View Details</button>
                                 </a>
                                 @if (Auth::check())
-                                    <button @click="$dispatch('add-To-Cart', { id: {{ $product->id }} })" class="btn-accent btn">Add to Cart</button>
+                                    <button @click="$dispatch('add-To-Cart', { id: {{ $product->id }} })" class="btn-accent btn @mobile btn-wide @endmobile ">Add to Cart</button>
                                 @else
                                     <div class="lg:tooltip" data-tip="Login to add to cart">
-                                        <button class="disabled btn">Add to Cart</button>
+                                        <button class="disabled btn @mobile btn-wide @endmobile ">Add to Cart</button>
                                     </div>
                                 @endif
                             </div>

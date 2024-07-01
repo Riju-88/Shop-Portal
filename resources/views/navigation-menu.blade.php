@@ -79,7 +79,7 @@
         x-transition:leave="transition ease-in-out duration-500 transform"
         x-transition:leave-start="translate-x-0"
         x-transition:leave-end="-translate-x-full">
-            <div class="flex flex-col w-64 bg-white bg-opacity-95 bg-blend-lighten h-screen shadow-md z-40">
+            <div class="flex flex-col w-64 bg-white bg-opacity-95 bg-blend-lighten h-screen shadow-md z-auto">
                 <!-- Close Button -->
                 <div class="flex justify-end p-4">
                     <button @click="sidebarOpen = false"
@@ -153,8 +153,9 @@
                     <li><a href="{{ route('productList') }}" wire:navigate class="block p-4 hover:bg-gray-100 text-black">
                         {{ __('Products') }}
                     </a></li>
-                    <li><livewire:CategoriesDropdown device='mobile'/></li>
-                    
+                    @mobile
+                    <li><livewire:CategoriesDropdown/></li>
+                    @endmobile
                     <li><a href="{{ route('contact') }}" class="block p-4 hover:bg-gray-100 text-black" wire:navigate>Contact</a></li>
                     <li><a href="{{ route('about') }}" class="block p-4 hover:bg-gray-100 text-black" wire:navigate>About</a></li>
                     @auth
@@ -193,7 +194,9 @@
                     <li><a href="{{ route('productList') }}" wire:navigate class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in {{ request()->routeIs('productList') ? 'bg-accent text-white' : '' }}">
                         {{ __('Products') }}
                     </a></li>
-                    <li><livewire:CategoriesDropdown device='desktop'/></li>
+                    @desktop
+                    <li><livewire:CategoriesDropdown /></li>
+                    @enddesktop
                     <li><a href="{{ route('about') }}" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in" wire:navigate>About</a></li>
                     <li><a href="{{ route('contact') }}" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in" wire:navigate>Contact</a></li>
                     

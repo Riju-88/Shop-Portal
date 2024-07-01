@@ -40,7 +40,10 @@ class ListProducts extends ListRecords
                     ->sortable(),
                 TextColumn::make('is_featured')
                     ->sortable(),
+                TextColumn::make('created_at')
+                    ->sortable(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
