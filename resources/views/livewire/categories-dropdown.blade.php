@@ -9,18 +9,16 @@
 
   <!-- Open the modal using ID.showModal() method -->
   <div>
-    @mobile
-    <div  @click="categories.showModal()" @click.prevent="$root.submit();"><a class="p-4 text-black hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in cursor-pointer">Categories</a></div>
-    @endmobile
-    @desktop
-    <div  @click="categories.showModal()"><a class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in cursor-pointer">Categories</a></div>
-    @enddesktop
-<dialog id="categories" class="modal">
-  <div class="modal-box max-w-6xl w-full  flex justify-around items-center bg-white/90 overflow-y-scroll">
+    
+   
+    <div  @click="categories.showModal()"><a class="p-4  @desktop text-accent @enddesktop @mobile text-black @endmobile @tablet text-black @endtablet hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in cursor-pointer relative">Categories</a></div>
+    
+<dialog id="categories" class="fixed z-10  rounded-xl @mobile  h-3/5 @endmobile @tablet  h-3/5 @endtablet @desktop h-4/5 @enddesktop">
+  <div class="overflow-y-scroll @desktop max-w-6xl w-full h-full  @enddesktop  flex justify-around items-center bg-white/90  p-4  ">
 
-    <div class="@desktop grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 @enddesktop @mobile flex items-center flex-wrap justify-center @endmobile ">
+    <div class="@desktop grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 @enddesktop @mobile overflow-y-scroll  @endmobile ">
   @foreach ($categories as $category)
-    <div class="font-bold flex items-center space-x-2 my-8" wire:key="category-{{ $category->id }}">
+    <div class="font-bold flex items-center  space-x-2" wire:key="category-{{ $category->id }}">
       @if($category->image)
       <img src="{{ asset('storage/'.$category->image) }}" alt="category image" class="w-12 h-12 object-cover rounded" />
       @else
@@ -36,10 +34,10 @@
 
   {{-- Close --}}
   {{-- need the reletive class here to make the button absolute --}}
-  <div  class="modal-backdrop relative">
+  <div  class="">
     {{-- have to use @click.prevent to stop the form from submitting. Jetstream's logout code somehow causing the logout on this button click --}}
     {{-- these classes in the button act as the outside area. so clicking outside will close the modal --}}
-    <div @click="categories.close()" @click.prevent="$root.submit();" class="h-screen w-screen absolute inset-0 -z-10"></div>
+    <div @click="categories.close()" @click.prevent="$root.submit();" class="h-screen w-screen fixed inset-0 bg-black/5 -z-10"></div>
   </div>
 </dialog>
   </div>

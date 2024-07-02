@@ -12,5 +12,5 @@ added razorpay payment gateway.
 -- to do --
 
 add the knockoff products.
-on mobile, first 3 items of category dropdown not in view.
+
 fix the remaining issues in admin panel.

@@ -35,18 +35,14 @@
 
              <!-- Search box -->
              <div x-show="openSearch" class="absolute inset-x-0 top-full bg-purple-100 p-4" x-transition>
-                {{-- <div class="max-w-7xl mx-auto">
-                    <div class="flex justify-center">
-                        <input type="text" class="form-input mt-1 block w-full sm:max-w-xs rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Search...">
-                    </div>
-                </div> --}}
+               
                 <livewire:search />
             </div>
-            @endmobile
+           
             @if(auth()->check())
-              @mobile
+             
             <div class="relative m-3"> <livewire:ShoppingCart /></div>
-            @endmobile
+            
             @else
             <div class="m-3"> 
                 <a href="{{ route('login') }}">
@@ -59,6 +55,40 @@
             </a>
             </div>
             @endif
+            @endmobile
+            @tablet
+            <div class="flex items-center">
+                <!-- Search button -->
+                <button @click="openSearch = !openSearch" class="text-gray-900 inline-flex items-center justify-center p-2 rounded-md focus:outline-none">
+                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14z"></path>
+                    </svg>
+                </button>
+            </div>
+
+             <!-- Search box -->
+             <div x-show="openSearch" class="absolute inset-x-0 top-full bg-purple-100 p-4" x-transition>
+               
+                <livewire:search />
+            </div>
+           
+            @if(auth()->check())
+             
+            <div class="relative m-3"> <livewire:ShoppingCart /></div>
+            
+            @else
+            <div class="m-3"> 
+                <a href="{{ route('login') }}">
+                <x-filament::icon
+               
+                icon="heroicon-c-user-circle"
+                
+                class="h-8 w-8 text-accent dark:text-gray-400"
+            />
+            </a>
+            </div>
+            @endif
+            @endtablet
         </div>
         
     </div>
@@ -128,6 +158,11 @@
                                    <livewire:UserWishlist device="mobile" />  
                                 </div>
                                 @endmobile
+                                @tablet
+                                <div>
+                                   <livewire:UserWishlist device="mobile" />  
+                                </div>
+                                @endtablet
                                
                                 <div class="divider"></div> 
                                 <!-- Authentication -->
@@ -156,6 +191,10 @@
                     @mobile
                     <li><livewire:CategoriesDropdown/></li>
                     @endmobile
+
+                    @tablet
+                    <li><livewire:CategoriesDropdown/></li>
+                    @endtablet
                     <li><a href="{{ route('contact') }}" class="block p-4 hover:bg-gray-100 text-black" wire:navigate>Contact</a></li>
                     <li><a href="{{ route('about') }}" class="block p-4 hover:bg-gray-100 text-black" wire:navigate>About</a></li>
                     @auth

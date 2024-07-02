@@ -4,7 +4,8 @@
     {{-- cart item indicator --}}
     <div class="indicator">
         <span class="indicator-item badge badge-error">{{ count($carts) }}</span> 
-         <button @click="showModal = true" class=" px-2  rounded-md">
+        {{-- use type button to prevent logout(jetstream issue) --}}
+         <button @click="showModal = true" type="button" class=" px-2  rounded-md">
         <x-filament::icon
         alias="panels::topbar.global-search.field"
         icon="heroicon-o-shopping-cart"
