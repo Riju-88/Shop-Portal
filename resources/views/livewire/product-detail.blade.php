@@ -28,7 +28,7 @@
                                 alt="{{ $product->name }}" class="rounded-lg mx-auto object-contain h-52 md:h-96">
                         </div>
                         <!-- Gallery Thumbnails -->
-                        <div class="flex justify-center items-center w-full h-32 my-4">
+                        <div class="flex justify-center items-center  h-32 my-4 overflow-x-scroll overflow-y-clip">
                             @if ($product->image && count($product->image) > 0)
                             @foreach ($product->image as $image)
                             
@@ -39,7 +39,7 @@
                               </div>
                               @else
                               <div x-on:click="selectedImage = '{{ asset('storage/' . $image) }}'" class="cursor-pointer mx-1" >
-                                  <img src="{{ asset('storage/' . $image) }}" alt="Thumbnail Image" class="rounded-lg object-fill h-32 w-32" >
+                                  <img src="{{ asset('storage/' . $image) }}" alt="Thumbnail Image" class="rounded-lg object-fill  " >
                               </div>
                               @endif
                              
