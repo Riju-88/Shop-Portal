@@ -38,6 +38,8 @@ class ListProducts extends ListRecords
                     ->sortable(),
                 TextColumn::make('quantity')
                     ->sortable(),
+                TextColumn::make('categories.name')
+                    ->label('Category'),
                 TextColumn::make('is_featured')
                     ->sortable(),
                 TextColumn::make('created_at')
