@@ -2,8 +2,11 @@
 
 <div x-data="{ showModal: false }"  @toggle-cart.window="showModal = !showModal" class="relative  ">
     {{-- cart item indicator --}}
+    
     <div class="indicator">
+        @if (count($carts) > 0)
         <span class="indicator-item badge badge-error">{{ count($carts) }}</span> 
+        @endif
         {{-- use type button to prevent logout(jetstream issue) --}}
          <button @click="showModal = true" type="button" class=" px-2  rounded-md">
         <x-filament::icon
@@ -13,6 +16,7 @@
         class="h-8 w-8 text-gray-500 dark:text-gray-400"
     /></button>
     </div>
+   
    
     {{-- heroicon-o-shopping-bag --}}
     <div x-show="showModal" x-transition:enter="transition ease-in-out duration-500 transform"
@@ -75,19 +79,19 @@
                                 <div class="flex justify-between">
                                     <p class="text-lg font-bold">Subtotal</p>
                                     <!-- sum of all total_price in cart -->
-                                    <p class="text-lg font-bold">${{ number_format($totals['subtotal'], 2) }}</p>
+                                    <p class="text-lg font-bold">Rs. {{ number_format($totals['subtotal'], 2) }}</p>
                                 </div>
                     
                                 <!-- Discount Amount -->
                                 <div class="flex justify-between">
                                     <p class="text-lg font-bold">Discount</p>
-                                    <p class="text-lg font-bold">${{ number_format($totals['totalDiscount'], 2) }}</p>
+                                    <p class="text-lg font-bold">Rs. {{ number_format($totals['totalDiscount'], 2) }}</p>
                                 </div>
                     
                                 <!-- Total after Discount -->
                                 <div class="flex justify-between">
                                     <p class="text-lg font-bold">Total after Discount</p>
-                                    <p class="text-lg font-bold">${{ number_format($totals['totalPrice'], 2) }}</p>
+                                    <p class="text-lg font-bold">Rs. {{ number_format($totals['totalPrice'], 2) }}</p>
                                 </div>
                     
                                 <!-- checkout button -->

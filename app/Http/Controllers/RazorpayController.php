@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderCreated;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Payment;
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Razorpay\Api\Api;
@@ -21,35 +23,14 @@ use Exception;
 
 class RazorpayController extends Controller
 {
-    // public function handlePayment(Request $request)
-    // {
-    //     $input = $request->all();
-    //     $api = new Api(env('RAZORPAY_API_KEY'), env('RAZORPAY_API_SECRET'));
-    //     $payment = $api->payment->fetch($input['razorpay_payment_id']);
-    //     if (count($input) && !empty($input['razorpay_payment_id'])) {
-    //         try {
-    //             $response = $api->payment->fetch($input['razorpay_payment_id'])->capture([
-    //                 'amount' => $payment['amount']
-    //             ]);
-    //             // $payment = Payment::create([
-    //             //     'r_payment_id' => $response['id'],
-    //             //     'method' => $response['method'],
-    //             //     'currency' => $response['currency'],
-    //             //     'user_email' => $response['email'],
-    //             //     'amount' => $response['amount'] / 100,
-    //             //     'json_response' => json_encode((array)$response)
-    //             // ]);
-    //         } catch (Exception $e) {
-    //             Log::info($e->getMessage());
-    //             return back()->withError($e->getMessage());
-    //         }
-    //     }
-    //     return back()->withSuccess('Payment done.');
-    // }
-
     public function store(Request $request)
     {
         $input = $request->all();
+         // Verify CSRF token
+         if (!Session::token() == $input['_token']) {
+            Session::put('error', 'CSRF token mismatch');
+            return redirect()->back();
+        }
         $api = new Api(env('RAZORPAY_API_KEY'), env('RAZORPAY_API_SECRET'));
         // dd($input);
         $payment = $api->payment->fetch($input['razorpay_payment_id']);
@@ -130,6 +111,9 @@ class RazorpayController extends Controller
 
                         // Save the order
                         $order->save();
+
+                        // Send email to the user
+                        Mail::to(Auth::user()->email)->send(new OrderCreated($order));
 
                         // clear session
                         session()->forget('formState');

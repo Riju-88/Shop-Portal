@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Mail\OrderCreated;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\PaymentMethod;
@@ -28,6 +29,7 @@ use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\HtmlString;
 use Livewire\Component;
 
@@ -459,6 +461,9 @@ class Checkout extends Component implements HasForms
 
                 // Save the order
                 $order->save();
+
+                // Send email to the user
+                Mail::to(Auth::user()->email)->send(new OrderCreated($order));
 
                 // clear session
                 session()->forget('formState');

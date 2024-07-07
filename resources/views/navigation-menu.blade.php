@@ -324,7 +324,7 @@
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
                                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                                    <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
+                                    <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition" type="button">
                                         <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                                     </button>
                                 @else
@@ -364,14 +364,12 @@
                                 </x-dropdown-link>
                                 
                                 <!-- Authentication -->
-                                <form method="POST" action="{{ route('logout') }}" x-data>
-                                    @csrf
+                               
             
-                                    <x-dropdown-link href="{{ route('logout') }}"
-                                             @click.prevent="$root.submit();">
+                                    <button @click="{{ route('logout') }}" class=" text-left ms-4 text-sm hover:text-error  hover:font-bold">
                                         {{ __('Log Out') }}
-                                    </x-dropdown-link>
-                                </form>
+                                    </button>
+                               
                             </x-slot>
                         </x-dropdown>
                     </div>
