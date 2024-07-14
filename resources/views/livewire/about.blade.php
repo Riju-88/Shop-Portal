@@ -8,7 +8,7 @@
         <div class="space-y-16">
             <div class="flex flex-col md:flex-row items-center md:space-x-6">
                 <div class="md:w-1/3">
-                    <h2 class="text-2xl font-semibold mb-4 text-indigo-600">My Mission</h2>
+                    <h2 class="text-2xl font-semibold mb-4 text-accent">My Mission</h2>
                 </div>
                 <div class="md:w-2/3">
                     <p>{{config('app.name')}} is more than just an online store; it represents my journey in mastering Laravel. This project is a pivotal addition to my portfolio, demonstrating my capability to create feature-rich, responsive, and user-friendly web applications.</p>
@@ -19,7 +19,7 @@
 
             <div class="flex flex-col md:flex-row-reverse items-center md:space-x-reverse md:space-x-6">
                 <div class="md:w-1/3">
-                    <h2 class="text-2xl font-semibold mb-4 text-indigo-600">The Beginning</h2>
+                    <h2 class="text-2xl font-semibold mb-4 text-accent">The Beginning</h2>
                 </div>
                 <div class="md:w-2/3">
                     <p>The idea for {{config('app.name')}} stemmed from my ambition to take on more complex projects. After successfully creating a discussion platform/forum as my first Laravel project, I decided to challenge myself further. Thus, {{config('app.name')}} was born – a comprehensive e-commerce application designed to showcase my development skills.</p>
@@ -30,7 +30,7 @@
             
             <div class="flex flex-col md:flex-row items-center md:space-x-6">
                 <div class="md:w-1/3">
-                    <h2 class="text-2xl font-semibold mb-4 text-indigo-600">Key Features</h2>
+                    <h2 class="text-2xl font-semibold mb-4 text-accent">Key Features</h2>
                 </div>
                 <div class="md:w-2/3">
                     <ul class="list-disc list-inside space-y-2">
@@ -52,7 +52,7 @@
 
             <div class="flex flex-col md:flex-row-reverse items-center md:space-x-reverse md:space-x-6">
                 <div class="md:w-1/3">
-                    <h2 class="text-2xl font-semibold mb-4 text-indigo-600">Project Achievements</h2>
+                    <h2 class="text-2xl font-semibold mb-4 text-accent">Project Achievements</h2>
                 </div>
                 <div class="md:w-2/3">
                     <ul class="list-disc list-inside space-y-2">
@@ -71,7 +71,7 @@
             
             <div class="flex flex-col md:flex-row items-center md:space-x-6">
                 <div class="md:w-1/3">
-                    <h2 class="text-2xl font-semibold mb-4 text-indigo-600">The Journey</h2>
+                    <h2 class="text-2xl font-semibold mb-4 text-accent">The Journey</h2>
                 </div>
                 <div class="md:w-2/3">
                     <p>I built {{config('app.name')}} single-handedly, utilizing resources from Google, Stack Overflow, YouTube, and other online sources. The development process was a learning experience, and it showcases my problem-solving skills and perseverance.</p>
@@ -82,7 +82,7 @@
             
             <div class="flex flex-col md:flex-row-reverse items-center md:space-x-reverse md:space-x-6">
                 <div class="md:w-1/3">
-                    <h2 class="text-2xl font-semibold mb-4 text-indigo-600">Technology Stack</h2>
+                    <h2 class="text-2xl font-semibold mb-4 text-accent">Technology Stack</h2>
                 </div>
                 <div class="md:w-2/3">
                     <p>{{config('app.name')}} leverages the power of the TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire), along with Filament and DaisyUI. These technologies contribute to a robust, efficient, and visually appealing application.</p>
@@ -93,7 +93,7 @@
             
             <div class="flex flex-col md:flex-row items-center md:space-x-6">
                 <div class="md:w-1/3">
-                    <h2 class="text-2xl font-semibold mb-4 text-indigo-600">Future Plans</h2>
+                    <h2 class="text-2xl font-semibold mb-4 text-accent">Future Plans</h2>
                 </div>
                 <div class="md:w-2/3">
                     <p>While the current version of {{config('app.name')}} is feature-rich, there are plans to fix any bugs and potentially add more features. However, my primary focus will be on hosting and showcasing this project.</p>
@@ -104,7 +104,7 @@
 
             <div class="flex flex-col md:flex-row-reverse items-center md:space-x-reverse md:space-x-6">
                 <div class="md:w-1/3">
-                    <h2 class="text-2xl font-semibold mb-4 text-indigo-600">Get in Touch</h2>
+                    <h2 class="text-2xl font-semibold mb-4 text-accent">Get in Touch</h2>
                 </div>
                 <div class="md:w-2/3">
                     <p>For any inquiries or feedback, please use the contact form on our <a class="link text-blue-500" href="{{ route('contact') }}" wire:navigate>Contact Us</a> page. Simply provide your name, email, and message, and it will be sent directly to the admin.</p>

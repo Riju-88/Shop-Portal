@@ -67,7 +67,9 @@ class Review extends Component implements HasForms, HasActions
         return $form
             ->schema([
                 Section::make('Review')
-                    ->description('List of reviews')
+                    ->collapsible()
+                    ->collapsed()
+                    ->description('Write a review')
                     ->schema([
                         Rating::make('rating')->required(),
                         FileUpload::make('image')

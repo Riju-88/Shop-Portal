@@ -49,9 +49,10 @@ class CreateProduct extends CreateRecord
                 ->relationship('attributes')
                 ->addActionLabel('+ Add New Attribute')
                 ->schema([
-                    TextInput::make('name')->rules('required_with:value'),
-                    TextInput::make('value')->rules('required_with:name'),
+                    TextInput::make('name')->required(),
+                    TextInput::make('value')->required(),
                 ])
+                ->defaultItems(0)
                 ->collapsible()
                 ->columnSpan(2),
         ]);

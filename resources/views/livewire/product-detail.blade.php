@@ -28,7 +28,7 @@
                                 alt="{{ $product->name }}" class="rounded-lg mx-auto object-contain h-52 md:h-96">
                         </div>
                         <!-- Gallery Thumbnails -->
-                        <div class="flex justify-center items-center  h-32 my-4 overflow-x-scroll overflow-y-clip">
+                        <div class="flex justify-center items-center  h-32 my-4  overflow-y-clip">
                             @if ($product->image && count($product->image) > 0)
                             @foreach ($product->image as $image)
                             
@@ -39,7 +39,7 @@
                               </div>
                               @else
                               <div x-on:click="selectedImage = '{{ asset('storage/' . $image) }}'" class="cursor-pointer mx-1" >
-                                  <img src="{{ asset('storage/' . $image) }}" alt="Thumbnail Image" class="rounded-lg object-fill  " >
+                                  <img src="{{ asset('storage/' . $image) }}" alt="Thumbnail Image" class="rounded-lg object-fit h-32  " >
                               </div>
                               @endif
                              
@@ -134,15 +134,14 @@
                             </svg>
                         </button>
                         @endauth
-
-                        
                     </div>
+                    <div class="divider"></div>
                     {{-- product attributes --}}
                     @if($product->attributes->isNotEmpty())
                     <h3 class="title-font font-medium text-lg text-gray-900">Product Details</h3>
                     <ul>
                         @foreach($product->attributes as $attribute)
-                            <li>{{ $attribute->name }}: {{ $attribute->value }}</li>
+                            <li class="mb-2"> <strong>{{ $attribute->name }}</strong>: {{ $attribute->value }}</li>
                         @endforeach
                     </ul>
                 @else
@@ -153,7 +152,12 @@
             </div>
         </div>
         {{-- fit reviews here --}}
-        <livewire:Review :productId="$product->id" />
+        <div class="flex  items-center justify-center w-full">
+       
+                <livewire:Review :productId="$product->id" />
+               
+        </div>
+        
         
       </div>
   

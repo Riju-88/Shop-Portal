@@ -32,7 +32,7 @@
                             <span class="text-yellow-500">⭐️</span>
                         @endfor
                     </div>
-                    <p class="mt-2">{{ $review->title }}</p>
+                    <p class="mt-2 font-semibold">{{ $review->title }}</p>
                     <p class="mt-2">{!! $review->review !!}</p>
                     <div class="grid grid-cols-3 gap-4 mt-2">
                         @foreach ($review->image as $filePath)
