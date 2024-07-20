@@ -173,7 +173,7 @@
                                              @click.prevent="$root.submit();">
                                         {{ __('Log Out') }}
                                     </a>
-                                </div>
+                                </form>
                             </div>
                             
                               {{--  --}}
@@ -236,8 +236,8 @@
                     @desktop
                     <li><livewire:CategoriesDropdown /></li>
                     @enddesktop
-                    <li><a href="{{ route('about') }}" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in" wire:navigate>About</a></li>
-                    <li><a href="{{ route('contact') }}" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in" wire:navigate>Contact</a></li>
+                    <li><a href="{{ route('about') }}" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in {{ request()->routeIs('about') ? 'bg-accent text-white' : '' }}"  wire:navigate>About</a></li>
+                    <li><a href="{{ route('contact') }}" class="p-4 text-accent hover:text-white hover:bg-accent transition duration-150 ease-out hover:ease-in {{ request()->routeIs('contact') ? 'bg-accent text-white' : '' }}" wire:navigate>Contact</a></li>
                     
                      @auth
                     @desktop 
@@ -365,11 +365,16 @@
                                 
                                 <!-- Authentication -->
                                
-            
-                                    <button @click="{{ route('logout') }}" class=" text-left ms-4 text-sm hover:text-error  hover:font-bold">
-                                        {{ __('Log Out') }}
-                                    </button>
-                               
+                                 
+                                    <form method="POST" action="{{ route('logout') }}" x-data>
+                                        @csrf
+                
+                                        <a href="{{ route('logout') }}"
+                                                 @click.prevent="$root.submit();" class="mx-4">
+                                            {{ __('Log Out') }}
+                                        </a>
+                                    </form>
+                                  
                             </x-slot>
                         </x-dropdown>
                     </div>

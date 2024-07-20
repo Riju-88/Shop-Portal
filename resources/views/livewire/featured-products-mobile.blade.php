@@ -24,7 +24,7 @@
                             </div>
                             <div class="mt-4 flex justify-between">
                                 <div>
-                                    <h3 class="text-sm text-gray-700">{{ $product->name }}</h3>
+                                    <h3 class="text-sm text-gray-700">{{ Str::limit($product->name, 15) }}</h3>
                                     <div class="mt-1 text-sm text-gray-500 line-clamp-1 overflow-clip">{!! $product->description !!}</div>
                                     @if ($product->reviews->isNotEmpty())
                                         @for ($i = 0; $i < $product->reviews->avg('rating'); $i++)
@@ -46,15 +46,15 @@
                                     @endauth
                                 </div>
                             </div>
-                            <div class="mt-4 flex mx-2 justify-center flex-wrap gap-2">
+                            <div class="mt-4 flex justify-center flex-wrap gap-2">
                                 <a href="{{ route('product.detail', ['productId' => $product->id]) }}">
-                                    <button class="btn-accent btn btn-outline @mobile btn-wide @endmobile  ">View Details</button>
+                                    <button class="btn-accent btn btn-outline @mobile btn-wide @endmobile @tablet btn-wide @endtablet">View Details</button>
                                 </a>
                                 @if (Auth::check())
-                                    <button @click="$dispatch('add-To-Cart', { id: {{ $product->id }} })" class="btn-accent btn @mobile btn-wide @endmobile ">Add to Cart</button>
+                                    <button @click="$dispatch('add-To-Cart', { id: {{ $product->id }} })" class="btn-accent btn @mobile btn-wide @endmobile @tablet btn-wide @endtablet">Add to Cart</button>
                                 @else
                                     <div class="lg:tooltip" data-tip="Login to add to cart">
-                                        <button class="disabled btn @mobile btn-wide @endmobile ">Add to Cart</button>
+                                        <button class="disabled btn @mobile btn-wide @endmobile @tablet btn-wide @endtablet">Add to Cart</button>
                                     </div>
                                 @endif
                             </div>

@@ -70,6 +70,14 @@
                 @endmobile
                    
                     {{--  --}}
+
+                    {{--  --}}
+                    @tablet
+                    
+                  <livewire:featured-products-mobile device="mobile" />
+                @endtablet
+                   
+                    {{--  --}}
                 
                 </div>
 

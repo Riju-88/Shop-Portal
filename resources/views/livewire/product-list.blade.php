@@ -118,7 +118,7 @@
                             </div>
                             <div class="mt-4 flex justify-between">
                                 <div>
-                                    <h3 class="text-sm text-gray-700">{{ $product->name }}</h3>
+                                    <h3 class="text-sm text-gray-700">{{ Str::limit($product->name, 24) }}</h3>
                                     <div class="mt-1 text-sm text-gray-500 line-clamp-1 overflow-clip">{!! $product->description !!}</div>
                                     @if ($product->reviews->isNotEmpty())
                                         @for ($i = 0; $i < $product->reviews->avg('rating'); $i++)
@@ -144,8 +144,8 @@
                                     @endauth
                                 </div>
                             </div>
-                            <div class="mt-4 mx-auto flex justify-center items-center flex-wrap gap-2">
-                                <a href="{{ route('product.detail', ['productId' => $product->id]) }}">
+                            <div class="mt-4 flex justify-center flex-wrap gap-2">
+                                <a href="{{ route('product.detail', ['productId' => $product->id]) }}" wire:navigate>
                                     <button class="btn-accent btn @mobile btn-wide @endmobile btn-outline">View Details</button>
                                 </a>
                                 @if (Auth::check())
@@ -210,8 +210,8 @@
                                         @endauth
                                     </div>
                                 </div>
-                                <div class="mt-4 mx-auto flex justify-center items-center flex-wrap gap-2">
-                                    <a href="{{ route('product.detail', ['productId' => $product->id]) }}">
+                                <div class="mt-4 mx-auto flex justify-center  items-center flex-wrap gap-2">
+                                    <a href="{{ route('product.detail', ['productId' => $product->id]) }}" wire:navigate>
                                         <button class="btn-accent btn @mobile btn-wide @endmobile btn-outline">View Details</button>
                                     </a>
                                     @if (Auth::check())
