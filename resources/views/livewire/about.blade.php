@@ -3,15 +3,15 @@
 
 {{--  section 1--}}
 <section class="text-gray-600 body-font">
-    <div class="container px-5 py-8 md:py-24 mx-auto flex flex-wrap">
-      <div class="flex flex-wrap -mx-4 mt-auto mb-auto lg:w-1/2 sm:w-2/3 content-start sm:pr-10">
+    <div class="container px-5 py-8 lg:py-24 mx-auto flex flex-wrap">
+      <div class="flex flex-wrap -mx-4 mt-auto mb-auto w-full lg:w-1/2  content-start md:content-center lg:content-start ">
         <div class="w-full sm:p-4 px-4 mb-6">
             <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">My Goal</h1>
           <div class="leading-relaxed">{{config('app.name')}} is more than just an e-commerce web application, it represents my journey in mastering Laravel. This project is a pivotal addition to my portfolio, demonstrating my capability to create feature-rich, responsive, and user-friendly web applications.</div>
         </div>
        
       </div>
-      <div class="lg:w-1/2 sm:w-1/3 w-full overflow-hidden mt-6 sm:mt-0 ">
+      <div class="lg:w-1/2 w-full overflow-hidden mt-6 sm:mt-0 ">
         <img class="object-cover object-center w-full rounded-lg aspect-video" src="{{ asset('storage/about-images/' . 'goal.svg') }}" alt="stats">
       </div>
     </div>
@@ -21,12 +21,12 @@
 
 {{--  section 2--}}
 <section class="text-gray-600 body-font">
-    <div class="container px-5 py-8 md:py-24 mx-auto flex flex-col-reverse md:flex-row flex-wrap">
-        <div class="lg:w-1/2 sm:w-1/3 w-full overflow-hidden mt-6 sm:mt-0 ">
+    <div class="container px-5 py-8 lg:py-24 mx-auto flex flex-col-reverse lg:flex-row flex-wrap">
+      <div class="lg:w-1/2 w-full overflow-hidden mt-6 sm:mt-0 ">
             <img class="object-cover object-center w-full rounded-lg aspect-video" src="{{ asset('storage/about-images/' . 'blueprint.svg') }}" alt="stats">
           </div>
-      <div class="flex flex-wrap -mx-4 mt-auto mb-auto lg:w-1/2 sm:w-2/3 content-start sm:pr-10">
-        <div class="w-full sm:p-4 px-4 mb-6">
+          <div class="flex flex-wrap -mx-4 mt-auto mb-auto w-full lg:w-1/2  content-start md:content-center lg:content-start ">
+            <div class="w-full sm:p-4 px-4 mb-6">
             <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">The Beginning</h1>
           <div class="leading-relaxed"><p>The idea for {{config('app.name')}} stemmed from my ambition to take on more complex projects. After successfully creating a discussion platform/forum as my first Laravel project, I decided to challenge myself further. Thus, {{config('app.name')}} was born – a comprehensive e-commerce application designed to showcase my development skills.</p></div>
         </div>
@@ -41,7 +41,7 @@
 {{--  section 3 --}}
 
 <section class="text-gray-600 body-font">
-    <div class="container px-5 py-8 md:py-24 mx-auto flex flex-wrap">
+    <div class="container px-5 py-8 lg:py-24 mx-auto flex flex-wrap">
       <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Features</h1>
       <div class="flex flex-wrap w-full">
         <div class="lg:w-2/5 md:w-1/2 md:pr-10 md:py-6">
@@ -238,12 +238,12 @@
 {{--  section 4 --}}
 
 <section class="text-gray-600 body-font">
-  <div class="container px-5 py-8 md:py-24 mx-auto flex flex-col-reverse md:flex-row flex-wrap">
-      <div class="lg:w-1/2 sm:w-1/3 w-full overflow-hidden mt-6 sm:mt-0 ">
+  <div class="container px-5 py-8 lg:py-24 mx-auto flex flex-col-reverse lg:flex-row flex-wrap">
+    <div class="lg:w-1/2 w-full overflow-hidden mt-6 sm:mt-0 ">
           <img class="object-contain object-center w-full rounded-lg aspect-video" src="{{ asset('storage/about-images/' . 'journey.svg') }}" alt="stats">
         </div>
-    <div class="flex flex-wrap -mx-4 mt-auto mb-auto lg:w-1/2 sm:w-2/3 content-start sm:pr-10">
-      <div class="w-full sm:p-4 px-4 mb-6">
+        <div class="flex flex-wrap -mx-4 mt-auto mb-auto w-full lg:w-1/2  content-start md:content-center lg:content-start ">
+          <div class="w-full sm:p-4 px-4 mb-6">
           <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">The Journey</h1>
         <div class="leading-relaxed"><p>I crafted {{config('app.name')}} independently, utilizing resources from Google, Stack Overflow, YouTube, and other online sources. The development process was a learning experience, and it showcases my problem-solving skills and perseverance.</p></div>
       </div>
@@ -256,15 +256,15 @@
 
 {{-- section 5 --}}
 <section class="text-gray-600 body-font">
-  <div class="container px-5 py-8 md:py-24 mx-auto flex flex-wrap">
-    <div class="flex flex-wrap -mx-4 mt-auto mb-auto lg:w-1/2 sm:w-2/3 content-start sm:pr-10">
+  <div class="container px-5 py-8 lg:py-24 mx-auto flex flex-wrap">
+    <div class="flex flex-wrap -mx-4 mt-auto mb-auto w-full lg:w-1/2  content-start md:content-center lg:content-start ">
       <div class="w-full sm:p-4 px-4 mb-6">
           <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Technology Stack</h1>
         <div class="leading-relaxed"><p>{{config('app.name')}} leverages the power of the TALL Stack (Tailwind CSS, Alpine.js, Laravel, Livewire), along with Filament and DaisyUI. These technologies contribute to a robust, efficient, and visually appealing application.</p></div>
       </div>
      
     </div>
-    <div class="lg:w-1/2 sm:w-1/3 w-full overflow-hidden mt-6 sm:mt-0 ">
+    <div class="lg:w-1/2 w-full overflow-hidden mt-6 sm:mt-0 ">
       <img class="object-contain object-center w-full rounded-lg aspect-video" src="{{ asset('storage/about-images/' . 'tech_stack.svg') }}" alt="stats">
     </div>
   </div>
@@ -273,12 +273,12 @@
 
 {{--  section 6 --}}
 <section class="text-gray-600 body-font">
-  <div class="container px-5 py-8 md:py-24 mx-auto flex flex-col-reverse md:flex-row flex-wrap">
-      <div class="lg:w-1/2 sm:w-1/3 w-full overflow-hidden mt-6 sm:mt-0 ">
+  <div class="container px-5 py-8 lg:py-24 mx-auto flex flex-col-reverse lg:flex-row flex-wrap">
+    <div class="lg:w-1/2 w-full overflow-hidden mt-6 sm:mt-0 ">
           <img class="object-contain object-center w-full  aspect-video rounded-lg" src="{{ asset('storage/about-images/' . 'future_plan.svg') }}" alt="stats">
         </div>
-    <div class="flex flex-wrap -mx-4 mt-auto mb-auto lg:w-1/2 sm:w-2/3 content-start sm:pr-10">
-      <div class="w-full sm:p-4 px-4 mb-6">
+        <div class="flex flex-wrap -mx-4 mt-auto mb-auto w-full lg:w-1/2  content-start md:content-center lg:content-start ">
+          <div class="w-full sm:p-4 px-4 mb-6">
           <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Future Plans</h1>
         <div class="leading-relaxed"> <p>While the current version of {{config('app.name')}} is feature-rich, there are plans to fix any bugs and potentially add more features. However, my primary focus will be on hosting and showcasing this project.</p></div>
       </div>
@@ -291,16 +291,16 @@
 
 {{--  section 7 --}}
 <section class="text-gray-600 body-font">
-  <div class="container px-5 py-8 md:py-24 mx-auto flex flex-wrap">
-    <div class="flex flex-wrap -mx-4 mt-auto mb-auto lg:w-1/2 sm:w-2/3 content-start sm:pr-10">
+  <div class="container px-5 py-8 lg:py-24 mx-auto flex flex-wrap">
+    <div class="flex flex-wrap -mx-4 mt-auto mb-auto w-full lg:w-1/2  content-start md:content-center lg:content-start">
       <div class="w-full sm:p-4 px-4 mb-6">
           <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Get in Touch</h1>
         <div class="leading-relaxed"><p>For any inquiries or feedback, please use the contact form on our <a class="link text-blue-500" href="{{ route('contact') }}" wire:navigate>Contact Us</a> page. Simply provide your name, email, and message, and it will be sent directly to the admin.</p></div>
       </div>
      
     </div>
-    <div class="lg:w-1/2 sm:w-1/3 w-full overflow-hidden mt-6 sm:mt-0 ">
-      <img class="object-contain object-center w-full rounded-lg aspect-video" src="{{ asset('storage/about-images/' . 'contact.svg') }}" alt="stats">
+    <div class="lg:w-1/2 w-full overflow-hidden mt-6 sm:mt-0 ">
+      <img class="object-contain object-center w-full rounded-lg aspect-video filter saturate-200" src="{{ asset('storage/about-images/' . 'contact.svg') }}" alt="stats">
     </div>
   </div>
 </section>
