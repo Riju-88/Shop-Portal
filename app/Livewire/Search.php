@@ -26,11 +26,7 @@ class Search extends Component
             $this->results = [];
         } else {
             // Fetch products from the database where the product name contains the keyword anywhere in the name
-            // Use the 'like' clause with '%' before and after the keyword to match any position
-            // Ensure the product name length is at least as long as the keyword
-            $this->results = Product::where('name', 'like', '%' . $this->keyword . '%')
-                ->where('name', '>=', $this->keyword)
-                ->get();
+            $this->results = Product::where('name', 'like', '%' . $this->keyword . '%')->get();
         }
     }
 
