@@ -8,12 +8,12 @@ export default defineConfig({
             refresh: [...refreshPaths, "app/Livewire/**"],
         }),
     ],
-    server: {
-        host: "0.0.0.0",
-        port: 3000,
-        hmr: {
-            host: "192.168.105.1",
-            port: 3000,
-        },
-    },
+    // server: {
+    //     host: "0.0.0.0",
+    //     port: 3000,
+    //     hmr: {
+    //         host: "192.168.105.1",
+    //         port: 3000,
+    //     },
+    // },
 });

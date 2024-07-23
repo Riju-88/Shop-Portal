@@ -21,7 +21,7 @@
                     </div>
                     <div class="text-right">
                         <p class="text-gray-600 text-sm">Total amount</p>
-                        <p class="text-gray-800 font-semibold">${{ $order->total_amount }}</p>
+                        <p class="text-gray-800 font-semibold">Rs. {{ $order->total_amount }}</p>
                     </div>
                 </div>
                 <div class="border-t border-gray-200"></div>
@@ -38,12 +38,12 @@
                             $imagePath = $imageArray[0] ?? 'https://via.placeholder.com/64';
                         @endphp
                         <div class="flex items-center my-4">
-                            <img class="h-16 w-16 object-cover rounded-md" src="{{ asset($imagePath) }}" alt="Product Image">
+                            <img class="h-16 w-16 object-cover rounded-md" src="{{ asset('storage/' . $imagePath) }}" alt="Product Image">
                             <div class="ml-4">
                                 <p class="text-gray-800 font-semibold">{{ $product->name }}</p>
-                                <div class="flex items-center justify-between mt-2">
-                                    <p class="text-gray-600 text-sm">${{ $product->price }}</p>
-                                    <p class="text-gray-600 text-sm">Quantity: {{ $item->quantity }}</p>
+                                <div class="flex items-center justify-between m-2">
+                                    <p class="text-black font-semibold text-sm mx-2">Rs. {{ $product->price }}</p>
+                                    <p class="text-black font-semibold text-sm">Quantity: {{ $item->quantity }}</p>
                                 </div>
                             </div>
                         </div>
