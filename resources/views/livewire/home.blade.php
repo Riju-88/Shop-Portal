@@ -5,7 +5,10 @@
             
              <div class=" overflow-hidden  sm:rounded-lg">
                  <!-- Carousel -->
-                 <div x-data="{ activeSlide: 0, slides: {{ count($promo->image) }}, nextSlide() { this.activeSlide = (this.activeSlide + 1) % this.slides }, prevSlide() { this.activeSlide = (this.activeSlide - 1 + this.slides) % this.slides }, startAutoSlide() { setInterval(() => { this.nextSlide() }, 5000) } }" x-init="startAutoSlide" class="carousel w-full my-6">
+                 {{-- if promo has image property --}}
+                 @if($promo !== null && $promo->image !== null)
+                 
+   <div x-data="{ activeSlide: 0, slides: {{ count($promo->image) }}, nextSlide() { this.activeSlide = (this.activeSlide + 1) % this.slides }, prevSlide() { this.activeSlide = (this.activeSlide - 1 + this.slides) % this.slides }, startAutoSlide() { setInterval(() => { this.nextSlide() }, 5000) } }" x-init="startAutoSlide" class="carousel w-full my-6">
                   @forelse($promo->image as $index => $image)
                   <div x-show="activeSlide === {{ $index }}" class="carousel-item  w-full  relative bg-gradient-to-r  text-white overflow-hidden" style="height: 0; padding-bottom: 56.25%;"  
                   x-transition:enter="transition ease-in-out duration-500 transform"
@@ -49,6 +52,8 @@
                   </div>
                   @endif
               </div>
+                 @endif
+              
               
               {{-- device test --}}
         
@@ -100,14 +105,14 @@
                         @else
                             <a href="{{ route('product.detail', ['productId' => $product->id]) }}" wire:navigate>
                                 <img src="{{ asset('storage/' . $product->image[0]) }}" alt="{{ $product->name }}"
-                                    class="h-full w-full object-contain object-center lg:h-full lg:w-full">
+                                    class="h-full w-full  lg:h-full lg:w-full">
                             </a>
                         @endif
                     @endif
                 </div>
                 <div class="mt-4 flex justify-between">
                     <div>
-                        <h3 class="text-sm text-gray-700">
+                        <h3 class="text-sm font-semibold">
                             <!-- <a href="#"> -->
                             <!-- <span aria-hidden="true" class="absolute inset-0"></span> -->
                             {{ $product->name }}

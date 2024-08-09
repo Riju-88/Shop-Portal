@@ -56,48 +56,37 @@ class ProductList extends Component
             $this->fetchPriceRangeOptions();
         }
 
-        // Start with an empty collection for products
-        $filteredProducts = collect();
+        // Fetch products globally with the price range filter applied
+        $productsQuery = Product::query();
 
-        if (!empty($this->selectedCategories)) {
-            // Get the selected categories' IDs
-            $selectedCategoryIds = Category::whereIn('name', $this->selectedCategories)->pluck('id')->toArray();
-
-            // Fetch products directly associated with the selected categories
-            $filteredProducts = Product::whereHas('categories', function ($query) use ($selectedCategoryIds) {
-                $query->whereIn('category_id', $selectedCategoryIds);
-            })
-                ->when($this->selectedPriceRange !== null, function ($query) {
-                    $priceRange = json_decode($this->selectedPriceRange, true);
-                    if (is_array($priceRange) && count($priceRange) == 2) {
-                        $query->whereBetween('price', $priceRange);
-                    }
-                })
-                ->get();
-        } else {
-            // If no categories are selected, fetch all products
-            $filteredProducts = Product::when($this->selectedPriceRange !== null, function ($query) {
-                $priceRange = json_decode($this->selectedPriceRange, true);
-                if (is_array($priceRange) && count($priceRange) == 2) {
-                    $query->whereBetween('price', $priceRange);
-                }
-            })
-                ->get();
+        if ($this->selectedPriceRange !== null) {
+            $priceRange = json_decode($this->selectedPriceRange, true);
+            if (is_array($priceRange) && count($priceRange) == 2) {
+                $productsQuery->whereBetween('price', $priceRange);
+            }
         }
 
-        // Fetch the categories and their children
-        $categories = Category::with('children')->get();
+        // Get the filtered products
+        $filteredProducts = $productsQuery->latest()->get();
+
+        // Fetch categories and eager load their products
+        $categoriesQuery = Category::query();
+
+        if (!empty($this->selectedCategories)) {
+            $categoriesQuery->whereIn('name', $this->selectedCategories);
+        }
+
+        $categories = $categoriesQuery->with('children')->get();
 
         // Create a map of products by category
         $categoryProductsMap = [];
 
         foreach ($categories as $category) {
-            // Filter products for the current category
             $categoryProductsMap[$category->id] = $filteredProducts->filter(function ($product) use ($category) {
                 return $product->categories->contains($category);
             });
 
-            // Filter products for each child category
+            // Map products to child categories as well
             foreach ($category->children as $childCategory) {
                 $categoryProductsMap[$childCategory->id] = $filteredProducts->filter(function ($product) use ($childCategory) {
                     return $product->categories->contains($childCategory);
@@ -107,10 +96,10 @@ class ProductList extends Component
 
         // Attach the filtered products to their respective categories
         foreach ($categories as $category) {
-            $category->products = $categoryProductsMap[$category->id] ?? collect();
+            $category->products = $categoryProductsMap[$category->id];
 
             foreach ($category->children as $childCategory) {
-                $childCategory->products = $categoryProductsMap[$childCategory->id] ?? collect();
+                $childCategory->products = $categoryProductsMap[$childCategory->id];
             }
         }
 
@@ -118,31 +107,10 @@ class ProductList extends Component
     }
 
     // Apply filters
-    public function applyFilters()
+    public function applyFilters(): void
     {
-        $query = Product::query();
-
-        if (!empty($this->selectedCategories)) {
-            // Get the selected categories' IDs by their names
-            $selectedCategoryIds = Category::whereIn('name', $this->selectedCategories)
-                ->pluck('id')
-                ->toArray();
-
-            // Fetch only products that belong directly to the selected categories
-            $query->whereHas('categories', function ($query) use ($selectedCategoryIds) {
-                $query->whereIn('category_id', $selectedCategoryIds);
-            });
-        }
-
-        // Apply price range filtering if selected
-        if ($this->selectedPriceRange !== null) {
-            $priceRange = json_decode($this->selectedPriceRange, true);
-            if (is_array($priceRange) && count($priceRange) == 2) {
-                $query->whereBetween('price', $priceRange);
-            }
-        }
-
-        $this->products = $query->get();
+        // Fetch products based on selected filters
+        $this->categories = $this->productsByCategory();
     }
 
     // Clear filters

@@ -7,6 +7,7 @@ use Filament\Forms\Components\BelongsToManyMultiSelect;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Form;
@@ -26,8 +27,11 @@ class EditProduct extends EditRecord
             TextInput::make('brand')->columnSpan(2),
             TextInput::make('price')->required()->numeric()->columnSpan(2),
             FileUpload::make('image')->image()->multiple()->imageEditor()->directory('product-images'),
-            BelongsToManyMultiSelect::make('categories')
-                ->relationship('categories', 'name')  // Adjust relationship name to 'categories'
+            Select::make('categories')
+                ->searchable()
+                ->multiple()
+                ->relationship(titleAttribute: 'name')
+                ->preload()
                 ->required()
                 ->columnSpan(2),
             TextInput::make('quantity')->type('number')->required(),

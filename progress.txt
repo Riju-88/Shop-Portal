@@ -8,7 +8,6 @@ added razorpay payment gateway.
 -- not pushed --
 
 
-
 -- to do --
 
 add the knockoff products.

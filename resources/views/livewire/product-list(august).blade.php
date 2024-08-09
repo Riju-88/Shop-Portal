@@ -97,7 +97,7 @@
             <h2 class="text-xl font-bold mb-4">{{ $category->name }}</h2>
             <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                 <!-- Parent Category Products -->
-                @foreach($category->products->sortBy('name') as $product)
+                @foreach($category->products as $product)
                     @if (!in_array($product->id, $renderedProductIds))
                         @php $renderedProductIds[] = $product->id; @endphp <!-- Mark product as rendered -->
                         <div class="group relative rounded-xl shadow-xl p-2" wire:key="{{ $product->id }}">

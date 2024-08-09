@@ -24,7 +24,7 @@
                             </div>
                             <div class="mt-4 flex justify-between">
                                 <div>
-                                    <h3 class="text-sm text-gray-700">{{ Str::limit($product->name, 15) }}</h3>
+                                    <h3 class="text-sm font-semibold">{{ Str::limit($product->name, 15) }}</h3>
                                     <div class="mt-1 text-sm text-gray-500 line-clamp-1 overflow-clip">{!! $product->description !!}</div>
                                     @if ($product->reviews->isNotEmpty())
                                         @for ($i = 0; $i < $product->reviews->avg('rating'); $i++)
