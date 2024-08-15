@@ -29,7 +29,7 @@
                             
                               <div class=" rounded-lg w-full bg-opacity-50  p-4 md:p-6 backdrop-blur-sm bg-gray-200  text-zinc-700 ">
                                 <a class="text-2xl md:text-6xl font-extrabold md:font-bold" href="{{ route('productList')}}" wire:navigate>{{ $promo->title }}</a>
-                                <p class="py-2 md:py-4 text-pretty font-semibold">{{ $promo->description }}</p>
+                                <p class="py-2 md:py-4 text-pretty font-semibold">{!! $promo->description !!}</p>
                                 @desktop
                                 <a class="btn btn-accent rounded-full text-lg text-white justify-center" href="{{ route('productList')}}" wire:navigate>Shop Now</a>
                                 @enddesktop
