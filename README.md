@@ -101,6 +101,18 @@ php artisan key:generate
 php artisan migrate
 ```
 
+<p>11. Start the node server:</p>
+
+```
+npm run dev
+```
+
+<p>12. Start the app:</p>
+
+```
+php artisan serve
+```
+
 ## Database Seed
 
 <p>Run the seed command to populate database with placeholder data.</p>
