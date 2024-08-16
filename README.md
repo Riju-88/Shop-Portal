@@ -59,7 +59,7 @@ https://github.com/Riju-88/Shop-Portal.git
 composer install
 ```
 
-<p>4. Install the Node packages</p>
+<p>4. Install Node JS and Node packages</p>
 
 ```
 npm install
@@ -86,7 +86,7 @@ RAZORPAY_API_KEY= "*********"  RAZORPAY_API_SECRET= "***********"
 <p>8. Add Google Client ID Secret and redirect URI to use google login feature</p>
 
 ```
-GOOGLE_CLIENT_ID=  GOOGLE_CLIENT_SECRET=   GOOGLE_CLIENT_SECRET= GOOGLE_REDIRECT_URI=
+GOOGLE_CLIENT_ID=  GOOGLE_CLIENT_SECRET=  GOOGLE_REDIRECT_URI=
 ```
 
 <p>9. Generate a new application key by running this command:</p>
