@@ -10,10 +10,9 @@ class ShippingMethod extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'shipping_method_name',
         'cost',
-        'description',
+        'shipping_method_description',
         'expected_delivery_time',
     ];
-
 }
